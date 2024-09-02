@@ -32,7 +32,6 @@ import { revalidateRedirects } from './hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
 import Products from './collections/Products'
-import CustomAccount from './payload/views/Account'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -46,8 +45,6 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
     ? `${process.env.NEXT_PUBLIC_SERVER_URL!}/${doc.slug}`
     : process.env.NEXT_PUBLIC_SERVER_URL!
 }
-
-CustomAccount
 
 export default buildConfig({
   admin: {

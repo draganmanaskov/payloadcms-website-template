@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import TestComponent from '@/components/custom-admin/test-component'
 
 const Products: CollectionConfig = {
   slug: 'products',
@@ -20,6 +21,15 @@ const Products: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    // {
+    //   name: 'testComponent',
+    //   type: 'ui',
+    //   admin: {
+    //     components: {
+    //       Field: '@/components/custom-admin/test-component',
+    //     },
+    //   },
+    // },
   ],
 }
 

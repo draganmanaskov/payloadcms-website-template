@@ -21,15 +21,6 @@ const Products: CollectionConfig = {
       type: 'text',
       required: true,
     },
-    // {
-    //   name: 'testComponent',
-    //   type: 'ui',
-    //   admin: {
-    //     components: {
-    //       Field: '@/components/custom-admin/test-component',
-    //     },
-    //   },
-    // },
   ],
 }
 

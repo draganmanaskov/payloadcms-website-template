@@ -64,3 +64,24 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     </Button>
   )
 }
+
+// <Link
+//   key={i}
+//   href={`${item.link.url}`}
+//   passHref
+//   className={cn(
+//     'text-lg decoration-2 hover:underline hover:underline-offset-8',
+//     pathname === item.link.url ? 'underline underline-offset-8 ' : '',
+//   )}
+// >
+//   {item.link.label}
+// </Link>
+
+// item.href && (
+//   <MobileLink
+//     key={item.href}
+//     href={item.href}
+//     onOpenChange={setOpen}
+//   >
+//     {item.title}
+//   </MobileLink>

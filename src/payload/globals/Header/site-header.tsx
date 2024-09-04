@@ -10,12 +10,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { cn } from '@/utilities/cn'
-import { buttonVariants } from '@/components/ui/button'
 
 import type { Header } from '@/payload-types'
 import MainNav from './Nav/main-nav'
 import MobileNav from './Nav/mobile-nav'
 import ModeToggle from '@/components/mode-toggle'
+
+import LoginButton from '@/components/LoginButton/login-button'
 
 type SiteHeadertProps = {
   header: Header
@@ -54,13 +55,7 @@ const SiteHeader = ({ header }: SiteHeadertProps) => {
       )}
     >
       <div className="flex h-12  items-center justify-between  px-8">
-        <Link
-          href="/"
-          className={cn(
-            buttonVariants({ variant: 'link', className: 'bold text-2xl' }),
-            'hidden md:inline-flex',
-          )}
-        >
+        <Link href="/" className={cn('hidden md:inline-flex')}>
           <Image
             className="hidden dark:block"
             src="/logo-v2-dark.png"
@@ -97,6 +92,7 @@ const SiteHeader = ({ header }: SiteHeadertProps) => {
 
         <nav className="flex items-center gap-2">
           <ModeToggle />
+          <LoginButton />
           {/* <Cart />  */}
           {/* <ProfileHeader /> */}
         </nav>

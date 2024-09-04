@@ -61,6 +61,7 @@ export default buildConfig({
     //     Account : CustomAccount
     //   }
     // },
+    components: {},
     importMap: {
       baseDir: path.resolve(dirname),
     },
@@ -193,6 +194,9 @@ export default buildConfig({
     }),
     nestedDocsPlugin({
       collections: ['categories'],
+      // breadcrumbsFieldSlug: (test) => test.title,
+      // generateLabel: (_, doc) => doc.,
+      generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),
     }),
     seoPlugin({
       generateTitle,

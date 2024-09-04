@@ -277,6 +277,8 @@ export interface ArchiveBlock {
 export interface Category {
   id: number;
   title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
   parent?: (number | null) | Category;
   breadcrumbs?:
     | {
@@ -339,6 +341,7 @@ export interface Post {
 export interface User {
   id: number;
   name?: string | null;
+  roles?: ('admin' | 'customer')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -547,6 +550,11 @@ export interface Form {
 export interface Product {
   id: number;
   title: string;
+  publishedOn?: string | null;
+  layout: unknown[];
+  priceJSON?: string | null;
+  enablePaywall?: boolean | null;
+  categories?: (number | Category)[] | null;
   updatedAt: string;
   createdAt: string;
 }

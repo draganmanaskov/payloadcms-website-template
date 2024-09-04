@@ -40,7 +40,7 @@ export const AdminBar: React.FC<{
 
   return (
     <div
-      className={cn('py-2 bg-black text-white', {
+      className={cn('py-2 bg-black text-white ', {
         block: show,
         hidden: !show,
       })}
@@ -48,7 +48,7 @@ export const AdminBar: React.FC<{
       <div className="container">
         <PayloadAdminBar
           {...adminBarProps}
-          className="py-2 text-white"
+          className="py-2 text-white z-50"
           classNames={{
             controls: 'font-medium text-white',
             logo: 'text-white',

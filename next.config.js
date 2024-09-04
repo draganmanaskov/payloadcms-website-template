@@ -8,6 +8,10 @@ const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://loc
 const nextConfig = {
   images: {
     remotePatterns: [
+      {
+        protocol: 'https', // or http
+        hostname: 'images.unsplash.com', // if your website has no www, drop it
+      },
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
 

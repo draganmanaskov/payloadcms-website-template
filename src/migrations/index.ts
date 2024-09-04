@@ -1,5 +1,6 @@
 import * as migration_20240831_094937_initial from './20240831_094937_initial';
 import * as migration_20240901_110908_add_products from './20240901_110908_add_products';
+import * as migration_20240904_105344_updates from './20240904_105344_updates';
 
 export const migrations = [
   {
@@ -10,6 +11,11 @@ export const migrations = [
   {
     up: migration_20240901_110908_add_products.up,
     down: migration_20240901_110908_add_products.down,
-    name: '20240901_110908_add_products'
+    name: '20240901_110908_add_products',
+  },
+  {
+    up: migration_20240904_105344_updates.up,
+    down: migration_20240904_105344_updates.down,
+    name: '20240904_105344_updates'
   },
 ];

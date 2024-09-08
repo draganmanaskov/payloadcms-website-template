@@ -6,6 +6,7 @@ import * as migration_20240908_172825_removePosts from './20240908_172825_remove
 import * as migration_20240908_173402_fix from './20240908_173402_fix';
 import * as migration_20240908_173841_fix2 from './20240908_173841_fix2';
 import * as migration_20240908_174220_archive from './20240908_174220_archive';
+import * as migration_20240908_174805_archiveF from './20240908_174805_archiveF';
 
 export const migrations = [
   {
@@ -46,6 +47,11 @@ export const migrations = [
   {
     up: migration_20240908_174220_archive.up,
     down: migration_20240908_174220_archive.down,
-    name: '20240908_174220_archive'
+    name: '20240908_174220_archive',
+  },
+  {
+    up: migration_20240908_174805_archiveF.up,
+    down: migration_20240908_174805_archiveF.down,
+    name: '20240908_174805_archiveF'
   },
 ];

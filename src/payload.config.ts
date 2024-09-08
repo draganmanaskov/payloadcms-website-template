@@ -23,24 +23,26 @@ import { fileURLToPath } from 'url'
 import Categories from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-
+import { Posts } from './collections/Posts'
 import Users from './collections/Users'
+// import { seedHandler } from './endpoints/seedHandler'
 import { Footer } from './Footer/config'
 import { Header } from './payload/globals/Header/config'
 import { revalidateRedirects } from './hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
-import { Page } from 'src/payload-types'
-// import Products from './payload/collections/Products'
+import { Page, Post } from 'src/payload-types'
+import Products from './payload/collections/Products'
 import Inventories from './payload/collections/Inventories/config'
+import StockKeepingUnits from './payload/collections/StockKeepingUnits/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const generateTitle: GenerateTitle<Page> = ({ doc }) => {
+const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
 }
 
-const generateURL: GenerateURL<Page> = ({ doc }) => {
+const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
   return doc?.slug
     ? `${process.env.NEXT_PUBLIC_SERVER_URL!}/${doc.slug}`
     : process.env.NEXT_PUBLIC_SERVER_URL!
@@ -117,7 +119,7 @@ export default buildConfig({
         BoldFeature(),
         ItalicFeature(),
         LinkFeature({
-          enabledCollections: ['pages'], //'products'
+          enabledCollections: ['pages', 'posts'],
           fields: ({ defaultFields }) => {
             const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
               if ('name' in field && field.name === 'url') return false
@@ -148,10 +150,18 @@ export default buildConfig({
     },
   }),
   // database-adapter-config-end
-  collections: [Pages, Media, Categories, Users, Inventories],
+  collections: [Pages, Posts, Media, Categories, Users, Products, Inventories],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  endpoints: [],
+  endpoints: [
+    // The seed endpoint is used to populate the database with some example data
+    // You should delete this endpoint before deploying your site to production
+    // {
+    //   handler: seedHandler,
+    //   method: 'get',
+    //   path: '/seed',
+    // },
+  ],
   globals: [Header, Footer],
   plugins: [
     s3Storage({
@@ -182,7 +192,7 @@ export default buildConfig({
     //   token: process.env.BLOB_READ_WRITE_TOKEN,
     // }),
     redirectsPlugin({
-      collections: ['pages'], //'products'
+      collections: ['pages', 'posts'], //'products'
       overrides: {
         // @ts-expect-error
         fields: ({ defaultFields }) => {

@@ -5,6 +5,7 @@ import * as migration_20240908_164621_Inventories from './20240908_164621_Invent
 import * as migration_20240908_172825_removePosts from './20240908_172825_removePosts';
 import * as migration_20240908_173402_fix from './20240908_173402_fix';
 import * as migration_20240908_173841_fix2 from './20240908_173841_fix2';
+import * as migration_20240908_174220_archive from './20240908_174220_archive';
 
 export const migrations = [
   {
@@ -40,6 +41,11 @@ export const migrations = [
   {
     up: migration_20240908_173841_fix2.up,
     down: migration_20240908_173841_fix2.down,
-    name: '20240908_173841_fix2'
+    name: '20240908_173841_fix2',
+  },
+  {
+    up: migration_20240908_174220_archive.up,
+    down: migration_20240908_174220_archive.down,
+    name: '20240908_174220_archive'
   },
 ];

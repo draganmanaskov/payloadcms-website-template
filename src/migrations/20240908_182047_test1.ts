@@ -9,12 +9,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   CREATE TYPE "public"."enum_users_roles" AS ENUM('admin', 'customer');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
    CREATE TYPE "public"."enum_products_blocks_cta_links_link_type" AS ENUM('reference', 'custom');
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -114,13 +108,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	CONSTRAINT "_posts_v_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id")
   );
   
-  CREATE TABLE IF NOT EXISTS "users_roles" (
-  	"order" integer NOT NULL,
-  	"parent_id" integer NOT NULL,
-  	"value" "enum_users_roles",
-  	"id" serial PRIMARY KEY NOT NULL
-  );
-  
   CREATE TABLE IF NOT EXISTS "products_blocks_cta_links" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
@@ -180,16 +167,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"image_id" integer NOT NULL,
   	"caption" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_rels" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"order" integer,
-  	"parent_id" integer NOT NULL,
-  	"path" varchar NOT NULL,
-  	"pages_id" integer,
-  	"categories_id" integer,
-  	"products_id" integer
   );
   
   CREATE TABLE IF NOT EXISTS "inventories_options" (
@@ -355,16 +332,13 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "_posts_v" DROP CONSTRAINT "_posts_v_version_meta_image_id_media_id_fk";
   
   ALTER TABLE "categories_breadcrumbs" ADD COLUMN "_locale" "_locales" NOT NULL;
-  ALTER TABLE "categories" ADD COLUMN "slug" varchar;
-  ALTER TABLE "categories" ADD COLUMN "slug_lock" boolean DEFAULT true;
   ALTER TABLE "products" ADD COLUMN "slug" varchar;
   ALTER TABLE "products" ADD COLUMN "slug_lock" boolean DEFAULT true;
-  ALTER TABLE "products" ADD COLUMN "published_on" timestamp(3) with time zone;
   ALTER TABLE "products" ADD COLUMN "featured_image_id" integer;
   ALTER TABLE "products" ADD COLUMN "inventory_id" integer;
-  ALTER TABLE "products" ADD COLUMN "price_j_s_o_n" varchar;
-  ALTER TABLE "products" ADD COLUMN "enable_paywall" boolean;
   ALTER TABLE "products" ADD COLUMN "skip_sync" boolean;
+  ALTER TABLE "products_rels" ADD COLUMN "pages_id" integer;
+  ALTER TABLE "products_rels" ADD COLUMN "products_id" integer;
   DO $$ BEGIN
    ALTER TABLE "pages_locales" ADD CONSTRAINT "pages_locales_meta_image_id_media_id_fk" FOREIGN KEY ("meta_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   EXCEPTION
@@ -414,12 +388,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "users_roles" ADD CONSTRAINT "users_roles_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
    ALTER TABLE "products_blocks_cta_links" ADD CONSTRAINT "products_blocks_cta_links_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products_blocks_cta"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -463,30 +431,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   
   DO $$ BEGIN
    ALTER TABLE "products_slider" ADD CONSTRAINT "products_slider_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_rels" ADD CONSTRAINT "products_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_rels" ADD CONSTRAINT "products_rels_pages_fk" FOREIGN KEY ("pages_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_rels" ADD CONSTRAINT "products_rels_categories_fk" FOREIGN KEY ("categories_id") REFERENCES "public"."categories"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_rels" ADD CONSTRAINT "products_rels_products_fk" FOREIGN KEY ("products_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -593,8 +537,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
    WHEN duplicate_object THEN null;
   END $$;
   
-  CREATE INDEX IF NOT EXISTS "users_roles_order_idx" ON "users_roles" USING btree ("order");
-  CREATE INDEX IF NOT EXISTS "users_roles_parent_idx" ON "users_roles" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "products_blocks_cta_links_order_idx" ON "products_blocks_cta_links" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "products_blocks_cta_links_parent_id_idx" ON "products_blocks_cta_links" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "products_blocks_cta_order_idx" ON "products_blocks_cta" USING btree ("_order");
@@ -610,9 +552,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "products_blocks_media_block_path_idx" ON "products_blocks_media_block" USING btree ("_path");
   CREATE INDEX IF NOT EXISTS "products_slider_order_idx" ON "products_slider" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "products_slider_parent_id_idx" ON "products_slider" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "products_rels_order_idx" ON "products_rels" USING btree ("order");
-  CREATE INDEX IF NOT EXISTS "products_rels_parent_idx" ON "products_rels" USING btree ("parent_id");
-  CREATE INDEX IF NOT EXISTS "products_rels_path_idx" ON "products_rels" USING btree ("path");
   CREATE INDEX IF NOT EXISTS "inventories_options_order_idx" ON "inventories_options" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "inventories_options_parent_idx" ON "inventories_options" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "inventories_color_order_idx" ON "inventories_color" USING btree ("order");
@@ -638,8 +577,19 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
    WHEN duplicate_object THEN null;
   END $$;
   
+  DO $$ BEGIN
+   ALTER TABLE "products_rels" ADD CONSTRAINT "products_rels_pages_fk" FOREIGN KEY ("pages_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "products_rels" ADD CONSTRAINT "products_rels_products_fk" FOREIGN KEY ("products_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
   CREATE INDEX IF NOT EXISTS "categories_breadcrumbs_locale_idx" ON "categories_breadcrumbs" USING btree ("_locale");
-  CREATE INDEX IF NOT EXISTS "categories_slug_idx" ON "categories" USING btree ("slug");
   CREATE INDEX IF NOT EXISTS "products_slug_idx" ON "products" USING btree ("slug");
   ALTER TABLE "pages_blocks_archive" DROP COLUMN IF EXISTS "relationTo";
   ALTER TABLE "pages" DROP COLUMN IF EXISTS "meta_title";
@@ -694,14 +644,12 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   DROP TABLE "_pages_v_locales";
   DROP TABLE "posts_locales";
   DROP TABLE "_posts_v_locales";
-  DROP TABLE "users_roles";
   DROP TABLE "products_blocks_cta_links";
   DROP TABLE "products_blocks_cta";
   DROP TABLE "products_blocks_content_columns";
   DROP TABLE "products_blocks_content";
   DROP TABLE "products_blocks_media_block";
   DROP TABLE "products_slider";
-  DROP TABLE "products_rels";
   DROP TABLE "inventories_options";
   DROP TABLE "inventories_color";
   DROP TABLE "inventories_size";
@@ -724,8 +672,11 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   
   ALTER TABLE "products" DROP CONSTRAINT "products_inventory_id_inventories_id_fk";
   
+  ALTER TABLE "products_rels" DROP CONSTRAINT "products_rels_pages_fk";
+  
+  ALTER TABLE "products_rels" DROP CONSTRAINT "products_rels_products_fk";
+  
   DROP INDEX IF EXISTS "categories_breadcrumbs_locale_idx";
-  DROP INDEX IF EXISTS "categories_slug_idx";
   DROP INDEX IF EXISTS "products_slug_idx";
   ALTER TABLE "pages_blocks_archive" ADD COLUMN "relationTo" "enum_pages_blocks_archive_relation_to" DEFAULT 'posts';
   ALTER TABLE "pages" ADD COLUMN "meta_title" varchar;
@@ -797,14 +748,11 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   END $$;
   
   ALTER TABLE "categories_breadcrumbs" DROP COLUMN IF EXISTS "_locale";
-  ALTER TABLE "categories" DROP COLUMN IF EXISTS "slug";
-  ALTER TABLE "categories" DROP COLUMN IF EXISTS "slug_lock";
   ALTER TABLE "products" DROP COLUMN IF EXISTS "slug";
   ALTER TABLE "products" DROP COLUMN IF EXISTS "slug_lock";
-  ALTER TABLE "products" DROP COLUMN IF EXISTS "published_on";
   ALTER TABLE "products" DROP COLUMN IF EXISTS "featured_image_id";
   ALTER TABLE "products" DROP COLUMN IF EXISTS "inventory_id";
-  ALTER TABLE "products" DROP COLUMN IF EXISTS "price_j_s_o_n";
-  ALTER TABLE "products" DROP COLUMN IF EXISTS "enable_paywall";
-  ALTER TABLE "products" DROP COLUMN IF EXISTS "skip_sync";`)
+  ALTER TABLE "products" DROP COLUMN IF EXISTS "skip_sync";
+  ALTER TABLE "products_rels" DROP COLUMN IF EXISTS "pages_id";
+  ALTER TABLE "products_rels" DROP COLUMN IF EXISTS "products_id";`)
 }

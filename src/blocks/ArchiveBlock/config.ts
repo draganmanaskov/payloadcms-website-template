@@ -45,15 +45,15 @@ export const Archive: Block = {
       type: 'select',
       name: 'relationTo',
       label: 'Collections To Show',
-      defaultValue: 'products',
+      // defaultValue: 'products',
       admin: {
         condition: (_, siblingData) => siblingData.populateBy === 'collection',
       },
       options: [
-        {
-          label: 'Products',
-          value: 'products',
-        },
+        // {
+        //   label: 'Products',
+        //   value: 'products',
+        // },
       ],
     },
     {
@@ -76,16 +76,16 @@ export const Archive: Block = {
         step: 1,
       },
     },
-    {
-      type: 'relationship',
-      name: 'selectedDocs',
-      label: 'Selection',
-      relationTo: ['products'], //'products'
-      hasMany: true,
-      admin: {
-        condition: (_, siblingData) => siblingData.populateBy === 'selection',
-      },
-    },
+    // {
+    //   type: 'relationship',
+    //   name: 'selectedDocs',
+    //   label: 'Selection',
+    //   relationTo: ['products'], //'products'
+    //   hasMany: true,
+    //   admin: {
+    //     condition: (_, siblingData) => siblingData.populateBy === 'selection',
+    //   },
+    // },
     // {
     //   type: 'relationship',
     //   name: 'populatedDocs',

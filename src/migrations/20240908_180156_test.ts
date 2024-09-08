@@ -9,49 +9,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_cta_links_link_type" AS ENUM('reference', 'custom');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_cta_links_link_appearance" AS ENUM('default', 'outline');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_content_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_media_block_position" AS ENUM('default', 'fullscreen');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_archive_populate_by" AS ENUM('collection', 'selection');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_archive_relation_to" AS ENUM('products');
+   CREATE TYPE "public"."enum_users_roles" AS ENUM('admin', 'customer');
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -80,8 +38,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
    WHEN duplicate_object THEN null;
   END $$;
   
-  ALTER TYPE "enum_pages_blocks_archive_relation_to" ADD VALUE 'products';
-  ALTER TYPE "enum__pages_v_blocks_archive_relation_to" ADD VALUE 'products';
   CREATE TABLE IF NOT EXISTS "pages_locales" (
   	"meta_title" varchar,
   	"meta_image_id" integer,
@@ -102,97 +58,11 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	CONSTRAINT "_pages_v_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id")
   );
   
-  CREATE TABLE IF NOT EXISTS "posts_locales" (
-  	"meta_title" varchar,
-  	"meta_image_id" integer,
-  	"meta_description" varchar,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"_locale" "_locales" NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	CONSTRAINT "posts_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id")
-  );
-  
-  CREATE TABLE IF NOT EXISTS "_posts_v_locales" (
-  	"version_meta_title" varchar,
-  	"version_meta_image_id" integer,
-  	"version_meta_description" varchar,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"_locale" "_locales" NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	CONSTRAINT "_posts_v_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id")
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_blocks_cta_links" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" varchar NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"link_type" "enum_products_blocks_cta_links_link_type" DEFAULT 'reference',
-  	"link_new_tab" boolean,
-  	"link_url" varchar,
-  	"link_label" varchar NOT NULL,
-  	"link_appearance" "enum_products_blocks_cta_links_link_appearance" DEFAULT 'default'
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_blocks_cta" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"rich_text" jsonb,
-  	"block_name" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_blocks_content_columns" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" varchar NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"size" "enum_products_blocks_content_columns_size" DEFAULT 'oneThird',
-  	"rich_text" jsonb,
-  	"enable_link" boolean,
-  	"link_type" "enum_products_blocks_content_columns_link_type" DEFAULT 'reference',
-  	"link_new_tab" boolean,
-  	"link_url" varchar,
-  	"link_label" varchar,
-  	"link_appearance" "enum_products_blocks_content_columns_link_appearance" DEFAULT 'default'
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_blocks_content" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"block_name" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_blocks_media_block" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"position" "enum_products_blocks_media_block_position" DEFAULT 'default',
-  	"media_id" integer NOT NULL,
-  	"block_name" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_blocks_archive" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"intro_content" jsonb,
-  	"populateBy" "enum_products_blocks_archive_populate_by" DEFAULT 'collection',
-  	"relationTo" "enum_products_blocks_archive_relation_to" DEFAULT 'products',
-  	"limit" numeric DEFAULT 10,
-  	"block_name" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_slider" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"title" varchar,
-  	"image_id" integer NOT NULL,
-  	"caption" varchar
+  CREATE TABLE IF NOT EXISTS "users_roles" (
+  	"order" integer NOT NULL,
+  	"parent_id" integer NOT NULL,
+  	"value" "enum_users_roles",
+  	"id" serial PRIMARY KEY NOT NULL
   );
   
   CREATE TABLE IF NOT EXISTS "inventories_options" (
@@ -345,31 +215,32 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	CONSTRAINT "forms_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id")
   );
   
+  DROP TABLE "pages_blocks_archive";
+  DROP TABLE "_pages_v_blocks_archive";
+  DROP TABLE "posts_populated_authors";
+  DROP TABLE "posts";
+  DROP TABLE "posts_rels";
+  DROP TABLE "_posts_v_version_populated_authors";
+  DROP TABLE "_posts_v";
+  DROP TABLE "_posts_v_rels";
+  DROP TABLE "products";
   ALTER TABLE "pages" DROP CONSTRAINT "pages_meta_image_id_media_id_fk";
+  
+  ALTER TABLE "pages_rels" DROP CONSTRAINT "pages_rels_categories_fk";
   
   ALTER TABLE "pages_rels" DROP CONSTRAINT "pages_rels_posts_fk";
   
   ALTER TABLE "_pages_v" DROP CONSTRAINT "_pages_v_version_meta_image_id_media_id_fk";
   
+  ALTER TABLE "_pages_v_rels" DROP CONSTRAINT "_pages_v_rels_categories_fk";
+  
   ALTER TABLE "_pages_v_rels" DROP CONSTRAINT "_pages_v_rels_posts_fk";
   
-  ALTER TABLE "posts" DROP CONSTRAINT "posts_meta_image_id_media_id_fk";
+  ALTER TABLE "redirects_rels" DROP CONSTRAINT "redirects_rels_posts_fk";
   
-  ALTER TABLE "_posts_v" DROP CONSTRAINT "_posts_v_version_meta_image_id_media_id_fk";
-  
-  ALTER TABLE "pages_blocks_archive" ALTER COLUMN "relationTo" SET DEFAULT 'products';
-  ALTER TABLE "_pages_v_blocks_archive" ALTER COLUMN "relationTo" SET DEFAULT 'products';
-  ALTER TABLE "pages_rels" ADD COLUMN "products_id" integer;
-  ALTER TABLE "_pages_v_rels" ADD COLUMN "products_id" integer;
   ALTER TABLE "categories_breadcrumbs" ADD COLUMN "_locale" "_locales" NOT NULL;
-  ALTER TABLE "products" ADD COLUMN "slug" varchar;
-  ALTER TABLE "products" ADD COLUMN "slug_lock" boolean DEFAULT true;
-  ALTER TABLE "products" ADD COLUMN "featured_image_id" integer;
-  ALTER TABLE "products" ADD COLUMN "inventory_id" integer;
-  ALTER TABLE "products" ADD COLUMN "skip_sync" boolean;
-  ALTER TABLE "products_rels" ADD COLUMN "pages_id" integer;
-  ALTER TABLE "products_rels" ADD COLUMN "products_id" integer;
-  ALTER TABLE "redirects_rels" ADD COLUMN "products_id" integer;
+  ALTER TABLE "categories" ADD COLUMN "slug" varchar;
+  ALTER TABLE "categories" ADD COLUMN "slug_lock" boolean DEFAULT true;
   DO $$ BEGIN
    ALTER TABLE "pages_locales" ADD CONSTRAINT "pages_locales_meta_image_id_media_id_fk" FOREIGN KEY ("meta_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   EXCEPTION
@@ -395,79 +266,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "posts_locales" ADD CONSTRAINT "posts_locales_meta_image_id_media_id_fk" FOREIGN KEY ("meta_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "posts_locales" ADD CONSTRAINT "posts_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_posts_v_locales" ADD CONSTRAINT "_posts_v_locales_version_meta_image_id_media_id_fk" FOREIGN KEY ("version_meta_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_posts_v_locales" ADD CONSTRAINT "_posts_v_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_posts_v"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_blocks_cta_links" ADD CONSTRAINT "products_blocks_cta_links_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products_blocks_cta"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_blocks_cta" ADD CONSTRAINT "products_blocks_cta_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_blocks_content_columns" ADD CONSTRAINT "products_blocks_content_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products_blocks_content"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_blocks_content" ADD CONSTRAINT "products_blocks_content_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_blocks_media_block" ADD CONSTRAINT "products_blocks_media_block_media_id_media_id_fk" FOREIGN KEY ("media_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_blocks_media_block" ADD CONSTRAINT "products_blocks_media_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_blocks_archive" ADD CONSTRAINT "products_blocks_archive_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_slider" ADD CONSTRAINT "products_slider_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_slider" ADD CONSTRAINT "products_slider_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
+   ALTER TABLE "users_roles" ADD CONSTRAINT "users_roles_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -574,24 +373,8 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
    WHEN duplicate_object THEN null;
   END $$;
   
-  CREATE INDEX IF NOT EXISTS "products_blocks_cta_links_order_idx" ON "products_blocks_cta_links" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "products_blocks_cta_links_parent_id_idx" ON "products_blocks_cta_links" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "products_blocks_cta_order_idx" ON "products_blocks_cta" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "products_blocks_cta_parent_id_idx" ON "products_blocks_cta" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "products_blocks_cta_path_idx" ON "products_blocks_cta" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "products_blocks_content_columns_order_idx" ON "products_blocks_content_columns" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "products_blocks_content_columns_parent_id_idx" ON "products_blocks_content_columns" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "products_blocks_content_order_idx" ON "products_blocks_content" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "products_blocks_content_parent_id_idx" ON "products_blocks_content" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "products_blocks_content_path_idx" ON "products_blocks_content" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "products_blocks_media_block_order_idx" ON "products_blocks_media_block" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "products_blocks_media_block_parent_id_idx" ON "products_blocks_media_block" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "products_blocks_media_block_path_idx" ON "products_blocks_media_block" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "products_blocks_archive_order_idx" ON "products_blocks_archive" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "products_blocks_archive_parent_id_idx" ON "products_blocks_archive" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "products_blocks_archive_path_idx" ON "products_blocks_archive" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "products_slider_order_idx" ON "products_slider" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "products_slider_parent_id_idx" ON "products_slider" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "users_roles_order_idx" ON "users_roles" USING btree ("order");
+  CREATE INDEX IF NOT EXISTS "users_roles_parent_idx" ON "users_roles" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "inventories_options_order_idx" ON "inventories_options" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "inventories_options_parent_idx" ON "inventories_options" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "inventories_color_order_idx" ON "inventories_color" USING btree ("order");
@@ -605,64 +388,19 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE UNIQUE INDEX IF NOT EXISTS "inventories_title_idx" ON "inventories" USING btree ("title");
   CREATE UNIQUE INDEX IF NOT EXISTS "inventories_base_sku_idx" ON "inventories" USING btree ("base_sku");
   CREATE INDEX IF NOT EXISTS "inventories_created_at_idx" ON "inventories" USING btree ("created_at");
-  DO $$ BEGIN
-   ALTER TABLE "pages_rels" ADD CONSTRAINT "pages_rels_products_fk" FOREIGN KEY ("products_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_pages_v_rels" ADD CONSTRAINT "_pages_v_rels_products_fk" FOREIGN KEY ("products_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products" ADD CONSTRAINT "products_featured_image_id_media_id_fk" FOREIGN KEY ("featured_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products" ADD CONSTRAINT "products_inventory_id_inventories_id_fk" FOREIGN KEY ("inventory_id") REFERENCES "public"."inventories"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_rels" ADD CONSTRAINT "products_rels_pages_fk" FOREIGN KEY ("pages_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_rels" ADD CONSTRAINT "products_rels_products_fk" FOREIGN KEY ("products_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "redirects_rels" ADD CONSTRAINT "redirects_rels_products_fk" FOREIGN KEY ("products_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
   CREATE INDEX IF NOT EXISTS "categories_breadcrumbs_locale_idx" ON "categories_breadcrumbs" USING btree ("_locale");
-  CREATE INDEX IF NOT EXISTS "products_slug_idx" ON "products" USING btree ("slug");
+  CREATE INDEX IF NOT EXISTS "categories_slug_idx" ON "categories" USING btree ("slug");
   ALTER TABLE "pages" DROP COLUMN IF EXISTS "meta_title";
   ALTER TABLE "pages" DROP COLUMN IF EXISTS "meta_image_id";
   ALTER TABLE "pages" DROP COLUMN IF EXISTS "meta_description";
+  ALTER TABLE "pages_rels" DROP COLUMN IF EXISTS "categories_id";
   ALTER TABLE "pages_rels" DROP COLUMN IF EXISTS "posts_id";
   ALTER TABLE "_pages_v" DROP COLUMN IF EXISTS "version_meta_title";
   ALTER TABLE "_pages_v" DROP COLUMN IF EXISTS "version_meta_image_id";
   ALTER TABLE "_pages_v" DROP COLUMN IF EXISTS "version_meta_description";
+  ALTER TABLE "_pages_v_rels" DROP COLUMN IF EXISTS "categories_id";
   ALTER TABLE "_pages_v_rels" DROP COLUMN IF EXISTS "posts_id";
-  ALTER TABLE "posts" DROP COLUMN IF EXISTS "meta_title";
-  ALTER TABLE "posts" DROP COLUMN IF EXISTS "meta_image_id";
-  ALTER TABLE "posts" DROP COLUMN IF EXISTS "meta_description";
-  ALTER TABLE "_posts_v" DROP COLUMN IF EXISTS "version_meta_title";
-  ALTER TABLE "_posts_v" DROP COLUMN IF EXISTS "version_meta_image_id";
-  ALTER TABLE "_posts_v" DROP COLUMN IF EXISTS "version_meta_description";
+  ALTER TABLE "redirects_rels" DROP COLUMN IF EXISTS "posts_id";
   ALTER TABLE "forms_blocks_checkbox" DROP COLUMN IF EXISTS "label";
   ALTER TABLE "forms_blocks_country" DROP COLUMN IF EXISTS "label";
   ALTER TABLE "forms_blocks_email" DROP COLUMN IF EXISTS "label";
@@ -684,19 +422,147 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
 
 export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   await payload.db.drizzle.execute(sql`
-   ALTER TYPE "enum_pages_blocks_archive_relation_to" ADD VALUE 'posts';
-  ALTER TYPE "enum__pages_v_blocks_archive_relation_to" ADD VALUE 'posts';
+   DO $$ BEGIN
+   CREATE TYPE "public"."enum_pages_blocks_archive_populate_by" AS ENUM('collection', 'selection');
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   CREATE TYPE "public"."enum_pages_blocks_archive_relation_to" AS ENUM('posts');
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   CREATE TYPE "public"."enum__pages_v_blocks_archive_populate_by" AS ENUM('collection', 'selection');
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   CREATE TYPE "public"."enum__pages_v_blocks_archive_relation_to" AS ENUM('posts');
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   CREATE TYPE "public"."enum_posts_status" AS ENUM('draft', 'published');
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   CREATE TYPE "public"."enum__posts_v_version_status" AS ENUM('draft', 'published');
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  CREATE TABLE IF NOT EXISTS "pages_blocks_archive" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"intro_content" jsonb,
+  	"populateBy" "enum_pages_blocks_archive_populate_by" DEFAULT 'collection',
+  	"relationTo" "enum_pages_blocks_archive_relation_to" DEFAULT 'posts',
+  	"limit" numeric DEFAULT 10,
+  	"block_name" varchar
+  );
+  
+  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_archive" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"_path" text NOT NULL,
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"intro_content" jsonb,
+  	"populateBy" "enum__pages_v_blocks_archive_populate_by" DEFAULT 'collection',
+  	"relationTo" "enum__pages_v_blocks_archive_relation_to" DEFAULT 'posts',
+  	"limit" numeric DEFAULT 10,
+  	"_uuid" varchar,
+  	"block_name" varchar
+  );
+  
+  CREATE TABLE IF NOT EXISTS "posts_populated_authors" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"name" varchar
+  );
+  
+  CREATE TABLE IF NOT EXISTS "posts" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"title" varchar,
+  	"content" jsonb,
+  	"meta_title" varchar,
+  	"meta_image_id" integer,
+  	"meta_description" varchar,
+  	"published_at" timestamp(3) with time zone,
+  	"slug" varchar,
+  	"slug_lock" boolean DEFAULT true,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"_status" "enum_posts_status" DEFAULT 'draft'
+  );
+  
+  CREATE TABLE IF NOT EXISTS "posts_rels" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"order" integer,
+  	"parent_id" integer NOT NULL,
+  	"path" varchar NOT NULL,
+  	"posts_id" integer,
+  	"categories_id" integer,
+  	"users_id" integer
+  );
+  
+  CREATE TABLE IF NOT EXISTS "_posts_v_version_populated_authors" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"_uuid" varchar,
+  	"name" varchar
+  );
+  
+  CREATE TABLE IF NOT EXISTS "_posts_v" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"parent_id" integer,
+  	"version_title" varchar,
+  	"version_content" jsonb,
+  	"version_meta_title" varchar,
+  	"version_meta_image_id" integer,
+  	"version_meta_description" varchar,
+  	"version_published_at" timestamp(3) with time zone,
+  	"version_slug" varchar,
+  	"version_slug_lock" boolean DEFAULT true,
+  	"version_updated_at" timestamp(3) with time zone,
+  	"version_created_at" timestamp(3) with time zone,
+  	"version__status" "enum__posts_v_version_status" DEFAULT 'draft',
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"latest" boolean,
+  	"autosave" boolean
+  );
+  
+  CREATE TABLE IF NOT EXISTS "_posts_v_rels" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"order" integer,
+  	"parent_id" integer NOT NULL,
+  	"path" varchar NOT NULL,
+  	"posts_id" integer,
+  	"categories_id" integer,
+  	"users_id" integer
+  );
+  
+  CREATE TABLE IF NOT EXISTS "products" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"title" varchar NOT NULL,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
   DROP TABLE "pages_locales";
   DROP TABLE "_pages_v_locales";
-  DROP TABLE "posts_locales";
-  DROP TABLE "_posts_v_locales";
-  DROP TABLE "products_blocks_cta_links";
-  DROP TABLE "products_blocks_cta";
-  DROP TABLE "products_blocks_content_columns";
-  DROP TABLE "products_blocks_content";
-  DROP TABLE "products_blocks_media_block";
-  DROP TABLE "products_blocks_archive";
-  DROP TABLE "products_slider";
+  DROP TABLE "users_roles";
   DROP TABLE "inventories_options";
   DROP TABLE "inventories_color";
   DROP TABLE "inventories_size";
@@ -715,38 +581,19 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   DROP TABLE "forms_blocks_textarea_locales";
   DROP TABLE "forms_emails_locales";
   DROP TABLE "forms_locales";
-  ALTER TABLE "pages_rels" DROP CONSTRAINT "pages_rels_products_fk";
-  
-  ALTER TABLE "_pages_v_rels" DROP CONSTRAINT "_pages_v_rels_products_fk";
-  
-  ALTER TABLE "products" DROP CONSTRAINT "products_featured_image_id_media_id_fk";
-  
-  ALTER TABLE "products" DROP CONSTRAINT "products_inventory_id_inventories_id_fk";
-  
-  ALTER TABLE "products_rels" DROP CONSTRAINT "products_rels_pages_fk";
-  
-  ALTER TABLE "products_rels" DROP CONSTRAINT "products_rels_products_fk";
-  
-  ALTER TABLE "redirects_rels" DROP CONSTRAINT "redirects_rels_products_fk";
-  
   DROP INDEX IF EXISTS "categories_breadcrumbs_locale_idx";
-  DROP INDEX IF EXISTS "products_slug_idx";
-  ALTER TABLE "pages_blocks_archive" ALTER COLUMN "relationTo" SET DEFAULT 'posts';
-  ALTER TABLE "_pages_v_blocks_archive" ALTER COLUMN "relationTo" SET DEFAULT 'posts';
+  DROP INDEX IF EXISTS "categories_slug_idx";
   ALTER TABLE "pages" ADD COLUMN "meta_title" varchar;
   ALTER TABLE "pages" ADD COLUMN "meta_image_id" integer;
   ALTER TABLE "pages" ADD COLUMN "meta_description" varchar;
+  ALTER TABLE "pages_rels" ADD COLUMN "categories_id" integer;
   ALTER TABLE "pages_rels" ADD COLUMN "posts_id" integer;
   ALTER TABLE "_pages_v" ADD COLUMN "version_meta_title" varchar;
   ALTER TABLE "_pages_v" ADD COLUMN "version_meta_image_id" integer;
   ALTER TABLE "_pages_v" ADD COLUMN "version_meta_description" varchar;
+  ALTER TABLE "_pages_v_rels" ADD COLUMN "categories_id" integer;
   ALTER TABLE "_pages_v_rels" ADD COLUMN "posts_id" integer;
-  ALTER TABLE "posts" ADD COLUMN "meta_title" varchar;
-  ALTER TABLE "posts" ADD COLUMN "meta_image_id" integer;
-  ALTER TABLE "posts" ADD COLUMN "meta_description" varchar;
-  ALTER TABLE "_posts_v" ADD COLUMN "version_meta_title" varchar;
-  ALTER TABLE "_posts_v" ADD COLUMN "version_meta_image_id" integer;
-  ALTER TABLE "_posts_v" ADD COLUMN "version_meta_description" varchar;
+  ALTER TABLE "redirects_rels" ADD COLUMN "posts_id" integer;
   ALTER TABLE "forms_blocks_checkbox" ADD COLUMN "label" varchar;
   ALTER TABLE "forms_blocks_country" ADD COLUMN "label" varchar;
   ALTER TABLE "forms_blocks_email" ADD COLUMN "label" varchar;
@@ -765,7 +612,130 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   ALTER TABLE "forms" ADD COLUMN "submit_button_label" varchar;
   ALTER TABLE "forms" ADD COLUMN "confirmation_message" jsonb;
   DO $$ BEGIN
+   ALTER TABLE "pages_blocks_archive" ADD CONSTRAINT "pages_blocks_archive_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_archive" ADD CONSTRAINT "_pages_v_blocks_archive_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "posts_populated_authors" ADD CONSTRAINT "posts_populated_authors_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "posts" ADD CONSTRAINT "posts_meta_image_id_media_id_fk" FOREIGN KEY ("meta_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "posts_rels" ADD CONSTRAINT "posts_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "posts_rels" ADD CONSTRAINT "posts_rels_posts_fk" FOREIGN KEY ("posts_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "posts_rels" ADD CONSTRAINT "posts_rels_categories_fk" FOREIGN KEY ("categories_id") REFERENCES "public"."categories"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "posts_rels" ADD CONSTRAINT "posts_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_posts_v_version_populated_authors" ADD CONSTRAINT "_posts_v_version_populated_authors_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_posts_v"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_posts_v" ADD CONSTRAINT "_posts_v_parent_id_posts_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."posts"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_posts_v" ADD CONSTRAINT "_posts_v_version_meta_image_id_media_id_fk" FOREIGN KEY ("version_meta_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_posts_v_rels" ADD CONSTRAINT "_posts_v_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."_posts_v"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_posts_v_rels" ADD CONSTRAINT "_posts_v_rels_posts_fk" FOREIGN KEY ("posts_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_posts_v_rels" ADD CONSTRAINT "_posts_v_rels_categories_fk" FOREIGN KEY ("categories_id") REFERENCES "public"."categories"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_posts_v_rels" ADD CONSTRAINT "_posts_v_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  CREATE INDEX IF NOT EXISTS "pages_blocks_archive_order_idx" ON "pages_blocks_archive" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_archive_parent_id_idx" ON "pages_blocks_archive" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_archive_path_idx" ON "pages_blocks_archive" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_archive_order_idx" ON "_pages_v_blocks_archive" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_archive_parent_id_idx" ON "_pages_v_blocks_archive" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_archive_path_idx" ON "_pages_v_blocks_archive" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "posts_populated_authors_order_idx" ON "posts_populated_authors" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "posts_populated_authors_parent_id_idx" ON "posts_populated_authors" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "posts_slug_idx" ON "posts" USING btree ("slug");
+  CREATE INDEX IF NOT EXISTS "posts_created_at_idx" ON "posts" USING btree ("created_at");
+  CREATE INDEX IF NOT EXISTS "posts__status_idx" ON "posts" USING btree ("_status");
+  CREATE INDEX IF NOT EXISTS "posts_rels_order_idx" ON "posts_rels" USING btree ("order");
+  CREATE INDEX IF NOT EXISTS "posts_rels_parent_idx" ON "posts_rels" USING btree ("parent_id");
+  CREATE INDEX IF NOT EXISTS "posts_rels_path_idx" ON "posts_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "_posts_v_version_populated_authors_order_idx" ON "_posts_v_version_populated_authors" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_posts_v_version_populated_authors_parent_id_idx" ON "_posts_v_version_populated_authors" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "_posts_v_version_version_slug_idx" ON "_posts_v" USING btree ("version_slug");
+  CREATE INDEX IF NOT EXISTS "_posts_v_version_version_created_at_idx" ON "_posts_v" USING btree ("version_created_at");
+  CREATE INDEX IF NOT EXISTS "_posts_v_version_version__status_idx" ON "_posts_v" USING btree ("version__status");
+  CREATE INDEX IF NOT EXISTS "_posts_v_created_at_idx" ON "_posts_v" USING btree ("created_at");
+  CREATE INDEX IF NOT EXISTS "_posts_v_updated_at_idx" ON "_posts_v" USING btree ("updated_at");
+  CREATE INDEX IF NOT EXISTS "_posts_v_latest_idx" ON "_posts_v" USING btree ("latest");
+  CREATE INDEX IF NOT EXISTS "_posts_v_autosave_idx" ON "_posts_v" USING btree ("autosave");
+  CREATE INDEX IF NOT EXISTS "_posts_v_rels_order_idx" ON "_posts_v_rels" USING btree ("order");
+  CREATE INDEX IF NOT EXISTS "_posts_v_rels_parent_idx" ON "_posts_v_rels" USING btree ("parent_id");
+  CREATE INDEX IF NOT EXISTS "_posts_v_rels_path_idx" ON "_posts_v_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "products_created_at_idx" ON "products" USING btree ("created_at");
+  DO $$ BEGIN
    ALTER TABLE "pages" ADD CONSTRAINT "pages_meta_image_id_media_id_fk" FOREIGN KEY ("meta_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "pages_rels" ADD CONSTRAINT "pages_rels_categories_fk" FOREIGN KEY ("categories_id") REFERENCES "public"."categories"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -783,32 +753,24 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
+   ALTER TABLE "_pages_v_rels" ADD CONSTRAINT "_pages_v_rels_categories_fk" FOREIGN KEY ("categories_id") REFERENCES "public"."categories"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
    ALTER TABLE "_pages_v_rels" ADD CONSTRAINT "_pages_v_rels_posts_fk" FOREIGN KEY ("posts_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "posts" ADD CONSTRAINT "posts_meta_image_id_media_id_fk" FOREIGN KEY ("meta_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+   ALTER TABLE "redirects_rels" ADD CONSTRAINT "redirects_rels_posts_fk" FOREIGN KEY ("posts_id") REFERENCES "public"."posts"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
   
-  DO $$ BEGIN
-   ALTER TABLE "_posts_v" ADD CONSTRAINT "_posts_v_version_meta_image_id_media_id_fk" FOREIGN KEY ("version_meta_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  ALTER TABLE "pages_rels" DROP COLUMN IF EXISTS "products_id";
-  ALTER TABLE "_pages_v_rels" DROP COLUMN IF EXISTS "products_id";
   ALTER TABLE "categories_breadcrumbs" DROP COLUMN IF EXISTS "_locale";
-  ALTER TABLE "products" DROP COLUMN IF EXISTS "slug";
-  ALTER TABLE "products" DROP COLUMN IF EXISTS "slug_lock";
-  ALTER TABLE "products" DROP COLUMN IF EXISTS "featured_image_id";
-  ALTER TABLE "products" DROP COLUMN IF EXISTS "inventory_id";
-  ALTER TABLE "products" DROP COLUMN IF EXISTS "skip_sync";
-  ALTER TABLE "products_rels" DROP COLUMN IF EXISTS "pages_id";
-  ALTER TABLE "products_rels" DROP COLUMN IF EXISTS "products_id";
-  ALTER TABLE "redirects_rels" DROP COLUMN IF EXISTS "products_id";`)
+  ALTER TABLE "categories" DROP COLUMN IF EXISTS "slug";
+  ALTER TABLE "categories" DROP COLUMN IF EXISTS "slug_lock";`)
 }

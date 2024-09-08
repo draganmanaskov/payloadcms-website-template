@@ -6,6 +6,19 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardSlider".
+ */
+export type CardSlider =
+  | {
+      title?: string | null;
+      image: number | Media;
+      caption?: string | null;
+      id?: string | null;
+    }[]
+  | null;
+
 export interface Config {
   auth: {
     users: UserAuthOperations;
@@ -18,7 +31,6 @@ export interface Config {
     users: User;
     products: Product;
     inventories: Inventory;
-    stockKeepingUnits: StockKeepingUnit;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -304,11 +316,41 @@ export interface Product {
   slugLock?: boolean | null;
   publishedOn?: string | null;
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock)[];
+  featuredImage?: (number | null) | Media;
+  slider?: CardSlider;
+  inventory?: (number | null) | Inventory;
   priceJSON?: string | null;
   enablePaywall?: boolean | null;
   categories?: (number | Category)[] | null;
   relatedProducts?: (number | Product)[] | null;
   skipSync?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "inventories".
+ */
+export interface Inventory {
+  id: number;
+  title: string;
+  baseSku: string;
+  options: ('color' | 'size' | 'capacity')[];
+  color?: ('white' | 'black' | 'red')[] | null;
+  size?: ('small' | 'medium' | 'large')[] | null;
+  capacity?: ('one-litre' | 'two-litre' | 'three-litre')[] | null;
+  skus?:
+    | {
+        sku: string;
+        quantity?: number | null;
+        color?: string | null;
+        size?: string | null;
+        capacity?: string | null;
+        price?: number | null;
+        unitsSold?: number | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -563,50 +605,6 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "inventories".
- */
-export interface Inventory {
-  id: number;
-  title: string;
-  baseSku: string;
-  options: ('color' | 'size' | 'capacity')[];
-  color?: ('white' | 'black' | 'red')[] | null;
-  size?: ('small' | 'medium' | 'large')[] | null;
-  capacity?: ('one-litre' | 'two-litre' | 'three-litre')[] | null;
-  stockKeepingUnits?: (number | StockKeepingUnit)[] | null;
-  skus?:
-    | {
-        sku: string;
-        quantity?: number | null;
-        color?: string | null;
-        size?: string | null;
-        capacity?: string | null;
-        price?: number | null;
-        unitsSold?: number | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "stockKeepingUnits".
- */
-export interface StockKeepingUnit {
-  id: number;
-  sku: string;
-  quantity?: number | null;
-  color?: string | null;
-  size?: string | null;
-  capacity?: string | null;
-  price?: number | null;
-  unitsSold?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -5,10 +5,6 @@ import { generateSKUsField } from '@/payload/fields/generateSKUs'
 import { onSaveCreateSKUs } from './hooks/onSaveCreateSKUs'
 import { beforeChangeCreateSKUs } from './hooks/beforeChangeCreateSKUs'
 
-import ArrayFieldTitle from '@/payload/fields/ArrayFieldTitle'
-
-ArrayFieldTitle
-
 const Inventories: CollectionConfig = {
   slug: 'inventories',
   access: {

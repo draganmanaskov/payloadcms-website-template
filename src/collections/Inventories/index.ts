@@ -4,10 +4,6 @@ import { admins } from '@/access/admins'
 
 import { beforeChangeCreateSKUs } from './hooks/beforeChangeCreateSKUs'
 
-import ArrayFieldTitle from '@/fields/ArrayFieldTitle'
-
-ArrayFieldTitle
-
 const Inventories: CollectionConfig = {
   slug: 'inventories',
   access: {
@@ -112,7 +108,6 @@ const Inventories: CollectionConfig = {
         condition: (data, siblingData) => siblingData?.options?.includes('capacity'),
       },
     },
-
     {
       name: 'skus',
       type: 'array',

@@ -30,7 +30,7 @@ import { Header } from './payload/globals/Header/config'
 import { revalidateRedirects } from './hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page } from 'src/payload-types'
-import Products from './payload/collections/Products'
+// import Products from './payload/collections/Products'
 import Inventories from './payload/collections/Inventories/config'
 
 const filename = fileURLToPath(import.meta.url)
@@ -117,7 +117,7 @@ export default buildConfig({
         BoldFeature(),
         ItalicFeature(),
         LinkFeature({
-          enabledCollections: ['pages', 'products'],
+          enabledCollections: ['pages'], //'products'
           fields: ({ defaultFields }) => {
             const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
               if ('name' in field && field.name === 'url') return false
@@ -148,7 +148,7 @@ export default buildConfig({
     },
   }),
   // database-adapter-config-end
-  collections: [Pages, Media, Categories, Users, Products, Inventories],
+  collections: [Pages, Media, Categories, Users, Inventories],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   endpoints: [],
@@ -182,7 +182,7 @@ export default buildConfig({
     //   token: process.env.BLOB_READ_WRITE_TOKEN,
     // }),
     redirectsPlugin({
-      collections: ['pages', 'products'],
+      collections: ['pages'], //'products'
       overrides: {
         // @ts-expect-error
         fields: ({ defaultFields }) => {

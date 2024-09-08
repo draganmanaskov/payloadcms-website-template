@@ -41,21 +41,21 @@ export const Archive: Block = {
         },
       ],
     },
-    {
-      type: 'select',
-      name: 'relationTo',
-      label: 'Collections To Show',
-      // defaultValue: 'products',
-      admin: {
-        condition: (_, siblingData) => siblingData.populateBy === 'collection',
-      },
-      options: [
-        // {
-        //   label: 'Products',
-        //   value: 'products',
-        // },
-      ],
-    },
+    // {
+    //   type: 'select',
+    //   name: 'relationTo',
+    //   label: 'Collections To Show',
+    //   // defaultValue: 'products',
+    //   admin: {
+    //     condition: (_, siblingData) => siblingData.populateBy === 'collection',
+    //   },
+    //   options: [
+    //     // {
+    //     //   label: 'Products',
+    //     //   value: 'products',
+    //     // },
+    //   ],
+    // },
     {
       type: 'relationship',
       name: 'categories',

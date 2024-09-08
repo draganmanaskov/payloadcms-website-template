@@ -6,19 +6,6 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CardSlider".
- */
-export type CardSlider =
-  | {
-      title?: string | null;
-      image: number | Media;
-      caption?: string | null;
-      id?: string | null;
-    }[]
-  | null;
-
 export interface Config {
   auth: {
     users: UserAuthOperations;
@@ -28,7 +15,6 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
-    products: Product;
     inventories: Inventory;
     redirects: Redirect;
     forms: Form;
@@ -481,28 +467,6 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products".
- */
-export interface Product {
-  id: number;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  publishedOn?: string | null;
-  layout: (CallToActionBlock | ContentBlock | MediaBlock)[];
-  featuredImage?: (number | null) | Media;
-  slider?: CardSlider;
-  inventory?: (number | null) | Inventory;
-  priceJSON?: string | null;
-  enablePaywall?: boolean | null;
-  categories?: (number | Category)[] | null;
-  relatedProducts?: (number | Product)[] | null;
-  skipSync?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "inventories".
  */
 export interface Inventory {
@@ -537,15 +501,10 @@ export interface Redirect {
   from: string;
   to?: {
     type?: ('reference' | 'custom') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'products';
-          value: number | Product;
-        } | null);
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
     url?: string | null;
   };
   updatedAt: string;

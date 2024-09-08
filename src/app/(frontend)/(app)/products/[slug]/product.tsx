@@ -164,6 +164,7 @@ export default function ProductComponent({ product }: ProductProps) {
                   urlParams[optionNameLowerCase] === color.colors_id.name
                     ? true
                     : false;
+
                 const isAvailableForSale = product.skus.find(
                   (sku) =>
                     sku.color === color.colors_id.name &&
@@ -173,6 +174,7 @@ export default function ProductComponent({ product }: ProductProps) {
                 )
                   ? true
                   : false;
+
                 return (
                   <VariantButton
                     optionName={optionNameLowerCase}
@@ -205,6 +207,7 @@ export default function ProductComponent({ product }: ProductProps) {
                 )
                   ? true
                   : false;
+
                 return (
                   <VariantButton
                     optionName={optionNameLowerCase}

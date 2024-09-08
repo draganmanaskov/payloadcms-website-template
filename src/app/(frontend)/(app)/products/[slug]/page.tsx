@@ -38,6 +38,7 @@ export default async function Post({ params: { slug = '' } }) {
       <PayloadRedirects disableNotFound url={url} />
       <Product product={product} />
       {/* <PostHero post={post} />
+
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container lg:mx-0 lg:grid lg:grid-cols-[1fr_48rem_1fr] grid-rows-[1fr]">
           <RichText
@@ -46,6 +47,7 @@ export default async function Post({ params: { slug = '' } }) {
             enableGutter={false}
           />
         </div>
+
         {post.relatedPosts && post.relatedPosts.length > 0 && (
           <RelatedPosts
             className="mt-12"

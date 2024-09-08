@@ -6,6 +6,19 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardSlider".
+ */
+export type CardSlider =
+  | {
+      title?: string | null;
+      image: number | Media;
+      caption?: string | null;
+      id?: string | null;
+    }[]
+  | null;
+
 export interface Config {
   auth: {
     users: UserAuthOperations;
@@ -17,6 +30,7 @@ export interface Config {
     categories: Category;
     users: User;
     products: Product;
+    inventories: Inventory;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -262,8 +276,8 @@ export interface ArchiveBlock {
   limit?: number | null;
   selectedDocs?:
     | {
-        relationTo: 'posts';
-        value: number | Post;
+        relationTo: 'products';
+        value: number | Product;
       }[]
     | null;
   id?: string | null;
@@ -293,65 +307,52 @@ export interface Category {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
+ * via the `definition` "products".
  */
-export interface Post {
+export interface Product {
   id: number;
   title: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  relatedPosts?: (number | Post)[] | null;
-  categories?: (number | Category)[] | null;
-  meta?: {
-    title?: string | null;
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  authors?: (number | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
   slug?: string | null;
   slugLock?: boolean | null;
+  publishedOn?: string | null;
+  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock)[];
+  featuredImage?: (number | null) | Media;
+  slider?: CardSlider;
+  inventory?: (number | null) | Inventory;
+  priceJSON?: string | null;
+  enablePaywall?: boolean | null;
+  categories?: (number | Category)[] | null;
+  relatedProducts?: (number | Product)[] | null;
+  skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "inventories".
  */
-export interface User {
+export interface Inventory {
   id: number;
-  name?: string | null;
-  roles?: ('admin' | 'customer')[] | null;
+  title: string;
+  baseSku: string;
+  options: ('color' | 'size' | 'capacity')[];
+  color?: ('white' | 'black' | 'red')[] | null;
+  size?: ('small' | 'medium' | 'large')[] | null;
+  capacity?: ('one-litre' | 'two-litre' | 'three-litre')[] | null;
+  skus?:
+    | {
+        sku: string;
+        quantity?: number | null;
+        color?: string | null;
+        size?: string | null;
+        capacity?: string | null;
+        price?: number | null;
+        unitsSold?: number | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -545,18 +546,65 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products".
+ * via the `definition` "posts".
  */
-export interface Product {
+export interface Post {
   id: number;
   title: string;
-  publishedOn?: string | null;
-  layout: unknown[];
-  priceJSON?: string | null;
-  enablePaywall?: boolean | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  name?: string | null;
+  roles?: ('admin' | 'customer')[] | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

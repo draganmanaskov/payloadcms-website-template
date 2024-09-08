@@ -1,8 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { admins } from '@/access/admins'
-import { generateSKUsField } from '@/payload/fields/generateSKUs'
-import { onSaveCreateSKUs } from './hooks/onSaveCreateSKUs'
+
 import { beforeChangeCreateSKUs } from './hooks/beforeChangeCreateSKUs'
 
 const Inventories: CollectionConfig = {
@@ -17,9 +16,7 @@ const Inventories: CollectionConfig = {
     useAsTitle: 'title',
   },
   hooks: {
-    // afterChange: [onSaveCreateSKUs],
     beforeChange: [beforeChangeCreateSKUs],
-    // afterOperation: [onSaveCreateSKUs]
   },
   fields: [
     {

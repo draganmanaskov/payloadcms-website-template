@@ -33,7 +33,6 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
 import Products from './payload/collections/Products'
 import Inventories from './payload/collections/Inventories/config'
-import StockKeepingUnits from './payload/collections/StockKeepingUnits/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)

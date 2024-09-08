@@ -12,6 +12,8 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 
+import { homeStatic } from '@/endpoints/seed/home-static'
+
 export async function generateStaticParams() {
   const payload = await getPayloadHMR({ config: configPromise })
   const pages = await payload.find({
@@ -36,6 +38,11 @@ export default async function Page({ params: { slug = 'home' } }) {
   page = await queryPageBySlug({
     slug,
   })
+
+  // Remove this code once your website is seeded
+  if (!page) {
+    page = homeStatic
+  }
 
   if (!page) {
     return <PayloadRedirects url={url} />

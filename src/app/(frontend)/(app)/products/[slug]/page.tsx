@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 
-import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
@@ -8,25 +7,22 @@ import { draftMode, headers } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
 
-import type { Post } from '@/payload-types'
-
-import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import Product from './product'
 
 export async function generateStaticParams() {
   const payload = await getPayloadHMR({ config: configPromise })
-  const posts = await payload.find({
+  const products = await payload.find({
     collection: 'products',
     draft: false,
     limit: 1000,
     overrideAccess: false,
   })
 
-  return posts.docs?.map(({ slug }) => slug)
+  return products.docs?.map(({ slug }) => slug)
 }
 
-export default async function Post({ params: { slug = '' } }) {
+export default async function ProductComponent({ params: { slug = '' } }) {
   const url = '/products/' + slug
   const product = await queryProductBySlug({ slug })
 

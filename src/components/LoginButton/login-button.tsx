@@ -10,7 +10,7 @@ const LoginButton = () => {
   return (
     <>
       {!user ? (
-        <Link href={'/login'} className={cn(buttonVariants({ variant: 'outline' }))}>
+        <Link href={'/sign-in'} className={cn(buttonVariants({ variant: 'outline' }))}>
           Login
         </Link>
       ) : null}

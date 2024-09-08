@@ -31,7 +31,9 @@ import { Header } from './payload/globals/Header/config'
 import { revalidateRedirects } from './hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
-import Products from './collections/Products'
+import Products from './payload/collections/Products'
+import Inventories from './payload/collections/Inventories/config'
+import StockKeepingUnits from './payload/collections/StockKeepingUnits/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -65,7 +67,6 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
-
     user: Users.slug,
     livePreview: {
       breakpoints: [
@@ -90,6 +91,26 @@ export default buildConfig({
       ],
     },
   },
+  localization: {
+    locales: [
+      {
+        label: {
+          en: 'English',
+          mk: 'Англиски',
+        },
+        code: 'en',
+      },
+      {
+        label: {
+          en: 'Macedonian',
+          mk: 'Македониски',
+        },
+        code: 'mk',
+      },
+    ],
+    defaultLocale: 'en',
+    fallback: true,
+  },
   // This config helps us configure global or default features that the other editors can inherit
   editor: lexicalEditor({
     features: () => {
@@ -98,7 +119,7 @@ export default buildConfig({
         BoldFeature(),
         ItalicFeature(),
         LinkFeature({
-          enabledCollections: ['pages', 'posts'],
+          enabledCollections: ['pages', 'posts', 'products'],
           fields: ({ defaultFields }) => {
             const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
               if ('name' in field && field.name === 'url') return false
@@ -129,7 +150,7 @@ export default buildConfig({
     },
   }),
   // database-adapter-config-end
-  collections: [Pages, Posts, Media, Categories, Users, Products],
+  collections: [Pages, Posts, Media, Categories, Users, Products, Inventories],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   endpoints: [
@@ -171,7 +192,7 @@ export default buildConfig({
     //   token: process.env.BLOB_READ_WRITE_TOKEN,
     // }),
     redirectsPlugin({
-      collections: ['pages', 'posts'],
+      collections: ['pages', 'posts', 'products'],
       overrides: {
         // @ts-expect-error
         fields: ({ defaultFields }) => {

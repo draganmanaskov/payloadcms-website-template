@@ -30,7 +30,7 @@ export interface Config {
     header: Header;
     footer: Footer;
   };
-  locale: null;
+  locale: 'en' | 'mk';
   user: User & {
     collection: 'users';
   };
@@ -257,7 +257,7 @@ export interface ArchiveBlock {
     [k: string]: unknown;
   } | null;
   populateBy?: ('collection' | 'selection') | null;
-  relationTo?: 'posts' | null;
+  relationTo?: 'products' | null;
   categories?: (number | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
@@ -575,6 +575,10 @@ export interface Redirect {
       | ({
           relationTo: 'posts';
           value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'products';
+          value: number | Product;
         } | null);
     url?: string | null;
   };

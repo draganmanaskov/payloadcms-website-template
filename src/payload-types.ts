@@ -271,14 +271,20 @@ export interface ArchiveBlock {
     [k: string]: unknown;
   } | null;
   populateBy?: ('collection' | 'selection') | null;
-  relationTo?: 'posts' | null;
+  relationTo?: ('posts' | 'products') | null;
   categories?: (number | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
-    | {
-        relationTo: 'posts';
-        value: number | Post;
-      }[]
+    | (
+        | {
+            relationTo: 'posts';
+            value: number | Post;
+          }
+        | {
+            relationTo: 'products';
+            value: number | Product;
+          }
+      )[]
     | null;
   id?: string | null;
   blockName?: string | null;
@@ -366,6 +372,55 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  publishedOn?: string | null;
+  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock)[];
+  featuredImage?: (number | null) | Media;
+  slider?: CardSlider;
+  inventory?: (number | null) | Inventory;
+  priceJSON?: string | null;
+  enablePaywall?: boolean | null;
+  categories?: (number | Category)[] | null;
+  relatedProducts?: (number | Product)[] | null;
+  skipSync?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "inventories".
+ */
+export interface Inventory {
+  id: number;
+  title: string;
+  baseSku: string;
+  options: ('color' | 'size' | 'capacity')[];
+  color?: ('white' | 'black' | 'red')[] | null;
+  size?: ('small' | 'medium' | 'large')[] | null;
+  capacity?: ('one-litre' | 'two-litre' | 'three-litre')[] | null;
+  skus?:
+    | {
+        sku: string;
+        quantity?: number | null;
+        color?: string | null;
+        size?: string | null;
+        capacity?: string | null;
+        price?: number | null;
+        unitsSold?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -551,55 +606,6 @@ export interface Form {
           };
           [k: string]: unknown;
         } | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products".
- */
-export interface Product {
-  id: number;
-  title: string;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  publishedOn?: string | null;
-  layout: (CallToActionBlock | ContentBlock | MediaBlock)[];
-  featuredImage?: (number | null) | Media;
-  slider?: CardSlider;
-  inventory?: (number | null) | Inventory;
-  priceJSON?: string | null;
-  enablePaywall?: boolean | null;
-  categories?: (number | Category)[] | null;
-  relatedProducts?: (number | Product)[] | null;
-  skipSync?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "inventories".
- */
-export interface Inventory {
-  id: number;
-  title: string;
-  baseSku: string;
-  options: ('color' | 'size' | 'capacity')[];
-  color?: ('white' | 'black' | 'red')[] | null;
-  size?: ('small' | 'medium' | 'large')[] | null;
-  capacity?: ('one-litre' | 'two-litre' | 'three-litre')[] | null;
-  skus?:
-    | {
-        sku: string;
-        quantity?: number | null;
-        color?: string | null;
-        size?: string | null;
-        capacity?: string | null;
-        price?: number | null;
-        unitsSold?: number | null;
         id?: string | null;
       }[]
     | null;

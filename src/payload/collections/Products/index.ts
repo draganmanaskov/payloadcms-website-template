@@ -64,7 +64,7 @@ const Products: CollectionConfig = {
               name: 'layout',
               type: 'blocks',
               required: true,
-              blocks: [CallToAction, Content, MediaBlock], //CallToAction, Content, MediaBlock, Archive
+              blocks: [CallToAction, Content, MediaBlock, Archive], //CallToAction, Content, MediaBlock, Archive
             },
           ],
         },

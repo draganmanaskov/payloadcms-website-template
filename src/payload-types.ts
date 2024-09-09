@@ -8,6 +8,18 @@
 
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CartItems".
+ */
+export type CartItems =
+  | {
+      product?: (number | null) | Product;
+      sku?: string | null;
+      quantity?: number | null;
+      id?: string | null;
+    }[]
+  | null;
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CardSlider".
  */
 export type CardSlider =
@@ -362,6 +374,9 @@ export interface User {
   id: number;
   name?: string | null;
   roles?: ('admin' | 'customer')[] | null;
+  cart?: {
+    items?: CartItems;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -390,6 +405,8 @@ export interface Product {
   priceJSON?: string | null;
   enablePaywall?: boolean | null;
   categories?: (number | Category)[] | null;
+  price?: number | null;
+  currencyCode?: 'MKD' | null;
   relatedProducts?: (number | Product)[] | null;
   skipSync?: boolean | null;
   updatedAt: string;

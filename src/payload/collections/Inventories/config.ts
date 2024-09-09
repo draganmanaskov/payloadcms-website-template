@@ -108,16 +108,6 @@ const Inventories: CollectionConfig = {
         condition: (data, siblingData) => siblingData?.options?.includes('capacity'),
       },
     },
-    // {
-    //   name: 'stockKeepingUnits',
-    //   type: 'relationship',
-    //   relationTo: 'stockKeepingUnits',
-    //   hasMany: true,
-    //   access: {
-    //     create: () => false,
-    //     update: () => false,
-    //   },
-    // },
     {
       name: 'skus',
       type: 'array',
@@ -207,7 +197,6 @@ const Inventories: CollectionConfig = {
         },
       ],
     },
-    // generateSKUsField,
   ],
 }
 

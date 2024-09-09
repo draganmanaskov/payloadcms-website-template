@@ -40,6 +40,63 @@ const Users: CollectionConfig = {
       hooks: {
         beforeChange: [ensureFirstUserIsAdmin],
       },
+      access: {
+        read: admins,
+        create: admins,
+        update: admins,
+      },
+    },
+    {
+      label: 'Cart',
+      name: 'cart',
+      type: 'group',
+      fields: [
+        {
+          name: 'items',
+          label: 'Items',
+          type: 'array',
+          interfaceName: 'CartItems',
+          fields: [
+            {
+              name: 'product',
+              type: 'relationship',
+              relationTo: 'products',
+            },
+            {
+              name: 'sku',
+              type: 'text',
+              label: 'SKU',
+            },
+            {
+              name: 'quantity',
+              type: 'number',
+              min: 0,
+              admin: {
+                step: 1,
+              },
+            },
+          ],
+        },
+        // If you wanted to maintain a 'created on'
+        // or 'last modified' date for the cart
+        // you could do so here:
+        // {
+        //   name: 'createdOn',
+        //   label: 'Created On',
+        //   type: 'date',
+        //   admin: {
+        //     readOnly: true
+        //   }
+        // },
+        // {
+        //   name: 'lastModified',
+        //   label: 'Last Modified',
+        //   type: 'date',
+        //   admin: {
+        //     readOnly: true
+        //   }
+        // },
+      ],
     },
   ],
   timestamps: true,

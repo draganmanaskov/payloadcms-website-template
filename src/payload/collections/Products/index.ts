@@ -152,6 +152,32 @@ const Products: CollectionConfig = {
       },
     },
     {
+      type: 'row',
+      fields: [
+        {
+          name: 'price',
+          type: 'number',
+          label: 'Price',
+          min: 0,
+          admin: {
+            width: '60%',
+          },
+        },
+        {
+          name: 'currencyCode',
+          type: 'select',
+          defaultValue: 'MKD',
+          options: [{ label: 'MKD', value: 'MKD' }],
+          admin: {
+            width: '35%',
+          },
+        },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'relatedProducts',
       type: 'relationship',
       relationTo: 'products',

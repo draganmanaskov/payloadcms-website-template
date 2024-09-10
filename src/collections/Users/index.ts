@@ -40,11 +40,11 @@ const Users: CollectionConfig = {
       hooks: {
         beforeChange: [ensureFirstUserIsAdmin],
       },
-      access: {
-        read: admins,
-        create: admins,
-        update: admins,
-      },
+      // access: {
+      //   read: admins,
+      //   create: admins,
+      //   update: admins,
+      // },
     },
     {
       label: 'Cart',

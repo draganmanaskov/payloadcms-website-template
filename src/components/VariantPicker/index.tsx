@@ -18,7 +18,7 @@ const VarianPicker = ({ inventory, type, urlParams, handleClick }: VariantPicker
     <div>
       {inventory.options.map((option, index) => {
         return (
-          <div className="grid gap-2">
+          <div key={`${option}-${index + 1}`} className="grid gap-2">
             <p className="text-base">{capitalizeFirstLetter(option)}</p>
             <div className="flex flex-wrap gap-4">
               {inventory[option]?.map((optionValue, index) => {
@@ -59,9 +59,8 @@ const VarianPicker = ({ inventory, type, urlParams, handleClick }: VariantPicker
 
 export default VarianPicker
 
-
 export const VariantSelectorSkeleton = () => {
-  const skeletonItems = Array(4).fill(null); // Adjust the number as needed
+  const skeletonItems = Array(4).fill(null) // Adjust the number as needed
 
   return (
     <div className="mb-8 space-y-6">
@@ -82,8 +81,8 @@ export const VariantSelectorSkeleton = () => {
                 ))}
               </div>
             </div>
-          );
+          )
         })}
     </div>
-  );
-};
+  )
+}

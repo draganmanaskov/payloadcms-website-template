@@ -42,7 +42,7 @@ const useFilterHook = (type: 'desktop' | 'mobile', latency: number = 1000) => {
   useEffect(() => {
     if (type === 'mobile') return
     applyUrlChange()
-  }, [query, router])
+  }, [query, router, applyUrlChange, type])
 
   const setUrlParamsHandler = (key: string, updateOption: string) => {
     setUrlParams((prev) => {

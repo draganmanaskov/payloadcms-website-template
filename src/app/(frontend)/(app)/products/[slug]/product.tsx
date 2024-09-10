@@ -2,6 +2,7 @@
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 // import AddToCart from "@/components/cart/add-to-cart";
 import { Icons } from '@/components/icons'
+import Price from '@/components/Price'
 // import Price from "@/components/price";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from '@/components/ui/button'
@@ -14,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import VarianPicker from '@/components/VariantPicker'
+import useFilterHook from '@/hooks/useFilterHook'
 import { CardSlider, Product } from '@/payload-types'
 import { cn } from '@/utilities'
 import { StaticImageData } from 'next/image'
@@ -29,22 +32,9 @@ type ProductProps = {
 }
 
 export default function ProductComponent({ product }: ProductProps) {
-  //   const { urlParams, handleClickSingle } = useFilterHook('desktop', 0)
-
-  //   let images = product.images
-  //     ? product.images.map((image) => {
-  //         return {
-  //           ...image?.directus_files_id,
-  //         };
-  //       })
-  //     : [];
+  const { urlParams, handleClickSingle } = useFilterHook('desktop', 0)
 
   let images = product.slider || []
-  // let images = [
-  //   {
-  //     tags: 'dasd',
-  //   },
-  // ]
 
   const [imageIndex, setImageIndex] = useState(0)
 
@@ -80,7 +70,7 @@ export default function ProductComponent({ product }: ProductProps) {
   }
 
   return (
-    <div className="mx-auto grid max-w-6xl items-start gap-6 px-4 py-6 md:grid-cols-2 lg:gap-12">
+    <div className=" grid items-start gap-6 px-4 py-6 md:grid-cols-2 lg:gap-12">
       <div className="grid gap-3 md:grid-cols-5 md:gap-3">
         <div className="hidden  gap-3 overflow-auto md:order-first  md:flex max-h-[450px] md:flex-col lg:max-h-[640px] ">
           {images.map((slide, index) => {
@@ -150,89 +140,27 @@ export default function ProductComponent({ product }: ProductProps) {
         </div>
       </div>
 
-      <div className="grid items-start gap-4 md:gap-10">
+      <div className="grid items-start gap-4 md:gap-10 px-4 md:px-0">
         <div className="grid gap-4">
           <h1 className="text-3xl font-bold lg:text-4xl">{product.title}</h1>
           <div className="flex items-center gap-4">
-            {/* <Price
-              className="text-4xl font-bold"
-              currencyCode={product.currency_code}
+            <Price
+              className="text-3xl font-bold"
+              currencyCode={product.currencyCode}
               amount={product.price}
-            /> */}
+            />
           </div>
           <div>
             <p>60% combed ringspun cotton/40% polyester jersey tee.</p>
           </div>
         </div>
         <div className="grid gap-4 md:gap-10">
-          <div className="grid gap-2">
-            <p className="text-base">Color</p>
-            {/* <div className="flex flex-wrap gap-4">
-              {product.colors.map((color, index) => {
-                const optionNameLowerCase = "color";
-                // Base option params on current params so we can preserve any other param state in the url.
-                const isActive =
-                  urlParams[optionNameLowerCase] === color.colors_id.name
-                    ? true
-                    : false;
-
-                const isAvailableForSale = product.skus.find(
-                  (sku) =>
-                    sku.color === color.colors_id.name &&
-                    (urlParams.size ? sku.size === urlParams.size : true) &&
-                    // sku.stock > 0,
-                    sku.status === "active",
-                )
-                  ? true
-                  : false;
-
-                return (
-                  <VariantButton
-                    optionName={optionNameLowerCase}
-                    name={color.colors_id.name}
-                    value={color.colors_id.value}
-                    isActive={isActive}
-                    handleEventClick={handleClickSingle}
-                    isAvailableForSale={isAvailableForSale}
-                    key={color.colors_id.name}
-                  />
-                );
-              })}
-            </div> */}
-          </div>
-          <div className="grid gap-2">
-            <Label className="text-base">Size</Label>
-            {/* <div className="flex flex-wrap gap-3  ">
-              {product.sizes.map((size, index) => {
-                const optionNameLowerCase = "size";
-                // Base option params on current params so we can preserve any other param state in the url.
-                const isActive =
-                  urlParams[optionNameLowerCase] === size.sizes_id.name
-                    ? true
-                    : false;
-                const isAvailableForSale = product.skus.find(
-                  (sku) =>
-                    (urlParams.color ? sku.color === urlParams.color : true) &&
-                    sku.size === size.sizes_id.name &&
-                    sku.status === "active",
-                )
-                  ? true
-                  : false;
-
-                return (
-                  <VariantButton
-                    optionName={optionNameLowerCase}
-                    name={size.sizes_id.name}
-                    value={size.sizes_id.value}
-                    isActive={isActive}
-                    handleEventClick={handleClickSingle}
-                    isAvailableForSale={isAvailableForSale}
-                    key={size.sizes_id.name}
-                  />
-                );
-              })}
-            </div> */}
-          </div>
+          <VarianPicker
+            inventory={product.inventory}
+            type={'color'}
+            urlParams={urlParams}
+            handleClick={handleClickSingle}
+          />
 
           {/* <AddToCart
             skus={product.skus}
@@ -242,58 +170,14 @@ export default function ProductComponent({ product }: ProductProps) {
         </div>
         {/* <Separator /> */}
 
-        <div className="grid gap-4 text-sm leading-loose">
+        {/* <div className="grid gap-4 text-sm leading-loose">
           <h2 className="text-lg font-bold">Product Details</h2>
-          {/* <div
+          <div
             className="prose dark:prose-invert lg:prose-lg"
             dangerouslySetInnerHTML={{ __html: product.description }}
-          ></div> */}
-        </div>
+          ></div>
+        </div> */}
       </div>
     </div>
-  )
-}
-
-type VariantButtonProps = {
-  optionName: 'color' | 'size'
-  name: string
-  value: string
-  isActive: boolean
-  handleEventClick: (key: string, name: string, isActive: boolean) => void
-  isAvailableForSale: boolean
-}
-
-const VariantButton = ({
-  optionName,
-  name,
-  value,
-  isActive,
-  handleEventClick,
-  isAvailableForSale,
-}: VariantButtonProps) => {
-  const colorsClass = 'h-12 w-12 rounded-full transition-colors shadow-lg ring-offset-2'
-  const otherClass =
-    'rounded-md px-4 py-2 text-sm font-medium transition-colors dark:text-neutral-200 border-2 '
-
-  return (
-    <button
-      aria-disabled={!isAvailableForSale}
-      disabled={!isAvailableForSale}
-      onClick={() => handleEventClick(optionName.toLowerCase(), name, isActive)}
-      title={`${optionName} ${name}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
-      className={cn('', optionName === 'color' ? colorsClass : otherClass, {
-        'ring-2 ring-primary': isActive,
-        ' text-gray-700 transition duration-300 ease-in-out hover:ring-2 hover:ring-primary':
-          !isActive && isAvailableForSale,
-        'relative z-10 cursor-not-allowed overflow-hidden bg-neutral-100 text-neutral-500 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300 before:transition-transform dark:bg-neutral-900 dark:text-neutral-400  before:dark:bg-neutral-700':
-          !isAvailableForSale,
-      })}
-      style={{
-        backgroundColor: optionName == 'color' ? value : '',
-        filter: !isAvailableForSale && optionName === 'color' ? 'grayscale(70%)' : 'none',
-      }}
-    >
-      {optionName !== 'color' ? name.toUpperCase() : null}
-    </button>
   )
 }

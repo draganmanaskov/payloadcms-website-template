@@ -401,16 +401,17 @@ export interface Product {
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock)[];
   featuredImage?: (number | null) | Media;
   slider?: CardSlider;
-  inventory?: (number | null) | Inventory;
+  inventory: number | Inventory;
   priceJSON?: string | null;
   enablePaywall?: boolean | null;
   categories?: (number | Category)[] | null;
-  price?: number | null;
-  currencyCode?: 'MKD' | null;
+  price: number;
+  currencyCode: 'MKD';
   relatedProducts?: (number | Product)[] | null;
   skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

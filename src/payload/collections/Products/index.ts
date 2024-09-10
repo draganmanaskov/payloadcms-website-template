@@ -10,6 +10,7 @@ import { Content } from '@/blocks/Content/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
 import { Archive } from '@/blocks/ArchiveBlock/config'
 import { slugField } from '@/fields/slug'
+import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 
 const Products: CollectionConfig = {
   slug: 'products',
@@ -21,11 +22,24 @@ const Products: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    preview: (doc) => {
-      return `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/next/preview?url=${encodeURIComponent(
-        `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/products/${doc.slug}`,
-      )}&secret=${process.env.PAYLOAD_PUBLIC_DRAFT_SECRET}`
+    livePreview: {
+      url: ({ data }) => {
+        const path = generatePreviewPath({
+          path: `/products/${typeof data?.slug === 'string' ? data.slug : ''}`,
+        })
+        return `${process.env.NEXT_PUBLIC_SERVER_URL}${path}`
+      },
     },
+    preview: (doc) =>
+      generatePreviewPath({ path: `/products/${typeof doc?.slug === 'string' ? doc.slug : ''}` }),
+  },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100, // We set this interval for optimal live preview
+      },
+    },
+    maxPerDoc: 50,
   },
   fields: [
     {
@@ -112,6 +126,7 @@ const Products: CollectionConfig = {
               label: 'Inventory',
               hasMany: false,
               relationTo: 'inventories',
+              required: true,
             },
 
             {
@@ -159,6 +174,7 @@ const Products: CollectionConfig = {
           type: 'number',
           label: 'Price',
           min: 0,
+          required: true,
           admin: {
             width: '60%',
           },
@@ -167,6 +183,7 @@ const Products: CollectionConfig = {
           name: 'currencyCode',
           type: 'select',
           defaultValue: 'MKD',
+          required: true,
           options: [{ label: 'MKD', value: 'MKD' }],
           admin: {
             width: '35%',

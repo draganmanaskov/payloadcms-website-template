@@ -9,6 +9,7 @@ import RichText from '@/components/RichText'
 
 import { generateMeta } from '@/utilities/generateMeta'
 import Product from './product'
+import { RenderBlocks } from '@/blocks/RenderBlocks'
 
 export async function generateStaticParams() {
   const payload = await getPayloadHMR({ config: configPromise })
@@ -27,13 +28,13 @@ export default async function ProductComponent({ params: { slug = '' } }) {
   const product = await queryProductBySlug({ slug })
 
   if (!product) return <PayloadRedirects url={url} />
-  console.log(product.slider)
 
   return (
-    <article className="pt-16 pb-16">
+    <article className="pt-16 pb-16 mx-auto max-w-6xl ">
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
       <Product product={product} />
+      <RenderBlocks blocks={product.layout} />
       {/* <PostHero post={post} />
 
       <div className="flex flex-col items-center gap-4 pt-8">

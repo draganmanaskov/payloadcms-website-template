@@ -37,7 +37,7 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
   const { value: checkboxValue, setValue: setCheckboxValue } = useField<boolean>({
     path: checkboxFieldPath,
   })
-  console.log(fieldToUse)
+
   const fieldToUseValue = useFormFields(([fields, dispatch]) => {
     if (!fields[fieldToUse]) return ''
     return fields[fieldToUse].value as string

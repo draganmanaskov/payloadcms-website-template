@@ -6,12 +6,12 @@ import { admins } from '@/access/admins'
 
 const Users: CollectionConfig = {
   slug: 'users',
-  // access: {
-  //   read: () => true,
-  //   create: admins,
-  //   update: admins,
-  //   delete: admins,
-  // },
+  access: {
+    // read: () => true,
+    // create: admins,
+    // update: admins,
+    delete: admins,
+  },
   admin: {
     defaultColumns: ['name', 'email'],
     useAsTitle: 'name',
@@ -40,11 +40,11 @@ const Users: CollectionConfig = {
       hooks: {
         beforeChange: [ensureFirstUserIsAdmin],
       },
-      // access: {
-      //   read: admins,
-      //   create: admins,
-      //   update: admins,
-      // },
+      access: {
+        read: admins,
+        create: admins,
+        update: admins,
+      },
     },
     {
       label: 'Cart',

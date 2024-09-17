@@ -1,5 +1,6 @@
 'use client'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { AddToCartButton } from '@/components/Cart/AddToCartButton'
 // import AddToCart from "@/components/cart/add-to-cart";
 import { Icons } from '@/components/icons'
 import Price from '@/components/Price'
@@ -8,21 +9,15 @@ import Price from '@/components/Price'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 // import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+
 import VarianPicker from '@/components/VariantPicker'
 import useFilterHook from '@/hooks/useFilterHook'
 import { CardSlider, Product } from '@/payload-types'
 import { cn } from '@/utilities'
+import { Separator } from '@radix-ui/react-dropdown-menu'
 import { StaticImageData } from 'next/image'
 // import { Separator } from "@/components/ui/separator";
 // import useFilterHook from "@/hooks/useFilterHook";
-// import { cn, getDirectusImageUrl } from "@/lib/utils";
 
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -31,7 +26,7 @@ type ProductProps = {
   product: Product
 }
 
-export default function ProductComponent({ product }: ProductProps) {
+const ProductComponent = ({ product }: ProductProps) => {
   const { urlParams, handleClickSingle } = useFilterHook('desktop', 0)
 
   let images = product.slider || []
@@ -161,14 +156,14 @@ export default function ProductComponent({ product }: ProductProps) {
             urlParams={urlParams}
             handleClick={handleClickSingle}
           />
-
+          <AddToCartButton product={product} quantity={1} urlParams={urlParams} />
           {/* <AddToCart
             skus={product.skus}
             design={product.designs_id}
             productDesignId={product.product_design}
           /> */}
         </div>
-        {/* <Separator /> */}
+        <Separator />
 
         {/* <div className="grid gap-4 text-sm leading-loose">
           <h2 className="text-lg font-bold">Product Details</h2>
@@ -181,3 +176,5 @@ export default function ProductComponent({ product }: ProductProps) {
     </div>
   )
 }
+
+export default ProductComponent

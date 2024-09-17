@@ -17,6 +17,7 @@ import MobileNav from './Nav/mobile-nav'
 import ModeToggle from '@/components/mode-toggle'
 
 import LoginButton from '@/components/LoginButton/login-button'
+import Cart from '@/components/Cart'
 
 type SiteHeadertProps = {
   header: Header
@@ -93,7 +94,7 @@ const SiteHeader = ({ header }: SiteHeadertProps) => {
         <nav className="flex items-center gap-2">
           <ModeToggle />
           <LoginButton />
-          {/* <Cart />  */}
+          <Cart />
           {/* <ProfileHeader /> */}
         </nav>
       </div>

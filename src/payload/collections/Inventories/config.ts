@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { admins } from '@/access/admins'
 
 import { beforeChangeCreateSKUs } from './hooks/beforeChangeCreateSKUs'
+import { payloadColors, payloadSizes } from './options'
 
 const Inventories: CollectionConfig = {
   slug: 'inventories',
@@ -80,11 +81,7 @@ const Inventories: CollectionConfig = {
       type: 'select',
       label: 'Size',
       hasMany: true,
-      options: [
-        { label: 'Small', value: 'small' },
-        { label: 'Medium', value: 'medium' },
-        { label: 'Large', value: 'large' },
-      ],
+      options: payloadSizes,
       admin: {
         position: 'sidebar',
         condition: (data, siblingData) => siblingData?.options?.includes('size'),

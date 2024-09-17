@@ -12,9 +12,9 @@
  */
 export type CartItems =
   | {
-      product?: (number | null) | Product;
-      sku?: string | null;
-      quantity?: number | null;
+      product: number | Product;
+      sku: string;
+      quantity: number;
       id?: string | null;
     }[]
   | null;

@@ -61,16 +61,20 @@ const Users: CollectionConfig = {
               name: 'product',
               type: 'relationship',
               relationTo: 'products',
+              hasMany: false,
+              required: true,
             },
             {
               name: 'sku',
               type: 'text',
               label: 'SKU',
+              required: true,
             },
             {
               name: 'quantity',
               type: 'number',
               min: 0,
+              required: true,
               admin: {
                 step: 1,
               },

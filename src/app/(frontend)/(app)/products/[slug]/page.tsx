@@ -25,6 +25,7 @@ export async function generateStaticParams() {
 
 export default async function ProductComponent({ params: { slug = '' } }) {
   const url = '/products/' + slug
+
   const product = await queryProductBySlug({ slug })
 
   if (!product) return <PayloadRedirects url={url} />

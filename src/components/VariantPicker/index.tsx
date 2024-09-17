@@ -1,7 +1,7 @@
 import { Inventory } from '@/payload-types'
 import React from 'react'
 import VariantButton from './VariantButton'
-import { capitalizeFirstLetter } from '@/utilities'
+import { capitalizeFirstLetter, isInventoryVariantValid } from '@/utilities'
 import { Skeleton } from '../ui/skeleton'
 
 type VariantPickerProps = {
@@ -26,14 +26,7 @@ const VarianPicker = ({ inventory, type, urlParams, handleClick }: VariantPicker
                 // Base option params on current params so we can preserve any other param state in the url.
                 const isActive = urlParams[optionNameLowerCase] === optionValue ? true : false
 
-                const isAvailableForSale = inventory.skus?.find((sku) => {
-                  let found = true
-                  inventory.options.forEach((option) => {
-                    console.log(urlParams[option], sku[option])
-                    if (urlParams[option] ? urlParams[option] !== sku[option] : false) found = false
-                  })
-                  return found
-                })
+                const isAvailableForSale = isInventoryVariantValid(inventory, urlParams)
                   ? true
                   : false
 

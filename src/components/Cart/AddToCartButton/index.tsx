@@ -3,10 +3,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-// import { Product } from '../../../payload/payload-types'
-// import { useCart } from '../../_providers/Cart'
-
-import classes from './index.module.scss'
 import { Button, ButtonProps, buttonVariants } from '../../ui/button'
 import { VariantProps } from 'class-variance-authority'
 import { cn, isVariantReadyForSale } from '@/utilities'
@@ -34,11 +30,8 @@ export const AddToCartButton: React.FC<{
   const { cart, addItemToCart, isProductInCart, hasInitializedCart } = useCart()
 
   const [isInCart, setIsInCart] = useState<boolean>()
-  const router = useRouter()
 
   let inventory = product.inventory
-
-  if (typeof inventory === 'number') return
 
   const inventoryVariant = isVariantReadyForSale(inventory, urlParams)
 
@@ -70,8 +63,6 @@ export const AddToCartButton: React.FC<{
                 quantity,
                 sku: inventoryVariant.sku,
               })
-
-              //   router.push('/cart')
             }
           : undefined
       }

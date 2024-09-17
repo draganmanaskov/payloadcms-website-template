@@ -104,7 +104,9 @@ const CartModalDrawer = ({
                         </div>
                         <div className="grid flex-1 gap-1">
                           <h3 className="font-semibold">
-                            <Link href={`/product/${item.product.slug}`}>{item.product.title}</Link>
+                            <Link href={`/products/${item.product.slug}`}>
+                              {item.product.title}
+                            </Link>
                           </h3>
                           <p className="text-sm text-muted-foreground">
                             {typeof item.product.inventory !== 'number' &&

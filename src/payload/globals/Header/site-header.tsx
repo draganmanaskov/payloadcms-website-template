@@ -94,7 +94,7 @@ const SiteHeader = ({ header }: SiteHeadertProps) => {
         <nav className="flex items-center gap-2">
           <ModeToggle />
           <LoginButton />
-          <Cart />
+          <Cart type="header" />
           {/* <ProfileHeader /> */}
         </nav>
       </div>

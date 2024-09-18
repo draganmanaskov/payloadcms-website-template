@@ -13,21 +13,31 @@ import {
 import { createUrl } from '@/utilities'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 type PaginationComponentProps = {
-  count: number
+  totalDocs: number
   page: number
   limit: number
+  totalPages: number
+  hasPrevPage: boolean
+  hasNextPage: boolean
 }
 
 const BUTTON_ARRAY_MAX = 10
 
-const PaginationComponent = ({ count, page, limit }: PaginationComponentProps) => {
+const PaginationComponent = ({
+  totalDocs,
+  page,
+  limit,
+  totalPages,
+  hasPrevPage,
+  hasNextPage,
+}: PaginationComponentProps) => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
   const optionSearchParams = new URLSearchParams(searchParams.toString())
 
-  const totalPages = Math.ceil(count / limit)
+  // const totalPages = Math.ceil(count / limit)
 
   const pages = generatePagination(page, totalPages)
 
@@ -52,7 +62,7 @@ const PaginationComponent = ({ count, page, limit }: PaginationComponentProps) =
         </PaginationItem>
         <PaginationItem>
           <Button
-            disabled={page <= 1}
+            disabled={!hasPrevPage}
             variant={'ghost'}
             onClick={() => router.replace(generateURL(page - 1))}
           >
@@ -79,7 +89,7 @@ const PaginationComponent = ({ count, page, limit }: PaginationComponentProps) =
         </PaginationItem> */}
         <PaginationItem>
           <Button
-            disabled={page >= totalPages}
+            disabled={!hasNextPage}
             variant={'ghost'}
             onClick={() => router.replace(generateURL(page + 1))}
           >

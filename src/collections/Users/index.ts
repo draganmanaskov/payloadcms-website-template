@@ -7,9 +7,9 @@ import { admins } from '@/access/admins'
 const Users: CollectionConfig = {
   slug: 'users',
   access: {
-    // read: () => true,
-    // create: admins,
-    // update: admins,
+    read: () => true,
+    create: admins,
+    update: admins,
     delete: admins,
   },
   admin: {

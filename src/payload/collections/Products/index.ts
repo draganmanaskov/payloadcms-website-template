@@ -1,8 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import { anyone } from '@/access/anyone'
-import { authenticated } from '@/access/authenticated'
-import TestComponent from '@/components/custom-admin/test-component'
 import { admins } from '@/access/admins'
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { Content } from '@/blocks/Content/config'

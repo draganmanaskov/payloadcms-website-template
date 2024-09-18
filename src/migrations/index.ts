@@ -7,6 +7,7 @@ import * as migration_20240909_100701_archiveProducts from './20240909_100701_ar
 import * as migration_20240909_182820_productsUpdate from './20240909_182820_productsUpdate';
 import * as migration_20240910_152202_product_details from './20240910_152202_product_details';
 import * as migration_20240917_085630_changes from './20240917_085630_changes';
+import * as migration_20240918_162203_addDesigns from './20240918_162203_addDesigns';
 
 export const migrations = [
   {
@@ -52,6 +53,11 @@ export const migrations = [
   {
     up: migration_20240917_085630_changes.up,
     down: migration_20240917_085630_changes.down,
-    name: '20240917_085630_changes'
+    name: '20240917_085630_changes',
+  },
+  {
+    up: migration_20240918_162203_addDesigns.up,
+    down: migration_20240918_162203_addDesigns.down,
+    name: '20240918_162203_addDesigns'
   },
 ];

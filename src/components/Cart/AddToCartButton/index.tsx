@@ -8,6 +8,7 @@ import { VariantProps } from 'class-variance-authority'
 import { cn, isVariantReadyForSale } from '@/utilities'
 import { Product } from '@/payload-types'
 import { useCart } from '@/providers/Cart'
+import Cart from '..'
 
 export const AddToCartButton: React.FC<{
   product: Product
@@ -40,34 +41,40 @@ export const AddToCartButton: React.FC<{
   }, [isProductInCart, product, cart, inventoryVariant])
 
   return (
-    <Button
-      variant={'default'}
-      disabled={inventoryVariant ? false : true}
-      //   label={isInCart ? `✓ View in cart` : `Add to cart`}
-      //   el={isInCart ? 'link' : undefined}
-      //   appearance={appearance}
-      //   className={[
-      //     className,
-      //     classes.addToCartButton,
-      //     appearance === 'default' && isInCart && classes.green,
-      //     !hasInitializedCart && classes.hidden,
-      //   ]
-      //     .filter(Boolean)
-      //     .join(' ')}
-      className={cn('mt-4 w-full', !variant && 'cursor-not-allowed opacity-60 hover:opacity-60')}
-      onClick={
-        !isInCart && typeof inventory !== 'number' && inventoryVariant
-          ? () => {
-              addItemToCart({
-                product,
-                quantity,
-                sku: inventoryVariant.sku,
-              })
-            }
-          : undefined
-      }
-    >
-      {isInCart ? `✓ View in cart` : `Add to cart`}
-    </Button>
+    <>
+      {isInCart ? (
+        <Cart type="product" />
+      ) : (
+        <Button
+          variant={'default'}
+          disabled={inventoryVariant ? false : true}
+          //   label={isInCart ? `✓ View in cart` : `Add to cart`}
+          //   el={isInCart ? 'link' : undefined}
+          //   appearance={appearance}
+          //   className={[
+          //     className,
+          //     classes.addToCartButton,
+          //     appearance === 'default' && isInCart && classes.green,
+          //     !hasInitializedCart && classes.hidden,
+          //   ]
+          //     .filter(Boolean)
+          //     .join(' ')}
+          className={cn('w-full', !variant && 'cursor-not-allowed opacity-60 hover:opacity-60')}
+          onClick={
+            !isInCart && typeof inventory !== 'number' && inventoryVariant
+              ? () => {
+                  addItemToCart({
+                    product,
+                    quantity,
+                    sku: inventoryVariant.sku,
+                  })
+                }
+              : undefined
+          }
+        >
+          {isInCart ? `✓ View in cart` : `Add to cart`}
+        </Button>
+      )}
+    </>
   )
 }

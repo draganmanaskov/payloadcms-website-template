@@ -36,6 +36,7 @@ type CartDrawerProps = {
   deleteItemFromCart: (item: CartItem) => void
   addItemToCart: (item: CartItem) => void
   updateItemQuantity: (item: CartItem) => void
+  type: 'header' | 'product'
 }
 
 const CartModalDrawer = ({
@@ -44,6 +45,7 @@ const CartModalDrawer = ({
   deleteItemFromCart,
   addItemToCart,
   updateItemQuantity,
+  type = 'header',
 }: CartDrawerProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -67,13 +69,19 @@ const CartModalDrawer = ({
   return (
     <Drawer direction={drawerDirection} open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="relative">
-          <ShoppingCartIcon className=" h-4 w-4" />
+        <Button variant={type === 'header' ? 'outline' : 'default'} className="relative">
+          {type === 'header' ? (
+            <>
+              <ShoppingCartIcon className=" h-4 w-4" />
 
-          {itemCount > 0 && (
-            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-              {itemCount}
-            </span>
+              {itemCount > 0 && (
+                <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                  {itemCount}
+                </span>
+              )}
+            </>
+          ) : (
+            `✓ View in cart`
           )}
         </Button>
       </DrawerTrigger>

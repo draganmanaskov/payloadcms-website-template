@@ -13,6 +13,7 @@ import ProductCard from '@/components/product/product-cart'
 import { Product } from '@/payload-types'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import configPromise from '@payload-config'
+import qs from 'qs'
 
 export const dynamic = 'force-dynamic'
 
@@ -56,21 +57,38 @@ export default async function SearchPage({
   const products = await payload.find({
     collection: 'products',
     depth: 1,
-    limit: 12,
+    limit: 1,
+    page: pageNumber,
+    sort: sortKey,
+    where: {
+      and: [
+        {
+          price: {
+            greater_than_equal: fromPrice || 0,
+          },
+        },
+        {
+          price: {
+            less_than_equal: toPrice || 1000000,
+          },
+        },
+      ],
+    },
   })
-  let count = 1
+
+  const { docs, totalDocs, totalPages, hasPrevPage, hasNextPage, pagingCounter, limit } = products
 
   const resultsText = products.docs.length > 1 ? 'results' : 'result'
 
-  const fromItem = LIMIT * (pageNumber - 1) + 1
-  const toItem = LIMIT * (pageNumber - 1) + products.docs.length
+  const fromItem = pagingCounter
+  const toItem = pagingCounter + limit - 1
 
   return (
     <>
       <p className="mb-4">
-        {count == 0
+        {totalDocs == 0
           ? 'There are no products that match '
-          : `Showing ${fromItem}-${toItem} of ${count} ${resultsText} `}
+          : `Showing ${fromItem}-${toItem} of ${totalDocs} ${resultsText} `}
         {searchValue ? (
           <>
             {' for '}
@@ -83,9 +101,9 @@ export default async function SearchPage({
         <SortBy />
       </div>
       <div className="min-h-[300px]">
-        {products.docs.length > 0 ? (
+        {docs.length > 0 ? (
           <ul className="grid  grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            {products.docs.map((product) => {
+            {docs.map((product) => {
               return (
                 <li key={product.slug}>
                   <ProductCard product={product} color={color} type="smart" />
@@ -95,7 +113,16 @@ export default async function SearchPage({
           </ul>
         ) : null}
       </div>
-      {count && <PaginationComponent count={count} page={pageNumber} limit={LIMIT} />}
+      {totalDocs && (
+        <PaginationComponent
+          totalDocs={totalDocs}
+          page={pageNumber}
+          limit={LIMIT}
+          totalPages={totalPages}
+          hasPrevPage={hasPrevPage}
+          hasNextPage={hasNextPage}
+        />
+      )}
     </>
   )
 }

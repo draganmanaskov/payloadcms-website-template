@@ -4,7 +4,11 @@ import { Icons } from '../icons'
 import { useCart } from '@/providers/Cart'
 import CartModalDrawer from './cart-modal-drawer'
 
-const Cart = () => {
+type CartProps = {
+  type: 'header' | 'product'
+}
+
+const Cart = ({ type = 'header' }: CartProps) => {
   const { cart, deleteItemFromCart, addItemToCart, updateItemQuantity } = useCart()
 
   return (
@@ -15,6 +19,7 @@ const Cart = () => {
           deleteItemFromCart={deleteItemFromCart}
           addItemToCart={addItemToCart}
           updateItemQuantity={updateItemQuantity}
+          type={type}
         />
       ) : (
         <Icons.ShoppingCart className="h-[1.2rem] w-[1.2rem] text-gray-500" />

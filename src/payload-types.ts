@@ -43,6 +43,7 @@ export interface Config {
     users: User;
     products: Product;
     inventories: Inventory;
+    designs: Design;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -627,6 +628,18 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "designs".
+ */
+export interface Design {
+  id: number;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }

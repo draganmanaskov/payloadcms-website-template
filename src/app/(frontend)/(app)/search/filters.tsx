@@ -53,7 +53,7 @@ const Filters = ({ filter, type }: FiltersProps) => {
         handleClick={handleClickMulti}
         type={type}
       />
-      <FilterOptionSingle
+      {/* <FilterOptionSingle
         data={filterColors}
         title={'Colors'}
         filterKey={'color'}
@@ -68,7 +68,7 @@ const Filters = ({ filter, type }: FiltersProps) => {
         urlParams={urlParams}
         handleClick={handleClickSingle}
         type={type}
-      />
+      /> */}
       <PriceRange urlParams={urlParams} handleRange={handleRange} type={type} />
     </>
   )

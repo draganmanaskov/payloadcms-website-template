@@ -33,6 +33,7 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
 import Products from './payload/collections/Products'
 import Inventories from './payload/collections/Inventories/config'
+import Designs from './payload/collections/Designs'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -149,7 +150,7 @@ export default buildConfig({
     },
   }),
   // database-adapter-config-end
-  collections: [Pages, Posts, Media, Categories, Users, Products, Inventories],
+  collections: [Pages, Posts, Media, Categories, Users, Products, Inventories, Designs],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   endpoints: [

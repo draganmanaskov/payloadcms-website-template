@@ -68,7 +68,12 @@ export const ArchiveBlock: React.FC<
       id={`block-${id}`}
     >
       {introContent && (
-        <RichText className="ml-0 max-w-[48rem]" content={introContent} enableGutter={false} />
+        <RichText
+          textColor={''}
+          className="ml-0 max-w-[48rem]"
+          content={introContent}
+          enableGutter={false}
+        />
       )}
 
       {type === 'carousel' && <CarouselBlock products={products} />}

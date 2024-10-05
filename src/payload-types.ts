@@ -121,7 +121,7 @@ export interface Page {
       };
       [k: string]: unknown;
     } | null;
-    textColor?: ('' | 'text-white' | 'text-black' | 'text-red-500' | 'text-green-500' | '#text-blue-500') | null;
+    textColor?: ('' | 'text-white' | 'text-black' | 'text-red-500' | 'text-green-500' | 'text-blue-500') | null;
     links?:
       | {
           link: {

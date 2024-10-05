@@ -82,7 +82,7 @@ export const hero: Field = {
         },
         {
           label: 'Blue',
-          value: '#text-blue-500',
+          value: 'text-blue-500',
         },
       ],
     },

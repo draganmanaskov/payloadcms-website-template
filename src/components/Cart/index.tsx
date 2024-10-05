@@ -9,7 +9,7 @@ type CartProps = {
 }
 
 const Cart = ({ type = 'header' }: CartProps) => {
-  const { cart, deleteItemFromCart, addItemToCart, updateItemQuantity } = useCart()
+  const { cart, deleteItemFromCart, addItemToCart, updateItemQuantity, cartTotal } = useCart()
 
   return (
     <>
@@ -20,6 +20,7 @@ const Cart = ({ type = 'header' }: CartProps) => {
           addItemToCart={addItemToCart}
           updateItemQuantity={updateItemQuantity}
           type={type}
+          cartTotal={cartTotal}
         />
       ) : (
         <Icons.ShoppingCart className="h-[1.2rem] w-[1.2rem] text-gray-500" />

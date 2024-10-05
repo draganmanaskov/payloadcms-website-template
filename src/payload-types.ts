@@ -8,6 +8,18 @@
 
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardSlider".
+ */
+export type CardSlider =
+  | {
+      title?: string | null;
+      image: number | Media;
+      caption?: string | null;
+      id?: string | null;
+    }[]
+  | null;
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CartItems".
  */
 export type CartItems =
@@ -20,13 +32,16 @@ export type CartItems =
   | null;
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CardSlider".
+ * via the `definition` "OrderItems".
  */
-export type CardSlider =
+export type OrderItems =
   | {
-      title?: string | null;
-      image: number | Media;
-      caption?: string | null;
+      status?: ('notPriented' | 'printed' | 'canceled' | 'leftover' | 'returned') | null;
+      quantity: number;
+      price: number;
+      total: number;
+      sku: string;
+      product: number | Product;
       id?: string | null;
     }[]
   | null;
@@ -44,6 +59,7 @@ export interface Config {
     products: Product;
     inventories: Inventory;
     designs: Design;
+    orders: Order;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -56,6 +72,7 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    filter: Filter;
   };
   locale: 'en' | 'mk';
   user: User & {
@@ -104,6 +121,7 @@ export interface Page {
       };
       [k: string]: unknown;
     } | null;
+    textColor?: ('' | 'text-white' | 'text-black' | 'text-red-500' | 'text-green-500' | '#text-blue-500') | null;
     links?:
       | {
           link: {
@@ -283,22 +301,24 @@ export interface ArchiveBlock {
     };
     [k: string]: unknown;
   } | null;
+  type?: ('standart' | 'carousel') | null;
   populateBy?: ('collection' | 'selection') | null;
-  relationTo?: ('posts' | 'products') | null;
+  relationTo?: 'products' | null;
   categories?: (number | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
-    | (
-        | {
-            relationTo: 'posts';
-            value: number | Post;
-          }
-        | {
-            relationTo: 'products';
-            value: number | Product;
-          }
-      )[]
+    | {
+        relationTo: 'products';
+        value: number | Product;
+      }[]
     | null;
+  populatedDocs?:
+    | {
+        relationTo: 'products';
+        value: number | Product;
+      }[]
+    | null;
+  populatedDocsTotal?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'archive';
@@ -326,71 +346,6 @@ export interface Category {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: number;
-  title: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  relatedPosts?: (number | Post)[] | null;
-  categories?: (number | Category)[] | null;
-  meta?: {
-    title?: string | null;
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  authors?: (number | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  name?: string | null;
-  roles?: ('admin' | 'customer')[] | null;
-  cart?: {
-    items?: CartItems;
-  };
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
 export interface Product {
@@ -409,6 +364,7 @@ export interface Product {
   price: number;
   currencyCode: 'MKD';
   relatedProducts?: (number | Product)[] | null;
+  designs?: (number | Design)[] | null;
   skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -438,6 +394,18 @@ export interface Inventory {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "designs".
+ */
+export interface Design {
+  id: number;
+  title: string;
+  slug?: string | null;
+  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -633,13 +601,107 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "designs".
+ * via the `definition` "posts".
  */
-export interface Design {
+export interface Post {
   id: number;
   title: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedPosts?: (number | Post)[] | null;
+  categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
   slug?: string | null;
   slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  name?: string | null;
+  roles?: ('admin' | 'customer')[] | null;
+  cart?: {
+    items?: CartItems;
+  };
+  shippingProfiles?:
+    | {
+        title: string;
+        email: string;
+        phoneNumber: string;
+        firstName: string;
+        lastName: string;
+        address: string;
+        country: 'Macedonia';
+        city: string;
+        state: string;
+        zipCode: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  orderNumber: string;
+  status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'canceled' | 'refunded' | 'returned';
+  customer?: (number | null) | User;
+  subTotal?: number | null;
+  shipping?: number | null;
+  total?: number | null;
+  currencyCode: 'MKD';
+  items?: OrderItems;
+  email: string;
+  phoneNumber: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  country: 'Macedonia';
+  city: string;
+  state: string;
+  zipCode: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -652,15 +714,10 @@ export interface Redirect {
   from: string;
   to?: {
     type?: ('reference' | 'custom') | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: number | Post;
-        } | null);
+    reference?: {
+      relationTo: 'pages';
+      value: number | Page;
+    } | null;
     url?: string | null;
   };
   updatedAt: string;
@@ -762,6 +819,16 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "filter".
+ */
+export interface Filter {
+  id: number;
+  designs?: (number | Design)[] | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }

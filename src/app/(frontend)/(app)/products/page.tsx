@@ -35,14 +35,6 @@ export default async function Page() {
           totalDocs={products.totalDocs}
         />
       </div>
-
-      {/* <CollectionArchive products={products.docs} />
-
-      <div className="container">
-        {posts.totalPages > 1 && posts.page && (
-          <Pagination page={posts.page} totalPages={posts.totalPages} />
-        )}
-      </div> */}
     </div>
   )
 }

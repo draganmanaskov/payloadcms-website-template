@@ -1,5 +1,3 @@
-export function decodeURIHelper(component: string) {
-  return decodeURIComponent(component || 'All')
-    .split('&')
-    .filter(Boolean)
+export function decodeURIHelper(component: string | undefined) {
+  return component ? decodeURIComponent(component).split('&').filter(Boolean) : []
 }

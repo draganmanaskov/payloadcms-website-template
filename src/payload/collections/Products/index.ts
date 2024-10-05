@@ -8,6 +8,7 @@ import { MediaBlock } from '@/blocks/MediaBlock/config'
 import { Archive } from '@/blocks/ArchiveBlock/config'
 import { slugField } from '@/fields/slug'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
+import { showToAdmin } from '@/payload/hidden/showToAdmin'
 
 const Products: CollectionConfig = {
   slug: 'products',
@@ -19,6 +20,7 @@ const Products: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
+    hidden: showToAdmin,
     livePreview: {
       url: ({ data }) => {
         const path = generatePreviewPath({
@@ -202,6 +204,15 @@ const Products: CollectionConfig = {
             not_in: [id],
           },
         }
+      },
+    },
+    {
+      name: 'designs',
+      type: 'relationship',
+      relationTo: 'designs',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
       },
     },
     {

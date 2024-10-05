@@ -2,12 +2,14 @@ import { cn } from '@/utilities/cn'
 import React from 'react'
 
 import { serializeLexical } from './serialize'
+import { Page } from '@/payload-types'
 
 type Props = {
   className?: string
   content: Record<string, any>
   enableGutter?: boolean
   enableProse?: boolean
+  textColor: Page['hero']['textColor']
 }
 
 const RichText: React.FC<Props> = ({
@@ -15,6 +17,7 @@ const RichText: React.FC<Props> = ({
   content,
   enableGutter = true,
   enableProse = true,
+  textColor,
 }) => {
   if (!content) {
     return null
@@ -28,6 +31,7 @@ const RichText: React.FC<Props> = ({
           'max-w-none': !enableGutter,
           'mx-auto prose dark:prose-invert ': enableProse,
         },
+        textColor === '' ? 'text-white dark:text-black' : textColor,
         className,
       )}
     >

@@ -27,6 +27,21 @@ export const Archive: Block = {
       label: 'Intro Content',
     },
     {
+      name: 'type',
+      type: 'select',
+      defaultValue: 'standart',
+      options: [
+        {
+          label: 'Standard',
+          value: 'standart',
+        },
+        {
+          label: 'Carousel',
+          value: 'carousel',
+        },
+      ],
+    },
+    {
       name: 'populateBy',
       type: 'select',
       defaultValue: 'collection',
@@ -45,15 +60,11 @@ export const Archive: Block = {
       type: 'select',
       name: 'relationTo',
       label: 'Collections To Show',
-      defaultValue: 'posts',
+      defaultValue: 'products',
       admin: {
         condition: (_, siblingData) => siblingData.populateBy === 'collection',
       },
       options: [
-        {
-          label: 'Posts',
-          value: 'posts',
-        },
         {
           label: 'Products',
           value: 'products',
@@ -84,35 +95,35 @@ export const Archive: Block = {
       type: 'relationship',
       name: 'selectedDocs',
       label: 'Selection',
-      relationTo: ['posts', 'products'], //'products'
+      relationTo: ['products'],
       hasMany: true,
       admin: {
         condition: (_, siblingData) => siblingData.populateBy === 'selection',
       },
     },
-    // {
-    //   type: 'relationship',
-    //   name: 'populatedDocs',
-    //   label: 'Populated Docs',
-    //   relationTo: ['products'],
-    //   hasMany: true,
-    //   admin: {
-    //     disabled: true,
-    //     description: 'This field is auto-populated after-read',
-    //     condition: (_, siblingData) => siblingData.populateBy === 'collection',
-    //   },
-    // },
-    // {
-    //   type: 'number',
-    //   name: 'populatedDocsTotal',
-    //   label: 'Populated Docs Total',
-    //   admin: {
-    //     step: 1,
-    //     disabled: true,
-    //     description: 'This field is auto-populated after-read',
-    //     condition: (_, siblingData) => siblingData.populateBy === 'collection',
-    //   },
-    // },
+    {
+      type: 'relationship',
+      name: 'populatedDocs',
+      label: 'Populated Docs',
+      relationTo: ['products'],
+      hasMany: true,
+      admin: {
+        disabled: true,
+        description: 'This field is auto-populated after-read',
+        condition: (_, siblingData) => siblingData.populateBy === 'collection',
+      },
+    },
+    {
+      type: 'number',
+      name: 'populatedDocsTotal',
+      label: 'Populated Docs Total',
+      admin: {
+        step: 1,
+        disabled: true,
+        description: 'This field is auto-populated after-read',
+        condition: (_, siblingData) => siblingData.populateBy === 'collection',
+      },
+    },
   ],
   labels: {
     plural: 'Archives',

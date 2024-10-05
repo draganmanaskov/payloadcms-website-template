@@ -9,11 +9,10 @@ import { decodeURIHelper, decodeUrlString, ensureNumber } from '@/utilities'
 import PaginationComponent from './pagination'
 import SimpleSearch from '@/components/search/simple-search'
 import SortBy from './sort-by'
-import ProductCard from '@/components/product/product-cart'
-import { Product } from '@/payload-types'
+import ProductCard from '@/components/product/product-card'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import configPromise from '@payload-config'
-import qs from 'qs'
+import Modal from './modal'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,7 +34,7 @@ export default async function SearchPage({
     design,
     color,
     size,
-    q: searchValue,
+    q,
     page = '1',
     fromPrice,
     toPrice,
@@ -47,8 +46,9 @@ export default async function SearchPage({
   const { sortKey } = SORTING.find((item) => item.slug === sort) || defaultSort
 
   const designsArr = decodeURIHelper(design)
-  const colorsArr = decodeURIHelper(color)
-  const sizesArr = decodeURIHelper(size)
+  // const colorsArr = decodeURIHelper(color)
+  // const sizesArr = decodeURIHelper(size)
+  const searchValue = decodeURIComponent(q)
 
   const pageNumber = ensureNumber(page)
 
@@ -57,11 +57,21 @@ export default async function SearchPage({
   const products = await payload.find({
     collection: 'products',
     depth: 1,
-    limit: 1,
+    limit: 12,
     page: pageNumber,
     sort: sortKey,
     where: {
       and: [
+        {
+          'designs.slug': {
+            in: designsArr,
+          },
+        },
+        {
+          title: {
+            contains: q ? searchValue : '',
+          },
+        },
         {
           price: {
             greater_than_equal: fromPrice || 0,
@@ -84,15 +94,15 @@ export default async function SearchPage({
   const toItem = pagingCounter + limit - 1
 
   return (
-    <>
+    <div className="relative w-full p-4">
       <p className="mb-4">
         {totalDocs == 0
           ? 'There are no products that match '
           : `Showing ${fromItem}-${toItem} of ${totalDocs} ${resultsText} `}
-        {searchValue ? (
+        {q ? (
           <>
             {' for '}
-            <span className="font-bold">&quot;{decodeURIComponent(searchValue)}&quot;</span>
+            <span className="font-bold">&quot;{searchValue}&quot;</span>
           </>
         ) : null}
       </p>
@@ -100,29 +110,23 @@ export default async function SearchPage({
         <SimpleSearch q={searchValue} />
         <SortBy />
       </div>
-      <div className="min-h-[300px]">
-        {docs.length > 0 ? (
-          <ul className="grid  grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            {docs.map((product) => {
-              return (
-                <li key={product.slug}>
-                  <ProductCard product={product} color={color} type="smart" />
-                </li>
-              )
-            })}
-          </ul>
-        ) : null}
-      </div>
-      {totalDocs && (
-        <PaginationComponent
-          totalDocs={totalDocs}
-          page={pageNumber}
-          limit={LIMIT}
-          totalPages={totalPages}
-          hasPrevPage={hasPrevPage}
-          hasNextPage={hasNextPage}
-        />
-      )}
-    </>
+
+      {docs.length > 0 ? (
+        <div className="min-h-[300px] grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 justify-center items-center">
+          {docs.map((product) => {
+            return <ProductCard product={product} key={product.slug} />
+          })}
+        </div>
+      ) : null}
+
+      <PaginationComponent
+        totalDocs={totalDocs}
+        page={pageNumber}
+        limit={limit}
+        totalPages={totalPages}
+        hasPrevPage={hasPrevPage}
+        hasNextPage={hasNextPage}
+      />
+    </div>
   )
 }

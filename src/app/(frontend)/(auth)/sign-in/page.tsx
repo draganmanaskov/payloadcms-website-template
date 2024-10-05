@@ -35,7 +35,9 @@ export default function SignIn() {
     },
   })
 
-  const { login } = useAuth()
+  const { login, status } = useAuth()
+
+  if (status === 'loggedIn') router.push('/')
 
   async function onSubmit(data: LoginFormData) {
     try {

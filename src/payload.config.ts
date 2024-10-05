@@ -20,20 +20,23 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
-import Categories from './collections/Categories'
-import { Media } from './collections/Media'
-import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
-import Users from './collections/Users'
+import Categories from '@/payload/collections/Categories'
+import { Media } from '@/payload/collections/Media'
+import { Pages } from '@/payload/collections/Pages'
+import { Posts } from '@/payload/collections/Posts'
+import Users from '@/payload/collections/Users'
 // import { seedHandler } from './endpoints/seedHandler'
-import { Footer } from './Footer/config'
-import { Header } from './payload/globals/Header/config'
-import { revalidateRedirects } from './hooks/revalidateRedirects'
+import { Footer } from '@/Footer/config'
+import { Header } from '@/payload/globals/Header/config'
+import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
-import Products from './payload/collections/Products'
-import Inventories from './payload/collections/Inventories/config'
-import Designs from './payload/collections/Designs'
+import Products from '@/payload/collections/Products'
+import Inventories from '@/payload/collections/Inventories/config'
+import Designs from '@/payload/collections/Designs'
+import { Filter } from '@/payload/globals/Filter'
+import { showToAdmin } from '@/payload/hidden/showToAdmin'
+import Orders from '@/payload/collections/Orders'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -113,13 +116,14 @@ export default buildConfig({
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: lexicalEditor({
-    features: () => {
+    features: ({ defaultFeatures }) => {
       return [
+        ...defaultFeatures,
         UnderlineFeature(),
         BoldFeature(),
         ItalicFeature(),
         LinkFeature({
-          enabledCollections: ['pages', 'posts'],
+          enabledCollections: ['pages'],
           fields: ({ defaultFields }) => {
             const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
               if ('name' in field && field.name === 'url') return false
@@ -150,7 +154,7 @@ export default buildConfig({
     },
   }),
   // database-adapter-config-end
-  collections: [Pages, Posts, Media, Categories, Users, Products, Inventories, Designs],
+  collections: [Pages, Posts, Media, Categories, Users, Products, Inventories, Designs, Orders],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   endpoints: [
@@ -162,7 +166,7 @@ export default buildConfig({
     //   path: '/seed',
     // },
   ],
-  globals: [Header, Footer],
+  globals: [Header, Footer, Filter],
   plugins: [
     s3Storage({
       collections: {
@@ -192,7 +196,8 @@ export default buildConfig({
     //   token: process.env.BLOB_READ_WRITE_TOKEN,
     // }),
     redirectsPlugin({
-      collections: ['pages', 'posts'], //'products'
+      collections: ['pages'], //'products'
+
       overrides: {
         // @ts-expect-error
         fields: ({ defaultFields }) => {
@@ -210,6 +215,9 @@ export default buildConfig({
         },
         hooks: {
           afterChange: [revalidateRedirects],
+        },
+        admin: {
+          hidden: showToAdmin,
         },
       },
     }),
@@ -246,6 +254,14 @@ export default buildConfig({
             }
             return field
           })
+        },
+        admin: {
+          hidden: showToAdmin,
+        },
+      },
+      formSubmissionOverrides: {
+        admin: {
+          hidden: showToAdmin,
         },
       },
     }),

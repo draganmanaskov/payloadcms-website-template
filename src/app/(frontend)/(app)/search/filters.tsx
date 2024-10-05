@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import Categories from '@/components/search/categories'
 import { DialogClose } from '@/components/ui/dialog'
 import { filterColors, filterSizes } from '@/payload/collections/Inventories/options'
+import { Filter } from '@/payload-types'
 
 type FiltersProps = {
   filter: {
@@ -17,12 +18,23 @@ type FiltersProps = {
     colors: FilterOption[]
     sizes: FilterOption[]
   }
+  filters: Filter
   type: 'desktop' | 'mobile'
 }
 
-const Filters = ({ filter, type }: FiltersProps) => {
+const Filters = ({ filter, type, filters }: FiltersProps) => {
   const { urlParams, handleClickSingle, handleClickMulti, handleRange, applyUrlChange } =
     useFilterHook(type)
+
+  const designFIlter =
+    filters.designs?.map((design) => {
+      if (typeof design === 'number') return null
+      return {
+        name: design.title,
+        value: design.slug || design.title.toLowerCase(),
+        code: design.slug || design.title.toLowerCase(),
+      }
+    }) || []
 
   return (
     <>
@@ -46,7 +58,7 @@ const Filters = ({ filter, type }: FiltersProps) => {
       </h3>
 
       <FilterOptionMulti
-        data={filter.design_tags}
+        data={designFIlter}
         title={'Designs'}
         filterKey={'design'}
         urlParams={urlParams}

@@ -39,8 +39,9 @@ const FilterOptionMulti = ({
             <ul className="space-y-4">
               {data
                 ? data.map((option, optionIdx) => {
+                    if (!option) return
                     const isActive = urlParams[filterKey]
-                      ? urlParams[filterKey].includes(option.name)
+                      ? urlParams[filterKey].includes(option.value)
                       : false
                     const id = `${type}-${filterKey}-${optionIdx}`
                     return (
@@ -48,7 +49,7 @@ const FilterOptionMulti = ({
                         <input
                           type="checkbox"
                           id={id}
-                          onChange={() => handleClick(filterKey, option.name, isActive)}
+                          onChange={() => handleClick(filterKey, option.value, isActive)}
                           checked={isActive}
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                         />

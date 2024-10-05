@@ -9,11 +9,8 @@ import { Providers } from '@/providers'
 
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import './globals.css'
-import { draftMode } from 'next/headers'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = draftMode()
-
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
       <head>
@@ -29,10 +26,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'https://payloadcms.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL!),
   openGraph: mergeOpenGraph(),
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@payloadcms',
-  },
 }

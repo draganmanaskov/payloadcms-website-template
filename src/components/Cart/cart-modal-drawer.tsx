@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import {
   Drawer,
   DrawerContent,
@@ -10,8 +10,8 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { MinusIcon, PlusIcon, ShoppingCartIcon, XIcon } from 'lucide-react'
-import Image from 'next/image'
+import { ShoppingCartIcon } from 'lucide-react'
+
 import {
   //   calculateCartTotal,
   cn,
@@ -37,6 +37,7 @@ type CartDrawerProps = {
   addItemToCart: (item: CartItem) => void
   updateItemQuantity: (item: CartItem) => void
   type: 'header' | 'product'
+  cartTotal: { formatted: string; raw: number }
 }
 
 const CartModalDrawer = ({
@@ -46,6 +47,7 @@ const CartModalDrawer = ({
   addItemToCart,
   updateItemQuantity,
   type = 'header',
+  cartTotal,
 }: CartDrawerProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -150,7 +152,7 @@ const CartModalDrawer = ({
               <div className="flex w-full justify-between text-lg font-semibold">
                 <span>Total:</span>
 
-                {/* <Price amount={calculateCartTotal(cart)} currencyCode={cart.currency_code} /> */}
+                <Price amount={cartTotal.raw} currencyCode={'MKD'} />
               </div>
               <Link
                 href={'/checkout/information'}

@@ -257,19 +257,17 @@ export const CartProvider = (props) => {
 
     const newTotal =
       cart?.items?.reduce((acc, item) => {
-        return (
-          acc +
-          (typeof item.product === 'object'
-            ? JSON.parse(item?.product?.priceJSON || '{}')?.data?.[0]?.unit_amount *
-              (typeof item?.quantity === 'number' ? item?.quantity : 0)
-            : 0)
-        )
+        let price = 0
+        if (typeof item.product === 'object') {
+          price = item.product.price * item.quantity
+        }
+        return acc + price
       }, 0) || 0
 
     setTotal({
-      formatted: (newTotal / 100).toLocaleString('en-US', {
+      formatted: (newTotal / 100).toLocaleString('mk-MK', {
         style: 'currency',
-        currency: 'USD',
+        currency: 'MKD',
       }),
       raw: newTotal,
     })

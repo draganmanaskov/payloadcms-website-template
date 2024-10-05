@@ -8,6 +8,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 import { linkGroup } from '@/fields/linkGroup'
+import colorField from '@/payload/fields/ColorPicker/config'
 
 export const hero: Field = {
   name: 'hero',
@@ -52,6 +53,38 @@ export const hero: Field = {
         },
       }),
       label: false,
+    },
+    {
+      name: 'textColor',
+      type: 'radio',
+      label: 'Color',
+      admin: {
+        layout: 'horizontal',
+      },
+
+      options: [
+        { label: 'None', value: '' },
+        {
+          label: 'White',
+          value: 'text-white',
+        },
+        {
+          label: 'Black',
+          value: 'text-black',
+        },
+        {
+          label: 'Red',
+          value: 'text-red-500',
+        },
+        {
+          label: 'Green',
+          value: 'text-green-500',
+        },
+        {
+          label: 'Blue',
+          value: '#text-blue-500',
+        },
+      ],
     },
     linkGroup({
       overrides: {

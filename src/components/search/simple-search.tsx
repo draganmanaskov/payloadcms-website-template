@@ -11,7 +11,7 @@ type SimpleSearchProps = {
 }
 
 export default function SimpleSearch({ q }: SimpleSearchProps) {
-  const { urlParams, handleChange } = useFilterHook('desktop')
+  const { urlParams, handleChange } = useFilterHook('desktop', 2000)
 
   return (
     <div className="relative my-2 w-full max-w-md">

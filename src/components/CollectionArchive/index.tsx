@@ -3,7 +3,6 @@ import React from 'react'
 
 import type { Product } from '@/payload-types'
 
-import { Card } from '@/components/Card'
 import ProductCard from '../product/product-cart'
 
 export type Props = {

@@ -31,7 +31,7 @@ const RichText: React.FC<Props> = ({
           'max-w-none': !enableGutter,
           'mx-auto prose dark:prose-invert ': enableProse,
         },
-        textColor === '' ? 'text-white dark:text-black' : textColor,
+        textColor === '' ? 'text-black dark:text-white' : textColor,
         className,
       )}
     >

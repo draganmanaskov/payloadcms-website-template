@@ -9,7 +9,7 @@ type Props = {
   content: Record<string, any>
   enableGutter?: boolean
   enableProse?: boolean
-  textColor: Page['hero']['textColor']
+  textColor?: Page['hero']['textColor']
 }
 
 const RichText: React.FC<Props> = ({
@@ -17,7 +17,7 @@ const RichText: React.FC<Props> = ({
   content,
   enableGutter = true,
   enableProse = true,
-  textColor,
+  textColor = '',
 }) => {
   if (!content) {
     return null

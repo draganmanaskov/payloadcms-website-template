@@ -24,7 +24,7 @@ const OrderPage = () => {
           <Icons.circleCheckIcon className="h-12 w-12 text-green-500" />
           <h1 className="text-2xl font-bold">Order Placed Successfully!</h1>
           <p className="text-gray-500 dark:text-gray-400">
-            We've sent a confirmation email to your registered email address.
+            We have sent a confirmation email to your registered email address.
           </p>
           {status === 'loggedOut' ? (
             <p className="text-gray-500 dark:text-gray-400">

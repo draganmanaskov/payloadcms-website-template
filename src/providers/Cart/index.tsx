@@ -200,7 +200,7 @@ export const CartProvider = (props) => {
     }
 
     setHasInitialized(true)
-  }, [user, cart])
+  }, [user, cart, hasInitializedCart])
 
   const isProductInCart = useCallback(
     (

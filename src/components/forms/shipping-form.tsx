@@ -59,7 +59,7 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
     if (profile) {
       form.reset(profile)
     }
-  }, [profile])
+  }, [profile, form])
 
   return (
     <Form {...form}>

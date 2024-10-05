@@ -173,9 +173,3 @@ const CartModalDrawer = ({
 }
 
 export default CartModalDrawer
-
-{
-  /* <Button className="w-full" onClick={() => setIsOpen(false)}>
-                Proceed to Checkout
-              </Button> */
-}

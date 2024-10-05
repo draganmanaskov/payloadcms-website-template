@@ -16,7 +16,7 @@ export default function CheckoutLayout({ children }: CheckoutLayoutProps) {
   useEffect(() => {
     if (!hasInitializedCart) return
     if (!cart || !cart.items || cart.items.length === 0) router.push('/')
-  }, [cart, hasInitializedCart])
+  }, [cart, hasInitializedCart, router])
 
   return (
     <>

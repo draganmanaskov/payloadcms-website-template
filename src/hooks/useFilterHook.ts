@@ -48,7 +48,7 @@ const useFilterHook = (type: 'desktop' | 'mobile', latency: number = 1000) => {
   useEffect(() => {
     if (type === 'mobile') return
     applyUrlChange()
-  }, [query])
+  }, [query, applyUrlChange, type])
 
   // useEffect(() => {
   //   if (type === 'mobile') return

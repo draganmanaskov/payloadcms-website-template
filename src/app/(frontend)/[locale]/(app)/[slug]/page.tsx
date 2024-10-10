@@ -41,10 +41,10 @@ export default async function Page({ params: { slug = 'home', locale } }) {
   })
 
   // Remove this code once your website is seeded
-  if (!page) {
-    // page = homeStatic
-    return <div></div>
-  }
+  // if (!page) {
+  //    page = homeStatic
+  //   return <div></div>
+  // }
 
   if (!page) {
     return <PayloadRedirects url={url} />

@@ -40,7 +40,7 @@ export const FilterArchive: Block = {
         },
         {
           label: 'Categories',
-          value: 'cateogires',
+          value: 'categories',
         },
       ],
     },

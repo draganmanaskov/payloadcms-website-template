@@ -849,7 +849,7 @@ export interface Filter {
 export interface FilterArchiveBlock {
   title?: string | null;
   populateBy?: ('collection' | 'selection') | null;
-  relationTo?: ('designs' | 'cateogires') | null;
+  relationTo?: ('designs' | 'categories') | null;
   limit?: number | null;
   selectedDocs?:
     | (

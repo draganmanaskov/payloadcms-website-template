@@ -1,9 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 
-import { Button, ButtonProps, buttonVariants } from '../../ui/button'
+import { Button, buttonVariants } from '../../ui/button'
 import { VariantProps } from 'class-variance-authority'
 import { cn, isVariantReadyForSale } from '@/utilities'
 import { Product } from '@/payload-types'

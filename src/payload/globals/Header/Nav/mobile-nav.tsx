@@ -2,10 +2,9 @@
 
 import * as React from 'react'
 import Link, { LinkProps } from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 
 import { cn } from '@/utilities/cn'
-import { Icons } from '@/components/icons'
 
 import {
   Sheet,
@@ -20,6 +19,8 @@ import { Header } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import DarkLogo from '../Logos/DarkLogo'
 import LightLogo from '../Logos/LightLogo'
+import LocaleSwitcher from '@/components/LocaleSwitcher'
+import ModeToggle from '@/components/mode-toggle'
 
 type MobileNavProps = {
   header: Header
@@ -69,7 +70,7 @@ const MobileNav = ({ header }: MobileNavProps) => {
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="pr-0">
+      <SheetContent side="left" className="px-4">
         <SheetTitle>
           <MobileLink href="/" className="flex items-center pl-2" onOpenChange={setOpen}>
             <DarkLogo />
@@ -77,7 +78,11 @@ const MobileNav = ({ header }: MobileNavProps) => {
           </MobileLink>
         </SheetTitle>
         <SheetDescription></SheetDescription>
-        <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
+        <div className="my-4 pb-10 pl-6">
+          <div className="flex items-cente justify-end gap-2">
+            <LocaleSwitcher />
+            <ModeToggle />
+          </div>
           <div className="flex flex-col space-y-3">
             {navItems.map((item, i) => {
               return <CMSLink key={i} {...item.link} appearance="link" />

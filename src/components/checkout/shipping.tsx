@@ -3,7 +3,7 @@ import { SHIPPING_CHECKOUT_DEFAULT_VALUES } from '@/components/checkout/constant
 
 import { SHIPPING_OPTIONS, useShippingContext } from '@/context/shipping-context'
 import useSessionStorage from '@/hooks/useSessionSotrage'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 import { Card, CardContent } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -14,12 +14,10 @@ import { Separator } from '../ui/separator'
 import { capitalizeFirstLetter } from '@/utilities'
 
 import { ShippingInformaptionChecout, ShippingProfile } from './information-form'
-import { ShippingInformationForm } from '../forms/shipping-form'
 
 import Price from '@/components/Price'
 import { useAuth } from '@/providers/Auth'
 import { useCart } from '@/providers/Cart'
-import { Order } from '@/payload-types'
 
 const Shipping = () => {
   const router = useRouter()

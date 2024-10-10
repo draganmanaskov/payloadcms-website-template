@@ -1,10 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 
-import Image from 'next/image'
-
-import Link from 'next/link'
-
 import { cn } from '@/utilities/cn'
 
 import type { Header } from '@/payload-types'
@@ -16,6 +12,8 @@ import Cart from '@/components/Cart'
 import ProfileHeader from './ProfileHeader'
 import LightLogo from './Logos/LightLogo'
 import DarkLogo from './Logos/DarkLogo'
+import { Link } from '@/i18n/routing'
+import LocaleSwitcher from '@/components/LocaleSwitcher'
 
 type SiteHeadertProps = {
   header: Header
@@ -66,8 +64,10 @@ const SiteHeader = ({ header }: SiteHeadertProps) => {
         </div>
 
         <nav className="flex items-center gap-2">
-          <ModeToggle />
-
+          <div className="hidden items-center gap-2  md:flex">
+            <LocaleSwitcher />
+            <ModeToggle />
+          </div>
           <Cart type="header" />
           <ProfileHeader />
         </nav>

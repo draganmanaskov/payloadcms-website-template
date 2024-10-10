@@ -1,6 +1,8 @@
 import { admins } from '@/access/admins'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
 import type { GlobalConfig } from 'payload'
+import { revalidateFilter } from './hooks/revalidateFilter'
+import { FilterArchive } from '@/blocks/FilteArchiveBlock/config'
 
 export const Filter: GlobalConfig = {
   slug: 'filter',
@@ -11,6 +13,9 @@ export const Filter: GlobalConfig = {
   admin: {
     hidden: showToAdmin,
   },
+  hooks: {
+    afterChange: [revalidateFilter],
+  },
   fields: [
     {
       name: 'designs',
@@ -20,6 +25,12 @@ export const Filter: GlobalConfig = {
       admin: {
         position: 'sidebar',
       },
+    },
+    {
+      name: 'layout',
+      type: 'blocks',
+      blocks: [FilterArchive],
+      required: true,
     },
   ],
 }

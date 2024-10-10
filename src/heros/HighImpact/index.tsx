@@ -8,7 +8,6 @@ import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText, textColor }) => {
-  console.log(textColor)
   return (
     <div className="relative  flex items-end ">
       <div className="container mb-8 z-10 relative">

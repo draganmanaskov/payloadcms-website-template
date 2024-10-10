@@ -1,4 +1,7 @@
 import { withPayload } from '@payloadcms/next/withPayload'
+import createNextIntlPlugin from 'next-intl/plugin'
+
+const withNextIntl = createNextIntlPlugin()
 
 import redirects from './redirects.js'
 
@@ -24,10 +27,6 @@ const nextConfig = {
   },
   reactStrictMode: true,
   redirects,
-  i18n: {
-    locales: ['en', 'mk'],
-    defaultLocale: 'en',
-  },
 }
 
-export default withPayload(nextConfig)
+export default withNextIntl(withPayload(nextConfig))

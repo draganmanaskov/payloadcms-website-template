@@ -11,14 +11,13 @@ import {
 
 import useSessionStorage from '@/hooks/useSessionSotrage'
 
-import { Checkbox } from '@/components/ui/checkbox'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
 
 import { SHIPPING_CHECKOUT_DEFAULT_VALUES } from './constants'
 
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/utilities'
-import ShippingForm, { ShippingInformationForm } from '@/components/forms/shipping-form'
+import ShippingForm from '@/components/forms/shipping-form'
 import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
 import { useAuth } from '@/providers/Auth'

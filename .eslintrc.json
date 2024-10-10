@@ -1,0 +1,18 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "name": "next/link",
+        "message": "Import from @/i18n/routing instead.",
+        "importNames": ["default"]
+      },
+      {
+        "name": "next/navigation",
+        "message": "Import from @/i18n/routing instead.",
+        "importNames": ["redirect", "usePathname", "useRouter"]
+      }
+    ]
+  }
+}

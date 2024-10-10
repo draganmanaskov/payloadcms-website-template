@@ -1,4 +1,5 @@
 import { s3Storage } from '@payloadcms/storage-s3'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 // import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { payloadCloudPlugin } from '@payloadcms/plugin-cloud'
@@ -37,6 +38,8 @@ import Designs from '@/payload/collections/Designs'
 import { Filter } from '@/payload/globals/Filter'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
 import Orders from '@/payload/collections/Orders'
+
+import nodemailerSendgrid from 'nodemailer-sendgrid'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -94,6 +97,14 @@ export default buildConfig({
       ],
     },
   },
+  email: nodemailerAdapter({
+    defaultFromAddress: 'dmanaskov@hotmail.com',
+    defaultFromName: 'Mega Desigsn',
+    // Nodemailer transportOptions
+    transportOptions: nodemailerSendgrid({
+      apiKey: process.env.SENDGRID_API_KEY,
+    }),
+  }),
   localization: {
     locales: [
       {
@@ -114,6 +125,7 @@ export default buildConfig({
     defaultLocale: 'en',
     fallback: true,
   },
+
   // This config helps us configure global or default features that the other editors can inherit
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => {
@@ -187,14 +199,7 @@ export default buildConfig({
         },
       },
     }),
-    // vercelBlobStorage({
-    //   enabled: true, // Optional, defaults to true
-    //   // Specify which collections should use Vercel Blob
-    //   collections: {
-    //     [Media.slug]: true,
-    //   },
-    //   token: process.env.BLOB_READ_WRITE_TOKEN,
-    // }),
+
     redirectsPlugin({
       collections: ['pages'], //'products'
 
@@ -222,9 +227,9 @@ export default buildConfig({
       },
     }),
     nestedDocsPlugin({
-      collections: ['categories'],
+      collections: ['categories', 'designs'],
       // breadcrumbsFieldSlug: (test) => test.title,
-      // generateLabel: (_, doc) => doc.,
+      generateLabel: (_, doc) => doc.title as string,
       generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),
     }),
     seoPlugin({

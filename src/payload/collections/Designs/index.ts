@@ -22,8 +22,9 @@ const Designs: CollectionConfig = {
       label: 'Title',
       required: true,
       unique: true,
+      localized: true,
     },
-    ...slugField(),
+    ...slugField('title', { slugOverrides: { localized: true, required: true } }),
   ],
 }
 

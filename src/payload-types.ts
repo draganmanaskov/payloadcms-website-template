@@ -330,7 +330,7 @@ export interface ArchiveBlock {
 export interface Category {
   id: number;
   title: string;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   parent?: (number | null) | Category;
   breadcrumbs?:
@@ -404,8 +404,17 @@ export interface Inventory {
 export interface Design {
   id: number;
   title: string;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
+  parent?: (number | null) | Design;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Design;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -829,8 +838,47 @@ export interface Footer {
 export interface Filter {
   id: number;
   designs?: (number | Design)[] | null;
+  layout: FilterArchiveBlock[];
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FilterArchiveBlock".
+ */
+export interface FilterArchiveBlock {
+  title?: string | null;
+  populateBy?: ('collection' | 'selection') | null;
+  relationTo?: ('designs' | 'cateogires') | null;
+  limit?: number | null;
+  selectedDocs?:
+    | (
+        | {
+            relationTo: 'designs';
+            value: number | Design;
+          }
+        | {
+            relationTo: 'categories';
+            value: number | Category;
+          }
+      )[]
+    | null;
+  populatedDocs?:
+    | (
+        | {
+            relationTo: 'designs';
+            value: number | Design;
+          }
+        | {
+            relationTo: 'categories';
+            value: number | Category;
+          }
+      )[]
+    | null;
+  populatedDocsTotal?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'filterArchive';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

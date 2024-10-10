@@ -9,6 +9,8 @@ import { Archive } from '@/blocks/ArchiveBlock/config'
 import { slugField } from '@/fields/slug'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
+import { populateParentDesigns } from './hooks/pupulateParentDesigns'
+import { populateParentCategories } from './hooks/populateParentCategories'
 
 const Products: CollectionConfig = {
   slug: 'products',
@@ -161,6 +163,9 @@ const Products: CollectionConfig = {
       type: 'relationship',
       relationTo: 'categories',
       hasMany: true,
+      hooks: {
+        beforeChange: [populateParentCategories],
+      },
       admin: {
         position: 'sidebar',
       },
@@ -211,6 +216,39 @@ const Products: CollectionConfig = {
       type: 'relationship',
       relationTo: 'designs',
       hasMany: true,
+      hooks: {
+        beforeChange: [
+          populateParentDesigns,
+          // async ({ originalDoc, operation, value, req }) => {
+          //   let newDesigns = getAddedValues(originalDoc.designs, value)
+          //   console.log(newDesigns, value)
+          //   if (newDesigns.length > 0 && value.length > 0) {
+          //     let designs = await req.payload.find({
+          //       collection: 'designs',
+          //       where: {
+          //         id: {
+          //           in: newDesigns,
+          //         },
+          //       },
+          //       depth: 1,
+          //     })
+
+          //     let newDesignsIds: number[] = []
+          //     designs.docs.forEach((design) => {
+          //       design.breadcrumbs?.forEach((breadcrumb) => {
+          //         if (typeof breadcrumb.doc === 'number') {
+          //           newDesignsIds.push(breadcrumb.doc)
+          //         }
+          //       })
+          //     })
+
+          //     return mergeUnique(value, newDesignsIds)
+          //   }
+
+          //   return value
+          // },
+        ],
+      },
       admin: {
         position: 'sidebar',
       },

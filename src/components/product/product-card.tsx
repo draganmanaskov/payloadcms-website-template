@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Badge } from '@/components/ui/badge'
 import { Product } from '@/payload-types'
 import Price from '../Price'
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 
 type ProductCardProps = {
   product: Product

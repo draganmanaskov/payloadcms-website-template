@@ -10,6 +10,7 @@ import * as migration_20240917_085630_changes from './20240917_085630_changes';
 import * as migration_20240918_162203_addDesigns from './20240918_162203_addDesigns';
 import * as migration_20241005_141212_removePostRef from './20241005_141212_removePostRef';
 import * as migration_20241005_143130_fixTextColor from './20241005_143130_fixTextColor';
+import * as migration_20241010_195413_locali from './20241010_195413_locali';
 
 export const migrations = [
   {
@@ -70,6 +71,11 @@ export const migrations = [
   {
     up: migration_20241005_143130_fixTextColor.up,
     down: migration_20241005_143130_fixTextColor.down,
-    name: '20241005_143130_fixTextColor'
+    name: '20241005_143130_fixTextColor',
+  },
+  {
+    up: migration_20241010_195413_locali.up,
+    down: migration_20241010_195413_locali.down,
+    name: '20241010_195413_locali'
   },
 ];

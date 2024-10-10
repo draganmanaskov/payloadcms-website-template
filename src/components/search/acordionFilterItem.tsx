@@ -53,9 +53,10 @@ const AcordionFilterItem = ({
                   {'All'}
                 </label>
               </li>
-              {option.children.map((option) => {
+              {option.children.map((option, index) => {
                 return (
                   <AcordionFilterItem
+                    key={`${option.id}-${index}`}
                     option={option}
                     type={type}
                     filterKey={filterKey}

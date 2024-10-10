@@ -51,9 +51,10 @@ const FilterOptionMulti = ({
         <AccordionContent className="animate-none pt-1">
           <ScrollArea className="h-80 w-full">
             <ul className="space-y-4">
-              {transformedData.map((option) => {
+              {transformedData.map((option, index) => {
                 return (
                   <AcordionFilterItem
+                    key={`${option.id}-${index}`}
                     option={option}
                     type={type}
                     filterKey={filterKey}

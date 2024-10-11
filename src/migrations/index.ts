@@ -12,6 +12,7 @@ import * as migration_20241005_141212_removePostRef from './20241005_141212_remo
 import * as migration_20241005_143130_fixTextColor from './20241005_143130_fixTextColor';
 import * as migration_20241010_195413_locali from './20241010_195413_locali';
 import * as migration_20241011_190901_createTags from './20241011_190901_createTags';
+import * as migration_20241011_201148_changes from './20241011_201148_changes';
 
 export const migrations = [
   {
@@ -82,6 +83,11 @@ export const migrations = [
   {
     up: migration_20241011_190901_createTags.up,
     down: migration_20241011_190901_createTags.down,
-    name: '20241011_190901_createTags'
+    name: '20241011_190901_createTags',
+  },
+  {
+    up: migration_20241011_201148_changes.up,
+    down: migration_20241011_201148_changes.down,
+    name: '20241011_201148_changes'
   },
 ];

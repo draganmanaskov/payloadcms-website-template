@@ -15,7 +15,7 @@ export const isInventoryVariantValid = (
 }
 
 export const isVariantReadyForSale = (
-  inventory: Inventory | number,
+  inventory: Inventory | number | undefined | null,
   urlParams: { [key: string]: string },
 ) => {
   if (typeof inventory === 'number' || !inventory) return undefined

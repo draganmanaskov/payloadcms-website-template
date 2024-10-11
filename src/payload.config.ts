@@ -40,6 +40,7 @@ import { showToAdmin } from '@/payload/hidden/showToAdmin'
 import Orders from '@/payload/collections/Orders'
 
 import nodemailerSendgrid from 'nodemailer-sendgrid'
+import Tags from './payload/collections/Tags'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -166,7 +167,18 @@ export default buildConfig({
     },
   }),
   // database-adapter-config-end
-  collections: [Pages, Posts, Media, Categories, Users, Products, Inventories, Designs, Orders],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    Products,
+    Inventories,
+    Designs,
+    Orders,
+    Tags,
+  ],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   endpoints: [

@@ -27,6 +27,8 @@ import { routing } from '@/i18n/routing'
 export default createMiddleware(routing)
 
 export const config = {
-  // Match only internationalized pathnames
-  matcher: ['/', '/(mk|en)/:path*'],
+  // Match only internationalized pathnames and exclude specific paths
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|admin).*)', // Exclude api, static, image, favicon, and admin paths
+  ],
 }

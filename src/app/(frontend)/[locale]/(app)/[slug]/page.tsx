@@ -46,6 +46,9 @@ export default async function Page({ params: { slug = 'home', locale } }) {
   //   return <div></div>
   // }
 
+  if (!page && url === '/home') {
+    page = homeStatic
+  }
   if (!page) {
     return <PayloadRedirects url={url} />
   }

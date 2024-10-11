@@ -369,7 +369,7 @@ export interface Product {
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock)[];
   featuredImage?: (number | null) | Media;
   slider?: CardSlider;
-  inventory: number | Inventory;
+  inventory?: (number | null) | Inventory;
   categories?: (number | Category)[] | null;
   price: number;
   currencyCode: 'MKD';

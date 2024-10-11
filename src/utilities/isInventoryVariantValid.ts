@@ -4,6 +4,7 @@ export const isInventoryVariantValid = (
   inventory: Inventory,
   urlParams: { [key: string]: string },
 ) => {
+  if (!inventory) return false
   return inventory.skus?.find((sku) => {
     let found = true
     inventory.options.forEach((option) => {
@@ -17,7 +18,7 @@ export const isVariantReadyForSale = (
   inventory: Inventory | number,
   urlParams: { [key: string]: string },
 ) => {
-  if (typeof inventory === 'number') return undefined
+  if (typeof inventory === 'number' || !inventory) return undefined
 
   return inventory.skus?.find((sku) => {
     let found = true

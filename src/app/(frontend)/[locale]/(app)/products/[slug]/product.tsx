@@ -1,26 +1,20 @@
 'use client'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { AddToCartButton } from '@/components/Cart/AddToCartButton'
-// import AddToCart from "@/components/cart/add-to-cart";
+
 import { Icons } from '@/components/icons'
 import Price from '@/components/Price'
-// import Price from "@/components/price";
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import VarianPicker from '@/components/VariantPicker'
 import useFilterHook from '@/hooks/useFilterHook'
-import { CardSlider, Product } from '@/payload-types'
+import { Product } from '@/payload-types'
 import { cn } from '@/utilities'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { StaticImageData } from 'next/image'
-// import { Separator } from "@/components/ui/separator";
-// import useFilterHook from "@/hooks/useFilterHook";
 
-import { usePathname, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 type ProductProps = {
   product: Product
@@ -150,12 +144,15 @@ const ProductComponent = ({ product }: ProductProps) => {
           </div>
         </div>
         <div className="grid gap-4 md:gap-10">
-          <VarianPicker
-            inventory={product.inventory}
-            type={'color'}
-            urlParams={urlParams}
-            handleClick={handleClickSingle}
-          />
+          {product.inventory ? (
+            <VarianPicker
+              inventory={product.inventory}
+              type={'color'}
+              urlParams={urlParams}
+              handleClick={handleClickSingle}
+            />
+          ) : null}
+
           <AddToCartButton product={product} quantity={1} urlParams={urlParams} />
           {/* <AddToCart
             skus={product.skus}

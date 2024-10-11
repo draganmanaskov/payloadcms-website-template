@@ -120,7 +120,7 @@ const Products: CollectionConfig = {
               label: 'Inventory',
               hasMany: false,
               relationTo: 'inventories',
-              required: true,
+              // required: true,
             },
           ],
         },

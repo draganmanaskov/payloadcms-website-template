@@ -7,6 +7,8 @@ import SortBy from './sort-by'
 import ProductCard from '@/components/product/product-card'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import configPromise from '@payload-config'
+import { getValidLocale } from '../[slug]/page'
+import { getLocale } from 'next-intl/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,6 +38,8 @@ export default async function SearchPage({
     [key: string]: string
   }
 
+  const locale = await getLocale()
+
   // TO-DO: Implement date created at products_designs it usesthe orginal created of the base product atm
   const { sortKey } = SORTING.find((item) => item.slug === sort) || defaultSort
 
@@ -56,7 +60,6 @@ export default async function SearchPage({
         .map(Number),
     )
 
-  console.log('Design Parameters:', designParams)
   const designConditions = designParams.map((designsArr) => ({
     'designs.id': {
       in: designsArr,
@@ -71,6 +74,7 @@ export default async function SearchPage({
     limit: 12,
     page: pageNumber,
     sort: sortKey,
+    locale: getValidLocale(locale),
     where: {
       and: [
         ...designConditions,

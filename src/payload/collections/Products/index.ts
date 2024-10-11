@@ -47,8 +47,10 @@ const Products: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
+      label: 'Title',
     },
-    ...slugField(),
+    ...slugField('title', { slugOverrides: { localized: true, required: true } }),
     {
       name: 'publishedOn',
       type: 'date',
@@ -79,7 +81,7 @@ const Products: CollectionConfig = {
               name: 'layout',
               type: 'blocks',
               required: true,
-              blocks: [CallToAction, Content, MediaBlock, Archive], //CallToAction, Content, MediaBlock, Archive
+              blocks: [CallToAction, Content, MediaBlock, Archive],
             },
           ],
         },
@@ -104,20 +106,11 @@ const Products: CollectionConfig = {
                 plural: 'Slides',
               },
               fields: [
-                // required
-                {
-                  name: 'title',
-                  type: 'text',
-                },
                 {
                   name: 'image',
                   type: 'upload',
                   relationTo: 'media',
                   required: true,
-                },
-                {
-                  name: 'caption',
-                  type: 'text',
                 },
               ],
             },
@@ -129,31 +122,6 @@ const Products: CollectionConfig = {
               relationTo: 'inventories',
               required: true,
             },
-
-            {
-              name: 'priceJSON',
-              label: 'Price JSON',
-              type: 'textarea',
-              admin: {
-                readOnly: true,
-                hidden: true,
-                rows: 10,
-              },
-            },
-            {
-              name: 'enablePaywall',
-              label: 'Enable Paywall',
-              type: 'checkbox',
-            },
-            // {
-            //   name: 'paywall',
-            //   label: 'Paywall',
-            //   type: 'blocks',
-            //   access: {
-            //     read: checkUserPurchases,
-            //   },
-            //   blocks: [CallToAction, Content, MediaBlock, Archive],
-            // },
           ],
         },
       ],

@@ -14,6 +14,7 @@ export const Archive: Block = {
     {
       name: 'introContent',
       type: 'richText',
+      localized: true,
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [
@@ -32,11 +33,17 @@ export const Archive: Block = {
       defaultValue: 'standart',
       options: [
         {
-          label: 'Standard',
+          label: {
+            en: 'Standard',
+            mk: 'Стандард',
+          },
           value: 'standart',
         },
         {
-          label: 'Carousel',
+          label: {
+            en: 'Carousel',
+            mk: 'Каруила',
+          },
           value: 'carousel',
         },
       ],

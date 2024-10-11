@@ -12,9 +12,7 @@
  */
 export type CardSlider =
   | {
-      title?: string | null;
       image: number | Media;
-      caption?: string | null;
       id?: string | null;
     }[]
   | null;
@@ -176,6 +174,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  tags?: (number | Tag)[] | null;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -188,6 +187,18 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  title: string;
+  slug: string;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -352,15 +363,13 @@ export interface Category {
 export interface Product {
   id: number;
   title: string;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   publishedOn?: string | null;
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock)[];
   featuredImage?: (number | null) | Media;
   slider?: CardSlider;
   inventory: number | Inventory;
-  priceJSON?: string | null;
-  enablePaywall?: boolean | null;
   categories?: (number | Category)[] | null;
   price: number;
   currencyCode: 'MKD';
@@ -712,18 +721,6 @@ export interface Order {
   city: string;
   state: string;
   zipCode: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tags".
- */
-export interface Tag {
-  id: number;
-  title: string;
-  slug: string;
-  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }

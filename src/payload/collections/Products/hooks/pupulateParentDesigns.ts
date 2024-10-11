@@ -9,12 +9,13 @@ export const populateParentDesigns: FieldHook<Product> = async ({
   req,
 }) => {
   if (!originalDoc) return value
+
   let designIds = originalDoc.designs?.map((design) => {
     if (typeof design === 'number') return design
 
     return design.id
   })
-  let newDesigns = getAddedValues(designIds || [], value)
+  let newDesigns = getAddedValues(designIds || [], value || [])
 
   if (newDesigns.length > 0 && value.length > 0) {
     let designs = await req.payload.find({

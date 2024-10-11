@@ -7,6 +7,7 @@ export const populateParentCategories: FieldHook<Product> = async ({
   operation,
   value,
   req,
+  field,
 }) => {
   if (!originalDoc) return value
 
@@ -16,9 +17,10 @@ export const populateParentCategories: FieldHook<Product> = async ({
     return category.id
   })
 
-  let newCategories = getAddedValues(categoryIds || [], value)
+  let newCategories = getAddedValues(categoryIds || [], value || [])
 
   if (newCategories.length > 0 && value.length > 0) {
+    console.log('changing')
     let designs = await req.payload.find({
       collection: 'categories',
       where: {

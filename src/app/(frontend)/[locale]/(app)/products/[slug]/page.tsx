@@ -6,6 +6,7 @@ import React, { cache } from 'react'
 
 import Product from './product'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { getValidLocale } from '../../[slug]/page'
 
 export async function generateStaticParams() {
   const payload = await getPayloadHMR({ config: configPromise })
@@ -20,11 +21,12 @@ export async function generateStaticParams() {
 }
 
 export default async function ProductComponent({ params: { slug = '', locale = 'en' } }) {
-  const url = '/products/' + slug
+  const decodedSlug = decodeURIComponent(slug)
+  const url = '/products/' + decodedSlug
 
-  const product = await queryProductBySlug({ slug })
+  const product = await queryProductBySlug({ slug: decodedSlug, locale })
 
-  // if (!product) return <PayloadRedirects url={url} />
+  if (!product) return <PayloadRedirects url={url} />
 
   return (
     <article className="pt-16 pb-16 min-h-screen mx-auto max-w-6xl ">
@@ -33,16 +35,6 @@ export default async function ProductComponent({ params: { slug = '', locale = '
       <Product product={product} />
       <RenderBlocks blocks={product.layout} />
       {/* <PostHero post={post} />
-
-      <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container lg:mx-0 lg:grid lg:grid-cols-[1fr_48rem_1fr] grid-rows-[1fr]">
-          <RichText
-            className="lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[1fr]"
-            content={post.content}
-            enableGutter={false}
-          />
-        </div>
-
         {post.relatedPosts && post.relatedPosts.length > 0 && (
           <RelatedPosts
             className="mt-12"
@@ -54,25 +46,16 @@ export default async function ProductComponent({ params: { slug = '', locale = '
   )
 }
 
-// export async function generateMetadata({
-//   params: { slug },
-// }: {
-//   params: { slug: string }
-// }): Promise<Metadata> {
-//   const product = await queryProductBySlug({ slug })
-
-//   return generateMeta({ doc: product })
-// }
-
-const queryProductBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryProductBySlug = cache(async ({ slug, locale }: { slug: string; locale: string }) => {
   const { isEnabled: draft } = draftMode()
 
   const payload = await getPayloadHMR({ config: configPromise })
-
+  console.log(slug)
   const result = await payload.find({
     collection: 'products',
     draft,
     limit: 1,
+    locale: getValidLocale(locale),
     overrideAccess: true,
     where: {
       slug: {
@@ -83,3 +66,13 @@ const queryProductBySlug = cache(async ({ slug }: { slug: string }) => {
 
   return result.docs?.[0] || null
 })
+
+// export async function generateMetadata({
+//   params: { slug },
+// }: {
+//   params: { slug: string }
+// }): Promise<Metadata> {
+//   const product = await queryProductBySlug({ slug })
+
+//   return generateMeta({ doc: product })
+// }

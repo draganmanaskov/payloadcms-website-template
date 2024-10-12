@@ -21,6 +21,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
+import { getValidLocale } from '@/utilities'
 export const Pages: CollectionConfig = {
   slug: 'pages',
   access: {
@@ -33,9 +34,11 @@ export const Pages: CollectionConfig = {
     hidden: showToAdmin,
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
-      url: ({ data }) => {
+      url: ({ data, locale }) => {
+        let validLocale = getValidLocale(locale.code)
+        let slug = typeof data?.slug === 'string' ? data.slug : ''
         const path = generatePreviewPath({
-          path: `/${typeof data?.slug === 'string' ? data.slug : ''}`,
+          path: `/${validLocale}/${slug}`,
         })
         return `${process.env.NEXT_PUBLIC_SERVER_URL}${path}`
       },
@@ -48,7 +51,15 @@ export const Pages: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      localized: true,
+      label: 'Title',
       required: true,
+    },
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      admin: { position: 'sidebar' },
     },
     {
       type: 'tabs',
@@ -104,7 +115,7 @@ export const Pages: CollectionConfig = {
         position: 'sidebar',
       },
     },
-    ...slugField(),
+    ...slugField('name', { slugOverrides: { required: true } }),
   ],
   hooks: {
     afterChange: [revalidatePage],

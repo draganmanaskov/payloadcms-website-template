@@ -7,7 +7,7 @@ import SortBy from './sort-by'
 import ProductCard from '@/components/product/product-card'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import configPromise from '@payload-config'
-import { getValidLocale } from '../[slug]/page'
+import { getValidLocale } from '@/utilities'
 import { getLocale } from 'next-intl/server'
 
 export const dynamic = 'force-dynamic'

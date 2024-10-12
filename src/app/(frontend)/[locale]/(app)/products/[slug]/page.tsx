@@ -6,7 +6,7 @@ import React, { cache } from 'react'
 
 import Product from './product'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { getValidLocale } from '../../[slug]/page'
+import { getValidLocale } from '@/utilities'
 
 export async function generateStaticParams() {
   const payload = await getPayloadHMR({ config: configPromise })
@@ -20,11 +20,21 @@ export async function generateStaticParams() {
   return products.docs?.map(({ slug }) => slug)
 }
 
-export default async function ProductComponent({ params: { slug = '', locale = 'en' } }) {
+export default async function ProductComponent({
+  params: { slug = '', locale = 'en', queryParams },
+}) {
   const decodedSlug = decodeURIComponent(slug)
+
   const url = '/products/' + decodedSlug
 
-  const product = await queryProductBySlug({ slug: decodedSlug, locale })
+  let product = await queryProductBySlug({ slug: decodedSlug, locale })
+
+  // if (locale !== 'en' && searchParams.locale) {
+  //   product = await queryProductById({
+  //     id: product.id,
+  //     locale: getValidLocale(locale),
+  //   })
+  // }
 
   if (!product) return <PayloadRedirects url={url} />
 
@@ -49,17 +59,41 @@ export default async function ProductComponent({ params: { slug = '', locale = '
 const queryProductBySlug = cache(async ({ slug, locale }: { slug: string; locale: string }) => {
   const { isEnabled: draft } = draftMode()
 
+  let validLocale = getValidLocale(locale)
   const payload = await getPayloadHMR({ config: configPromise })
-  console.log(slug)
+
   const result = await payload.find({
     collection: 'products',
     draft,
     limit: 1,
-    locale: getValidLocale(locale),
+    locale: validLocale,
     overrideAccess: true,
     where: {
       slug: {
         equals: slug,
+      },
+    },
+  })
+
+  return result.docs?.[0] || null
+})
+
+const queryProductById = cache(async ({ id, locale }: { id: number; locale: string }) => {
+  const { isEnabled: draft } = draftMode()
+
+  let validLocale = getValidLocale(locale)
+  // validLocale === getValidLocale(searchParams.locale || validLocale) ? validLocale : 'all',
+  const payload = await getPayloadHMR({ config: configPromise })
+
+  const result = await payload.find({
+    collection: 'products',
+    draft,
+    limit: 1,
+    locale: validLocale,
+    overrideAccess: true,
+    where: {
+      id: {
+        equals: id,
       },
     },
   })

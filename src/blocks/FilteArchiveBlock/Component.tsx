@@ -7,7 +7,7 @@ import React from 'react'
 import { cn } from '@/utilities'
 
 import FilterOptionMulti from '@/components/search/filter-option-multi'
-import { getValidLocale } from '@/app/(frontend)/[locale]/(app)/[slug]/page'
+import { getValidLocale } from '@/utilities'
 
 export const FilterArchiveBlock: React.FC<
   FilterArchiveBlockProps & {

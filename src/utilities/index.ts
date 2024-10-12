@@ -6,6 +6,7 @@ import { isInventoryVariantValid, isVariantReadyForSale } from './isInventoryVar
 import { ensureNumber } from './ensureNumber'
 import { decodeURIHelper } from './decodeURIHelper'
 import { decodeUrlString } from './decodeUrlString'
+import { getValidLocale } from './getValidLocale'
 
 export {
   cn,
@@ -17,4 +18,5 @@ export {
   ensureNumber,
   decodeURIHelper,
   decodeUrlString,
+  getValidLocale,
 }

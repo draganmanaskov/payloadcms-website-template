@@ -3,7 +3,7 @@ import type { Config } from 'src/payload-types'
 import configPromise from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import { unstable_cache } from 'next/cache'
-import { getValidLocale } from '@/app/(frontend)/[locale]/(app)/[slug]/page'
+import { getValidLocale } from './getValidLocale'
 
 type Global = keyof Config['globals']
 

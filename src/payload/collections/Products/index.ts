@@ -7,10 +7,11 @@ import { Content } from '@/blocks/Content/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
 import { Archive } from '@/blocks/ArchiveBlock/config'
 import { slugField } from '@/fields/slug'
-import { generatePreviewPath } from '@/utilities/generatePreviewPath'
+import { generatePreviewPath, generatePreviewPathMk } from '@/utilities/generatePreviewPath'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
 import { populateParentDesigns } from './hooks/pupulateParentDesigns'
 import { populateParentCategories } from './hooks/populateParentCategories'
+import { getValidLocale } from '@/utilities'
 
 const Products: CollectionConfig = {
   slug: 'products',
@@ -24,15 +25,22 @@ const Products: CollectionConfig = {
     useAsTitle: 'title',
     hidden: showToAdmin,
     livePreview: {
-      url: ({ data }) => {
+      url: async ({ data, locale }) => {
+        let validLocale = getValidLocale(locale.code)
+        let slug = typeof data?.slug === 'string' ? data.slug : ''
+
         const path = generatePreviewPath({
-          path: `/products/${typeof data?.slug === 'string' ? data.slug : ''}`,
+          path: `/${validLocale}/products/${slug}`,
         })
+
         return `${process.env.NEXT_PUBLIC_SERVER_URL}${path}`
       },
     },
-    preview: (doc) =>
-      generatePreviewPath({ path: `/products/${typeof doc?.slug === 'string' ? doc.slug : ''}` }),
+    preview: (doc) => {
+      return generatePreviewPath({
+        path: `/products/${typeof doc?.slug === 'string' ? doc.slug : ''}`,
+      })
+    },
   },
   versions: {
     drafts: {
@@ -50,7 +58,14 @@ const Products: CollectionConfig = {
       localized: true,
       label: 'Title',
     },
-    ...slugField('title', { slugOverrides: { localized: true, required: true } }),
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      label: 'Name',
+      admin: { position: 'sidebar' },
+    },
+    ...slugField('name', { slugOverrides: { required: true } }),
     {
       name: 'publishedOn',
       type: 'date',

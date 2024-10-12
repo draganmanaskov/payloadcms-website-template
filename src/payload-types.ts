@@ -103,6 +103,7 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
+  name: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
     richText?: {
@@ -146,7 +147,7 @@ export interface Page {
     description?: string | null;
   };
   publishedAt?: string | null;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -363,6 +364,7 @@ export interface Category {
 export interface Product {
   id: number;
   title: string;
+  name: string;
   slug: string;
   slugLock?: boolean | null;
   publishedOn?: string | null;

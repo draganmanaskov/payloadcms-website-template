@@ -13,6 +13,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 
 import { homeStatic } from '@/endpoints/seed/home-static'
+import { getValidLocale } from '@/utilities'
 
 export async function generateStaticParams() {
   const payload = await getPayloadHMR({ config: configPromise })
@@ -97,10 +98,3 @@ const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: s
 
   return result.docs?.[0] || null
 })
-
-export function getValidLocale(locale: string): Config['locale'] {
-  const allowedLocales: Config['locale'][] = ['en', 'mk']
-
-  // If the passed locale is one of the allowed values, return it; otherwise, return "en"
-  return allowedLocales.includes(locale as Config['locale']) ? (locale as Config['locale']) : 'en'
-}

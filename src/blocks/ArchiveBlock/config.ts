@@ -41,10 +41,11 @@ export const Archive: Block = {
         },
         {
           label: {
-            en: 'Carousel',
-            mk: 'Каруила',
+            en: 'Auto Scroll',
+            mk: 'Каруила со автоматски превлачење',
           },
-          value: 'carousel',
+
+          value: 'autoScroll',
         },
       ],
     },

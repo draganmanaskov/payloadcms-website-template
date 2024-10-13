@@ -13,11 +13,18 @@ type ResetPassword = (args: {
 
 type ForgotPassword = (args: { email: string }) => Promise<void> // eslint-disable-line no-unused-vars
 
-type Create = (args: { email: string; password: string; passwordConfirm: string }) => Promise<void> // eslint-disable-line no-unused-vars
+type Create = (args: {
+  name: string
+  email: string
+  password: string
+  passwordConfirm: string
+}) => Promise<void> // eslint-disable-line no-unused-vars
 
 type Login = (args: { email: string; password: string }) => Promise<User> // eslint-disable-line no-unused-vars
 
 type Logout = () => Promise<void>
+
+type VerifyEmail = (args: { token: string }) => Promise<void> // eslint-disable-line no-unused-vars
 
 type AuthContext = {
   user?: User | null
@@ -27,6 +34,7 @@ type AuthContext = {
   create: Create
   resetPassword: ResetPassword
   forgotPassword: ForgotPassword
+  verifyEmail: VerifyEmail
   status: undefined | 'loggedOut' | 'loggedIn'
 }
 
@@ -47,6 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          name: args.name,
           email: args.email,
           password: args.password,
           passwordConfirm: args.passwordConfirm,
@@ -54,10 +63,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       })
 
       if (res.ok) {
-        const { data, errors } = await res.json()
-        if (errors) throw new Error(errors[0].message)
-        setUser(data?.loginUser?.user)
-        setStatus('loggedIn')
+        const result = await res.json()
+
+        if (result.errors) throw new Error(result.errors[0].message)
+
+        // setUser(result.doc)
+        // setStatus('loggedIn')
       } else {
         throw new Error('Invalid login')
       }
@@ -82,6 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (res.ok) {
         const { user, errors } = await res.json()
+
         if (errors) throw new Error(errors[0].message)
         setUser(user)
         setStatus('loggedIn')
@@ -194,6 +206,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [])
 
+  const verifyEmail = useCallback<VerifyEmail>(async (args) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/verify`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: args.token,
+        }),
+      })
+
+      if (res.ok) {
+        const { data, errors } = await res.json()
+        if (errors) throw new Error(errors[0].message)
+        setUser(data?.loginUser?.user)
+        setStatus(data?.loginUser?.user ? 'loggedIn' : undefined)
+      } else {
+        throw new Error('Invalid login')
+      }
+    } catch (e) {
+      throw new Error('An error occurred while attempting to login.')
+    }
+  }, [])
+
   return (
     <Context.Provider
       value={{
@@ -204,6 +242,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         create,
         resetPassword,
         forgotPassword,
+        verifyEmail,
         status,
       }}
     >

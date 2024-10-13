@@ -1,4 +1,29 @@
 {
+  "ProfileButton": {
+    "toggleUserMenu": "Toggle user menu",
+    "orders": "Orders",
+    "settings": "Settings",
+    "logOut": "Log out"
+  },
+  "ProfileHeader": {
+    "signIn": "Sign In"
+  },
+  "AuthLayout": {
+    "backHome": "Back Home"
+  },
+  "SignIn": {
+    "title": "Sign In",
+    "description": "Enter your email and password to sign in.",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, mk {🇲🇰 Macedonian} en {🇺🇸 English} other {Unknown}}"
+  },
   "Error": {
     "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",
     "title": "Something went wrong!"
@@ -9,10 +34,6 @@
   },
   "LocaleLayout": {
     "title": "next-intl example"
-  },
-  "LocaleSwitcher": {
-    "label": "Change language",
-    "locale": "{locale, select, mk {🇲🇰 Macedonian} en {🇺🇸 English} other {Unknown}}"
   },
   "Manifest": {
     "name": "next-intl example"

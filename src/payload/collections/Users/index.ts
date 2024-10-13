@@ -19,7 +19,13 @@ const Users: CollectionConfig = {
     useAsTitle: 'name',
   },
 
-  auth: true,
+  auth: {
+    verify: {
+      generateEmailSubject: () => 'Verify your email',
+      generateEmailHTML: ({ token }) =>
+        `<p>Verify your account here ${process.env.NEXT_PUBLIC_SERVER_URL}/verify?token=${token}.</p>`,
+    },
+  },
   fields: [
     {
       name: 'name',

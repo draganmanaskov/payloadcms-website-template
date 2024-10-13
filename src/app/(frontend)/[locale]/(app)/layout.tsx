@@ -7,9 +7,15 @@ import { Header } from '@/payload/globals/Header/Component'
 import { draftMode } from 'next/headers'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: { [key: string]: string }
+}) {
   const { isEnabled } = draftMode()
-
+  const { locale } = params
   return (
     <>
       <AdminBar
@@ -18,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         }}
       />
       <LivePreviewListener />
-      <Header />
+      <Header locale={locale} />
       <main> {children}</main>
       <Footer />
     </>

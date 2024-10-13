@@ -5,10 +5,11 @@ import { Link } from '@/i18n/routing'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useAuth } from '@/providers/Auth'
 import ProfileButton from '../ProfileButton'
+import { useTranslations } from 'next-intl'
 
 const ProfileHeader = () => {
   const { user, status, logout } = useAuth()
-
+  const t = useTranslations('ProfileHeader')
   const handleLogout = async () => {
     try {
       await logout()
@@ -26,7 +27,7 @@ const ProfileHeader = () => {
       {/* <LoginButton /> */}
       {!status ? (
         <Link className={buttonVariants({ variant: 'outline' })} href={'/sign-in'}>
-          Sign In
+          {t('signIn')}
         </Link>
       ) : null}
     </>

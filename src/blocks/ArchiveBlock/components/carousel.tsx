@@ -4,7 +4,7 @@ import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carouse
 import AutoScroll from 'embla-carousel-auto-scroll'
 
 import ProductCard from '@/components/product/product-card'
-import { Product } from '@/payload-types'
+import { ArchiveBlock, Product } from '@/payload-types'
 
 const OPTIONS = { slidesToScroll: 'auto' }
 const SLIDE_COUNT = 10
@@ -12,14 +12,15 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
 type CarouselBlockProps = {
   products: Product[]
+  type: ArchiveBlock['type']
 }
 
-const CarouselBlock = ({ products }: CarouselBlockProps) => {
+const CarouselBlock = ({ products, type }: CarouselBlockProps) => {
   // const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS)
 
   // const { selectedIndex, scrollSnaps, onDotButtonClick } =
   //   useDotButton(emblaApi)
-
+  type
   return (
     <div className="mx-auto w-full px-2 py-12 md:px-0 ">
       <Carousel
@@ -27,13 +28,17 @@ const CarouselBlock = ({ products }: CarouselBlockProps) => {
           align: 'start',
           loop: true,
         }}
-        plugins={[
-          AutoScroll({
-            speed: 1,
-            stopOnInteraction: false,
-            stopOnMouseEnter: true,
-          }),
-        ]}
+        plugins={
+          type === 'autoScroll'
+            ? [
+                AutoScroll({
+                  speed: 1,
+                  stopOnInteraction: false,
+                  stopOnMouseEnter: true,
+                }),
+              ]
+            : []
+        }
         className="w-full "
       >
         <CarouselContent>

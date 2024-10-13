@@ -314,7 +314,7 @@ export interface ArchiveBlock {
     };
     [k: string]: unknown;
   } | null;
-  type?: ('standart' | 'carousel') | null;
+  type?: ('standart' | 'autoScroll') | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'products' | null;
   categories?: (number | Category)[] | null;
@@ -696,6 +696,8 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  _verified?: boolean | null;
+  _verificationToken?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;

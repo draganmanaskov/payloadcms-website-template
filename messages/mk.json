@@ -1,4 +1,29 @@
 {
+  "ProfileButton": {
+    "toggleUserMenu": "Префрли го менито",
+    "orders": "Нарачки",
+    "settings": "Подесувања",
+    "logOut": "Одјави се"
+  },
+  "LocaleSwitcher": {
+    "label": "Промени јазик",
+    "locale": "{locale, select, mk {🇲🇰 Македонски} en {🇺🇸 Англиски} other {Непознат}}"
+  },
+  "ProfileHeader": {
+    "signIn": "Најави се"
+  },
+  "AuthLayout": {
+    "backHome": "Назад на почетна"
+  },
+  "SignIn": {
+    "title": "Најава",
+    "description": "Внеси ја вашата e-пошта и лозинка за да се најавиш.",
+    "email": "Е-пошта",
+    "password": "Лозинка",
+    "forgotPassword": "Заборавена лозинка?",
+    "noAccount": "Немате профил?",
+    "signUp": "Пријави се"
+  },
   "Error": {
     "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",
     "title": "Something went wrong!"
@@ -9,10 +34,6 @@
   },
   "LocaleLayout": {
     "title": "next-intl example"
-  },
-  "LocaleSwitcher": {
-    "label": "Промени јазик",
-    "locale": "{locale, select, mk {🇲🇰 Македонски} en {🇺🇸 Англиски} other {Непознат}}"
   },
   "Manifest": {
     "name": "next-intl example"

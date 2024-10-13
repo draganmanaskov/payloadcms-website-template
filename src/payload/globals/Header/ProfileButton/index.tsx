@@ -11,24 +11,27 @@ import { Button } from '@/components/ui/button'
 
 import Link from 'next/link'
 import { User } from '@/payload-types'
+import { useTranslations } from 'next-intl'
 
 type ProfileButtonProps = {
   user: User
   logOut: () => Promise<void>
 }
 
-const profileButtonItems = [
-  {
-    label: 'Orders',
-    href: '/dashboard/orders',
-  },
-  {
-    label: 'Settings',
-    href: '/dashboard/settings',
-  },
-]
-
 const ProfileButton = ({ user, logOut }: ProfileButtonProps) => {
+  const t = useTranslations('ProfileButton')
+
+  const profileButtonItems = [
+    {
+      label: t('orders'),
+      href: '/admin/collections/orders',
+    },
+    {
+      label: t('settings'),
+      href: '/admin/account',
+    },
+  ]
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -40,7 +43,7 @@ const ProfileButton = ({ user, logOut }: ProfileButtonProps) => {
           <Avatar className="h-10 w-10">
             <AvatarFallback>{user.name ? user.name.charAt(0) : 'U'}</AvatarFallback>
           </Avatar>
-          <span className="sr-only">Toggle user menu</span>
+          <span className="sr-only">{t('toggleUserMenu')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -65,7 +68,7 @@ const ProfileButton = ({ user, logOut }: ProfileButtonProps) => {
           onClick={logOut}
           className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-100 dark:text-red-500 dark:hover:bg-red-900"
         >
-          Log out
+          {t('logOut')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

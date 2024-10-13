@@ -6,7 +6,7 @@ import { getPayloadHMR } from '@payloadcms/next/utilities'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 
-import type { Config, Page as PageType } from '@/payload-types'
+import type { Page as PageType } from '@/payload-types'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
@@ -41,15 +41,10 @@ export default async function Page({ params: { slug = 'home', locale } }) {
     locale,
   })
 
-  // Remove this code once your website is seeded
-  // if (!page) {
-  //    page = homeStatic
-  //   return <div></div>
-  // }
-
   if (!page && url === '/home') {
     page = homeStatic
   }
+
   if (!page) {
     return <PayloadRedirects url={url} />
   }

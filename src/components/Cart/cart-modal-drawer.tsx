@@ -12,13 +12,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { ShoppingCartIcon } from 'lucide-react'
 
-import {
-  //   calculateCartTotal,
-  cn,
-  formatSKUString,
-  //   formatSKUString,
-  //   getDirectusImageUrl,
-} from '@/utilities'
+import { cn, formatSKUString } from '@/utilities'
 
 import Link from 'next/link'
 
@@ -71,8 +65,8 @@ const CartModalDrawer = ({
   return (
     <Drawer direction={drawerDirection} open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Button variant={type === 'header' ? 'outline' : 'default'} className="relative">
-          {type === 'header' ? (
+        {type === 'header' ? (
+          <Button variant={'outline'} className="relative">
             <>
               <ShoppingCartIcon className=" h-4 w-4" />
 
@@ -82,10 +76,12 @@ const CartModalDrawer = ({
                 </span>
               )}
             </>
-          ) : (
-            `✓ View in cart`
-          )}
-        </Button>
+          </Button>
+        ) : (
+          <Button variant={'default'} className="relative">
+            {'✓ View in cart'}
+          </Button>
+        )}
       </DrawerTrigger>
       <DrawerContent className="bottom-0 left-auto right-0 mt-0 h-5/6 w-full rounded-none sm:top-0 sm:h-screen  sm:max-w-lg">
         <DrawerHeader>
@@ -95,13 +91,16 @@ const CartModalDrawer = ({
           <ScrollArea className={'h-full'}>
             <Card>
               <CardContent className="grid gap-6 p-4">
-                {!cart ? (
+                {!cart || cart.items?.length === 0 ? (
                   <p className="text-center text-muted-foreground">Your cart is empty</p>
                 ) : (
                   cart.items?.map((item, index) => {
                     if (typeof item.product === 'number') return null
                     return (
-                      <div key={`${item.id}-idnex `} className="flex items-center space-x-4">
+                      <div
+                        key={`${item.id}-idnex `}
+                        className="flex items-center space-x-4 shadow-sm"
+                      >
                         <div className="relative h-20 w-20 overflow-hidden rounded-md">
                           {item.product.featuredImage &&
                             typeof item.product.featuredImage !== 'number' && (

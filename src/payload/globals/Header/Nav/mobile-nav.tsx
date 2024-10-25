@@ -21,77 +21,90 @@ import DarkLogo from '../Logos/DarkLogo'
 import LightLogo from '../Logos/LightLogo'
 import LocaleSwitcher from '@/components/LocaleSwitcher'
 import ModeToggle from '@/components/mode-toggle'
+import { Icons } from '@/components/icons'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Globe } from 'lucide-react'
 
 type MobileNavProps = {
   header: Header
 }
 
 const MobileNav = ({ header }: MobileNavProps) => {
-  const [open, setOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false)
 
   const navItems = header?.navItems || []
+  const toggleMenu = () => setIsOpen(!isOpen)
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button
           variant="ghost"
-          className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
+          size="icon"
+          onClick={toggleMenu}
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          className=" md:hidden"
         >
-          <svg
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-          >
-            <path
-              d="M3 5H11"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></path>
-            <path
-              d="M3 12H16"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></path>
-            <path
-              d="M3 19H21"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></path>
-          </svg>
-          <span className="sr-only">Toggle Menu</span>
+          <Icons.Menu className="w-6 h-6" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="px-4">
+      <SheetContent side="left" className="px-0 w-80">
         <SheetTitle>
-          <MobileLink href="/" className="flex items-center pl-2" onOpenChange={setOpen}>
+          <MobileLink
+            href="/"
+            className="flex items-center absolute left-4 top-4 "
+            onOpenChange={setIsOpen}
+          >
             <DarkLogo />
             <LightLogo />
           </MobileLink>
         </SheetTitle>
-        <SheetDescription></SheetDescription>
-        <div className="my-4 pb-10 pl-6">
-          <div className="flex items-cente justify-end gap-2">
-            <LocaleSwitcher />
-            <ModeToggle />
-          </div>
-          <div className="flex flex-col space-y-3">
-            {navItems.map((item, i) => {
-              return <CMSLink key={i} {...item.link} appearance="link" />
-            })}
+
+        <div className="flex flex-col h-full pt-16 pb-8">
+          <ul className="flex-grow">
+            {navItems.map((item) => (
+              <li key={item.link.label}>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start px-4 py-2 text-lg"
+                  onClick={() => {
+                    console.log(`Navigating to ${item.link.label}`)
+                    setIsOpen(false)
+                  }}
+                >
+                  {/* {item.icon} */}
+                  <span className="ml-2">{item.link.label}</span>
+                </Button>
+              </li>
+            ))}
+          </ul>
+
+          <div className="px-4 py-2 border-t border-border">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-medium">Dark Mode</span>
+              <ModeToggle />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">Language</span>
+              <LocaleSwitcher />
+            </div>
           </div>
         </div>
       </SheetContent>
     </Sheet>
   )
+}
+
+{
+  /* {navItems.map((item, i) => {
+              return <CMSLink key={i} {...item.link} appearance="link" />
+            })} */
 }
 
 interface MobileLinkProps extends LinkProps {

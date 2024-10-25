@@ -3,28 +3,38 @@ import React from 'react'
 import VariantButton from './VariantButton'
 import { capitalizeFirstLetter, isInventoryVariantValid } from '@/utilities'
 import { Skeleton } from '../ui/skeleton'
+import { OPTIONS_TYPE_SINGULAR } from '@/payload/collections/Inventories/hooks/beforeChangeCreateSKUs'
 
 type VariantPickerProps = {
   inventory: number | Inventory
-  type: 'color' | 'size'
+
   urlParams: { [key: string]: string }
   handleClick: (key: string, name: string, isActive: boolean) => void
 }
 
-const VarianPicker = ({ inventory, type, urlParams, handleClick }: VariantPickerProps) => {
+export type OptionValue = {
+  id: number
+  title: string
+  value: string
+  code: string
+}
+
+const VarianPicker = ({ inventory, urlParams, handleClick }: VariantPickerProps) => {
   if (typeof inventory === 'number') return null
 
   return (
     <div>
-      {inventory.options.map((option, index) => {
+      {inventory.options?.map((option, index) => {
+        const optionType = option.relationTo as string
+
         return (
           <div key={`${option}-${index + 1}`} className="grid gap-2">
-            <p className="text-base">{capitalizeFirstLetter(option)}</p>
+            <p className="text-base">{capitalizeFirstLetter(optionType)}</p>
             <div className="flex flex-wrap gap-4">
-              {inventory[option]?.map((optionValue, index) => {
-                const optionNameLowerCase = option
+              {option[optionType]?.map((optionValue: OptionValue, index) => {
                 // Base option params on current params so we can preserve any other param state in the url.
-                const isActive = urlParams[optionNameLowerCase] === optionValue ? true : false
+
+                const isActive = urlParams[optionType] === optionValue.code ? true : false
 
                 const isAvailableForSale = isInventoryVariantValid(inventory, urlParams)
                   ? true
@@ -32,13 +42,12 @@ const VarianPicker = ({ inventory, type, urlParams, handleClick }: VariantPicker
 
                 return (
                   <VariantButton
-                    optionName={optionNameLowerCase}
-                    name={optionValue}
-                    value={optionValue}
+                    optionName={option.relationTo}
+                    optionValue={optionValue}
                     isActive={isActive}
                     handleEventClick={handleClick}
                     isAvailableForSale={isAvailableForSale}
-                    key={optionValue}
+                    key={optionValue.code}
                   />
                 )
               })}

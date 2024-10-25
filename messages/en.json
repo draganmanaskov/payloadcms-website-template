@@ -20,6 +20,14 @@
     "noAccount": "Don't have an account?",
     "signUp": "Sign up"
   },
+  "ForgotPassword": {
+    "title": "Forgot Password",
+    "description": "Enter your email to receive a password reset link.",
+    "email": "Email",
+    "sendCode": "Send code",
+    "sent": "Check your email for the code",
+    "sentOnce": "Send new code"
+  },
   "LocaleSwitcher": {
     "label": "Change language",
     "locale": "{locale, select, mk {🇲🇰 Macedonian} en {🇺🇸 English} other {Unknown}}"

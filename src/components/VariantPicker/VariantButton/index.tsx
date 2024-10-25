@@ -1,9 +1,12 @@
+import { Inventory } from '@/payload-types'
 import { cn } from '@/utilities'
+import { OptionValue } from '..'
+
+export type RelationToTypeInventory = NonNullable<Inventory['options']>[number]['relationTo']
 
 type VariantButtonProps = {
-  optionName: 'color' | 'size' | 'capacity'
-  name: string
-  value: string
+  optionName: RelationToTypeInventory
+  optionValue: OptionValue
   isActive: boolean
   handleEventClick: (key: string, name: string, isActive: boolean) => void
   isAvailableForSale: boolean
@@ -11,12 +14,13 @@ type VariantButtonProps = {
 
 const VariantButton = ({
   optionName,
-  name,
-  value,
+  optionValue,
   isActive,
   handleEventClick,
   isAvailableForSale,
 }: VariantButtonProps) => {
+  const { id, title, value, code } = optionValue
+
   const colorsClass = 'h-12 w-12 rounded-full transition-colors shadow-lg ring-offset-2'
   const otherClass =
     'rounded-md px-4 py-2 text-sm font-medium transition-colors dark:text-neutral-200 border-2 '
@@ -25,9 +29,9 @@ const VariantButton = ({
     <button
       aria-disabled={!isAvailableForSale}
       disabled={!isAvailableForSale}
-      onClick={() => handleEventClick(optionName.toLowerCase(), name, isActive)}
-      title={`${optionName} ${name}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
-      className={cn('', optionName === 'color' ? colorsClass : otherClass, {
+      onClick={() => handleEventClick(optionName.toLowerCase(), code, isActive)}
+      title={`${optionName} ${title}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
+      className={cn('', optionName === 'colors' ? colorsClass : otherClass, {
         'ring-2 ring-primary': isActive,
         ' text-gray-700 transition duration-300 ease-in-out hover:ring-2 hover:ring-primary':
           !isActive && isAvailableForSale,
@@ -35,11 +39,11 @@ const VariantButton = ({
           !isAvailableForSale,
       })}
       style={{
-        backgroundColor: optionName == 'color' ? value : '',
-        filter: !isAvailableForSale && optionName === 'color' ? 'grayscale(70%)' : 'none',
+        backgroundColor: optionName == 'colors' ? value : '',
+        filter: !isAvailableForSale && optionName === 'colors' ? 'grayscale(70%)' : 'none',
       }}
     >
-      {optionName !== 'color' ? name.toUpperCase() : null}
+      {optionName !== 'colors' ? code.toUpperCase() : null}
     </button>
   )
 }

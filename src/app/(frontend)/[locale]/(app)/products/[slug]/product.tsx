@@ -147,7 +147,6 @@ const ProductComponent = ({ product }: ProductProps) => {
           {product.inventory ? (
             <VarianPicker
               inventory={product.inventory}
-              type={'color'}
               urlParams={urlParams}
               handleClick={handleClickSingle}
             />

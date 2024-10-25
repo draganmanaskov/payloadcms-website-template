@@ -16,13 +16,12 @@ type APIError = {
 
 const Verify = async ({ searchParams }) => {
   const payload = await getPayloadHMR({ config: configPromise })
-  console.log(searchParams.token)
+
   try {
     const result = await payload.verifyEmail({
       collection: 'users',
       token: searchParams.token,
     })
-    console.log(result)
   } catch (error) {
     const apiError = handleAPIError(error)
   }

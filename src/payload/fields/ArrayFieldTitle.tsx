@@ -5,7 +5,9 @@ import { useRowLabel } from '@payloadcms/ui'
 function ArrayFieldTitle(props) {
   const { data, rowNumber } = useRowLabel<Data>()
 
-  return <>{data?.sku || props.label}</>
+  let { fieldToUse } = props
+
+  return <>{data[fieldToUse] || props.label}</>
 }
 
 export default ArrayFieldTitle

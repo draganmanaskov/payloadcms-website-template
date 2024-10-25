@@ -1,4 +1,4 @@
-type IconProps = React.HTMLAttributes<SVGElement>;
+export type IconProps = React.HTMLAttributes<SVGElement>
 import {
   Home,
   LineChart,
@@ -28,7 +28,12 @@ import {
   ChevronsRight,
   User,
   Trash,
-} from "lucide-react";
+  Menu,
+  BarChart,
+  FileText,
+  Globe,
+  Image,
+} from 'lucide-react'
 
 export const Icons = {
   circleCheckIcon: (props: IconProps) => (
@@ -220,4 +225,9 @@ export const Icons = {
   ChevronsRight: (props: IconProps) => <ChevronsRight {...props} />,
   User: (props: IconProps) => <User {...props} />,
   Trash: (props: IconProps) => <Trash {...props} />,
-};
+  Menu: (props: IconProps) => <Menu {...props} />,
+  BarChart: (props: IconProps) => <BarChart {...props} />,
+  FileText: (props: IconProps) => <FileText {...props} />,
+  Globe: (props: IconProps) => <Globe {...props} />,
+  Image: (props: IconProps) => <Image {...props} />,
+}

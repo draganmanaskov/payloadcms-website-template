@@ -59,6 +59,8 @@ export interface Config {
     designs: Design;
     orders: Order;
     tags: Tag;
+    colors: Color;
+    sizes: Size;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -390,22 +392,50 @@ export interface Inventory {
   id: number;
   title: string;
   baseSku: string;
-  options: ('color' | 'size' | 'capacity')[];
-  color?: ('white' | 'black' | 'red')[] | null;
-  size?: ('small' | 'medium' | 'large')[] | null;
-  capacity?: ('one-litre' | 'two-litre' | 'three-litre')[] | null;
+  options?:
+    | {
+        relationTo: 'colors' | 'sizes';
+        colors?: (number | Color)[] | null;
+        sizes?: (number | Size)[] | null;
+        id?: string | null;
+      }[]
+    | null;
   skus?:
     | {
         sku: string;
         quantity?: number | null;
+        price?: number | null;
+        unitsSold?: number | null;
         color?: string | null;
         size?: string | null;
         capacity?: string | null;
-        price?: number | null;
-        unitsSold?: number | null;
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "colors".
+ */
+export interface Color {
+  id: number;
+  title: string;
+  value: string;
+  code: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sizes".
+ */
+export interface Size {
+  id: number;
+  title: string;
+  value: string;
+  code: string;
   updatedAt: string;
   createdAt: string;
 }

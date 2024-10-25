@@ -59,7 +59,9 @@ export default function SignUp() {
       router.push('/sign-in')
       router.refresh()
     } catch (err) {
-      console.log(err)
+      form.setError('email', {
+        message: 'Email already in use',
+      })
     }
   }
 

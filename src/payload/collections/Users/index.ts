@@ -5,6 +5,8 @@ import { admins } from '@/access/admins'
 import adminsAndUser from '@/access/adminAndUser'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
 
+import generateForgotPasswordEmail from '@/payload/email/generateForgotPasswordEmail'
+
 const Users: CollectionConfig = {
   slug: 'users',
   access: {
@@ -20,6 +22,11 @@ const Users: CollectionConfig = {
   },
 
   auth: {
+    tokenExpiration: 60 * 60 * 2, // 2 hours
+    forgotPassword: {
+      generateEmailSubject: () => 'Reset your password',
+      generateEmailHTML: generateForgotPasswordEmail,
+    },
     verify: {
       generateEmailSubject: () => 'Verify your email',
       generateEmailHTML: ({ token }) =>

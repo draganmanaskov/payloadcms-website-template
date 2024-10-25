@@ -20,7 +20,6 @@ export const populateParentCategories: FieldHook<Product> = async ({
   let newCategories = getAddedValues(categoryIds || [], value || [])
 
   if (newCategories.length > 0 && value.length > 0) {
-    console.log('changing')
     let designs = await req.payload.find({
       collection: 'categories',
       where: {

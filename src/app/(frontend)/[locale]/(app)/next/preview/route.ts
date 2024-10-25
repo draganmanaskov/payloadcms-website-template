@@ -19,7 +19,7 @@ export async function GET(
   const token = req.cookies.get(payloadToken)?.value
   const { searchParams } = new URL(req.url)
   const path = searchParams.get('path')
-  console.log('Path:', path)
+
   if (!path) {
     return new Response('No path provided', { status: 404 })
   }

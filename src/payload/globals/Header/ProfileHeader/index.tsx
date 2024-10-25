@@ -6,13 +6,17 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useAuth } from '@/providers/Auth'
 import ProfileButton from '../ProfileButton'
 import { useTranslations } from 'next-intl'
+import { useCart } from '@/providers/Cart'
 
 const ProfileHeader = () => {
   const { user, status, logout } = useAuth()
+  const { clearCart } = useCart()
   const t = useTranslations('ProfileHeader')
+
   const handleLogout = async () => {
     try {
       await logout()
+      clearCart()
     } catch (error) {
       console.log(error)
     }

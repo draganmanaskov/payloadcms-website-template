@@ -41,6 +41,8 @@ import Orders from '@/payload/collections/Orders'
 
 import nodemailerSendgrid from 'nodemailer-sendgrid'
 import Tags from './payload/collections/Tags'
+import Colors from './payload/collections/Options/Colors'
+import Sizes from './payload/collections/Options/Sizes'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -70,7 +72,13 @@ export default buildConfig({
     //     Account : CustomAccount
     //   }
     // },
-    components: {},
+    dependencies: {},
+    components: {
+      // actions: ['@/payload/actions/Test'],
+      Nav: {
+        path: '@/payload/views/Nav',
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
@@ -101,10 +109,19 @@ export default buildConfig({
   email: nodemailerAdapter({
     defaultFromAddress: 'dmanaskov@hotmail.com',
     defaultFromName: 'Mega Desigsn',
+    transportOptions: {
+      host: process.env.SMTP_HOST,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+      port: process.env.SMTP_PORT,
+      secure: false,
+    },
     // Nodemailer transportOptions
-    transportOptions: nodemailerSendgrid({
-      apiKey: process.env.SENDGRID_API_KEY,
-    }),
+    // transportOptions: nodemailerSendgrid({
+    //   apiKey: process.env.SENDGRID_API_KEY,
+    // }),
   }),
   localization: {
     locales: [
@@ -126,7 +143,6 @@ export default buildConfig({
     defaultLocale: 'en',
     fallback: true,
   },
-
   // This config helps us configure global or default features that the other editors can inherit
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => {
@@ -178,6 +194,8 @@ export default buildConfig({
     Designs,
     Orders,
     Tags,
+    Colors,
+    Sizes,
   ],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),

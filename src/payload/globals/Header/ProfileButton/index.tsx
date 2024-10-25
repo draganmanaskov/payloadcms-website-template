@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { User } from '@/payload-types'
 import { useTranslations } from 'next-intl'
+import { useRouter } from '@/i18n/routing'
 
 type ProfileButtonProps = {
   user: User
@@ -20,6 +21,7 @@ type ProfileButtonProps = {
 
 const ProfileButton = ({ user, logOut }: ProfileButtonProps) => {
   const t = useTranslations('ProfileButton')
+  const router = useRouter()
 
   const profileButtonItems = [
     {

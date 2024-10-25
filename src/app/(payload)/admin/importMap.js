@@ -30,6 +30,7 @@ import { PreviewComponent as PreviewComponent_28 } from '@payloadcms/plugin-seo/
 import { SlugComponent as SlugComponent_29 } from '@/fields/slug/SlugComponent'
 import { BlocksFeatureClient as BlocksFeatureClient_30 } from '@payloadcms/richtext-lexical/client'
 import { default as default_31 } from '@/payload/fields/ArrayFieldTitle'
+import { default as default_32 } from '@/payload/views/Nav'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/client#RichTextCell": RichTextCell_0,
@@ -63,5 +64,6 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_28,
   "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_29,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_30,
-  "@/payload/fields/ArrayFieldTitle#default": default_31
+  "@/payload/fields/ArrayFieldTitle#default": default_31,
+  "@/payload/views/Nav#default": default_32
 }

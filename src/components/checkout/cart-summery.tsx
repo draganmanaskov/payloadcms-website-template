@@ -44,6 +44,7 @@ const CartSummery = ({ cart, cartTotal }: CartSummeryProps) => {
                   className="text-sm font-medium"
                   amount={item.product.price}
                   currencyCode={item.product.currencyCode}
+                  discount={item.product.discount}
                 />
               </div>
             </div>
@@ -58,6 +59,7 @@ const CartSummery = ({ cart, cartTotal }: CartSummeryProps) => {
               className="text-right text-base text-black dark:text-white"
               amount={cartTotal.raw}
               currencyCode={'MKD'}
+              discount={null}
             />
           </div>
           <div className="mb-3 flex items-center justify-between  pb-1 pt-1 ">
@@ -67,6 +69,7 @@ const CartSummery = ({ cart, cartTotal }: CartSummeryProps) => {
                 className="text-right text-base text-black dark:text-white"
                 amount={shipping.price}
                 currencyCode={'MKD'}
+                discount={null}
               />
             ) : (
               <p className="text-right">{'Calculated at checkout'}</p>
@@ -78,6 +81,7 @@ const CartSummery = ({ cart, cartTotal }: CartSummeryProps) => {
               className="text-right text-base text-black dark:text-white"
               amount={cartTotal.raw + shipping.price}
               currencyCode={'MKD'}
+              discount={null}
             />
           </div>
         </div>

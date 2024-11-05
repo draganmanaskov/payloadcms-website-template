@@ -26,7 +26,7 @@ const NavClientComponent = ({ user }: NavClientComponentProps) => {
 
   const closeNav = useCallback(() => {
     setNavOpen(false)
-  }, [])
+  }, [setNavOpen])
 
   const allowedCollections = filterAllowedToView(collections, user, 'collections')
   const allowedGlobals = filterAllowedToView(globals, user, 'globals')

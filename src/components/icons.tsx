@@ -32,7 +32,7 @@ import {
   BarChart,
   FileText,
   Globe,
-  Image,
+  ImageIcon,
 } from 'lucide-react'
 
 export const Icons = {
@@ -229,5 +229,5 @@ export const Icons = {
   BarChart: (props: IconProps) => <BarChart {...props} />,
   FileText: (props: IconProps) => <FileText {...props} />,
   Globe: (props: IconProps) => <Globe {...props} />,
-  Image: (props: IconProps) => <Image {...props} />,
+  ImageIcon: (props: IconProps) => <ImageIcon {...props} />,
 }

@@ -86,7 +86,7 @@ const FilterOptionMulti = ({
         </CollapsibleTrigger>
         {transformedData.map((option, index) => {
           return (
-            <CollapsibleContent>
+            <CollapsibleContent key={`${option.id}-${index}`}>
               <SidebarMenuSub>
                 <AcordionFilterItem
                   key={`${option.id}-${index}`}

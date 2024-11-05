@@ -172,6 +172,7 @@ const Shipping = () => {
                 className="text-lg font-semibold "
                 amount={option.price}
                 currencyCode={'MKD'}
+                discount={null}
               />
             </Label>
           )

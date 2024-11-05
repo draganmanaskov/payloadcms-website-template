@@ -10,13 +10,22 @@ import {
 } from '@/components/ui/accordion'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import useFilterHook from '@/hooks/useFilterHook'
-import { Design } from '@/payload-types'
+import { Design, Category } from '@/payload-types'
 
 import React from 'react'
 import AcordionFilterItem from './acordionFilterItem'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible'
+import {
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+} from '../ui/sidebar'
+import { Minus, Plus } from 'lucide-react'
 
 type FilterOptionMultiProps = {
-  data: Design[]
+  data: Design[] | Category[]
   title: string
   filterKey: string
   // urlParams: { [key: string]: string }
@@ -31,43 +40,68 @@ const FilterOptionMulti = ({
 
   type,
 }: FilterOptionMultiProps) => {
-  const { urlParams, handleClickMulti } = useFilterHook(type)
+  const { urlParams, handleClickMulti } = useFilterHook(type, 0)
 
   const transformedData = buildHierarchy(data)
 
   return (
-    <Accordion defaultValue={[filterKey]} type="multiple" className="animate-none">
-      <AccordionItem value={filterKey}>
-        {/* <AccordionTrigger className="py-3 text-sm ">
-          <span className="font-medium ">{title}</span>
-        </AccordionTrigger> */}
-        <AccordionHeader>
-          <AccordionSimpleTrigger>
-            <span className="font-medium ">{title}</span>
-          </AccordionSimpleTrigger>
-          <p>X</p>
-        </AccordionHeader>
+    // <SidebarMenuItem>
+    //   <Accordion defaultValue={[filterKey]} type="multiple" className="animate-none">
+    //     <AccordionItem value={filterKey}>
+    //       <AccordionHeader>
+    //         <AccordionSimpleTrigger>
+    //           <span className="font-medium ">{title}</span>
+    //         </AccordionSimpleTrigger>
+    //       </AccordionHeader>
 
-        <AccordionContent className="animate-none pt-1">
-          <ScrollArea className="h-80 w-full">
-            <ul className="space-y-4">
-              {transformedData.map((option, index) => {
-                return (
-                  <AcordionFilterItem
-                    key={`${option.id}-${index}`}
-                    option={option}
-                    type={type}
-                    filterKey={filterKey}
-                    urlParams={urlParams}
-                    handleClickMulti={handleClickMulti}
-                  />
-                )
-              })}
-            </ul>
-          </ScrollArea>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+    //       <AccordionContent className="animate-none pt-1">
+    //         <ScrollArea className="h-80 w-full">
+    //           <ul className="space-y-4">
+    //             {transformedData.map((option, index) => {
+    //               return (
+    //                 <AcordionFilterItem
+    //                   key={`${option.id}-${index}`}
+    //                   option={option}
+    //                   type={type}
+    //                   filterKey={filterKey}
+    //                   urlParams={urlParams}
+    //                   handleClickMulti={handleClickMulti}
+    //                 />
+    //               )
+    //             })}
+    //           </ul>
+    //         </ScrollArea>
+    //       </AccordionContent>
+    //     </AccordionItem>
+    //   </Accordion>
+    // </SidebarMenuItem>
+    <Collapsible key={title} defaultOpen={true} className="group/collapsible">
+      <SidebarMenuItem>
+        <CollapsibleTrigger asChild>
+          <SidebarMenuButton>
+            {title}
+            <Plus className="ml-auto group-data-[state=open]/collapsible:hidden" />
+            <Minus className="ml-auto group-data-[state=closed]/collapsible:hidden" />
+          </SidebarMenuButton>
+        </CollapsibleTrigger>
+        {transformedData.map((option, index) => {
+          return (
+            <CollapsibleContent>
+              <SidebarMenuSub>
+                <AcordionFilterItem
+                  key={`${option.id}-${index}`}
+                  option={option}
+                  type={type}
+                  filterKey={filterKey}
+                  urlParams={urlParams}
+                  handleClickMulti={handleClickMulti}
+                />
+              </SidebarMenuSub>
+            </CollapsibleContent>
+          )
+        })}
+      </SidebarMenuItem>
+    </Collapsible>
   )
 }
 

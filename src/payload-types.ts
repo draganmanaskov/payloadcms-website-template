@@ -61,6 +61,7 @@ export interface Config {
     tags: Tag;
     colors: Color;
     sizes: Size;
+    discounts: Discount;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -105,7 +106,11 @@ export interface UserAuthOperations {
 export interface Page {
   id: number;
   title: string;
-  name: string;
+  promotion?: {
+    title?: string | null;
+    description?: string | null;
+    endDate?: string | null;
+  };
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
     richText?: {
@@ -142,13 +147,14 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock | SocialProofBlock)[];
   meta?: {
     title?: string | null;
     image?: (number | null) | Media;
     description?: string | null;
   };
   publishedAt?: string | null;
+  name: string;
   slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -283,7 +289,7 @@ export interface ContentBlock {
     | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'content';
+  blockType: 'cnt';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -316,7 +322,7 @@ export interface ArchiveBlock {
     };
     [k: string]: unknown;
   } | null;
-  type?: ('standart' | 'autoScroll') | null;
+  type?: ('standart' | 'autoScroll' | 'fade') | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'products' | null;
   categories?: (number | Category)[] | null;
@@ -376,10 +382,12 @@ export interface Product {
   inventory?: (number | null) | Inventory;
   categories?: (number | Category)[] | null;
   price: number;
+  discountedPrice: number;
   currencyCode: 'MKD';
   relatedProducts?: (number | Product)[] | null;
   designs?: (number | Design)[] | null;
   skipSync?: boolean | null;
+  discount?: (number | null) | Discount;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -457,6 +465,25 @@ export interface Design {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "discounts".
+ */
+export interface Discount {
+  id: number;
+  name: string;
+  discountType: 'percentage' | 'fixed' | 'free_shipping';
+  value: number;
+  code: string;
+  usageLimit?: number | null;
+  eligibleProducts?: (number | Product)[] | null;
+  minimumPurchase?: number | null;
+  startDate: string;
+  endDate: string;
+  isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -649,6 +676,24 @@ export interface Form {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialProofBlock".
+ */
+export interface SocialProofBlock {
+  columns?:
+    | {
+        size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        icons?: string | null;
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'socialProof';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -881,6 +926,11 @@ export interface Footer {
  */
 export interface Filter {
   id: number;
+  categories?: {
+    title?: string | null;
+    slug?: string | null;
+    active?: boolean | null;
+  };
   designs?: (number | Design)[] | null;
   layout: FilterArchiveBlock[];
   updatedAt?: string | null;
@@ -892,6 +942,7 @@ export interface Filter {
  */
 export interface FilterArchiveBlock {
   title?: string | null;
+  type?: ('singleSelect' | 'multiSelect' | 'breadcrumbs') | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: ('designs' | 'categories') | null;
   limit?: number | null;

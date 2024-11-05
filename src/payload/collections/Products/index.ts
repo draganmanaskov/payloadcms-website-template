@@ -6,12 +6,14 @@ import { Content } from '@/blocks/Content/config'
 
 import { MediaBlock } from '@/blocks/MediaBlock/config'
 import { Archive } from '@/blocks/ArchiveBlock/config'
-import { slugField } from '@/fields/slug'
+import { slugField } from '@/payload/fields/slug'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
 import { populateParentDesigns } from './hooks/pupulateParentDesigns'
 import { populateParentCategories } from './hooks/populateParentCategories'
 import { getValidLocale } from '@/utilities'
+import { addDiscount } from './hooks/addDiscount'
+import { updateDiscountsProducts } from './hooks/updateDiscountsProducts'
 
 const Products: CollectionConfig = {
   slug: 'products',
@@ -21,6 +23,9 @@ const Products: CollectionConfig = {
     update: admins,
     delete: admins,
   },
+  // hooks: {
+  //   beforeRead: [addDiscount],
+  // },
   admin: {
     useAsTitle: 'title',
     hidden: showToAdmin,
@@ -44,9 +49,10 @@ const Products: CollectionConfig = {
   },
   versions: {
     drafts: {
-      autosave: {
-        interval: 100, // We set this interval for optimal live preview
-      },
+      // autosave: {
+      //   interval: 100, // We set this interval for optimal live preview
+      // },
+      autosave: false,
     },
     maxPerDoc: 50,
   },
@@ -154,30 +160,66 @@ const Products: CollectionConfig = {
       },
     },
     {
-      type: 'row',
-      fields: [
-        {
-          name: 'price',
-          type: 'number',
-          label: 'Price',
-          min: 0,
-          required: true,
-          admin: {
-            width: '60%',
-          },
-        },
-        {
-          name: 'currencyCode',
-          type: 'select',
-          defaultValue: 'MKD',
-          required: true,
-          options: [{ label: 'MKD', value: 'MKD' }],
-          admin: {
-            width: '35%',
-          },
-        },
-      ],
+      name: 'price',
+      type: 'number',
+      label: 'Price',
+      min: 0,
+      required: true,
       admin: {
+        width: '60%',
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'discountedPrice',
+      type: 'number',
+      label: 'Discounted Price',
+      hooks: {
+        beforeChange: [
+          async ({ siblingData, value, req, context }) => {
+            if (siblingData.discount) {
+              console.log(siblingData.discount)
+              console.log(context)
+              // const discount = await req.payload.findByID({
+              //   context,
+              //   collection: 'discounts',
+              //   id: siblingData.discount,
+              // })
+
+              let value = context.value as number
+              console.log(siblingData.price - value)
+              switch (context.discountType) {
+                case 'percentage':
+                  return siblingData.price * (value / 100)
+                case 'fixed':
+                  return siblingData.price - value
+                default:
+                  return siblingData.price
+              }
+            }
+            console.log('dsdadasd')
+            return siblingData.price
+          },
+        ],
+      },
+      access: {
+        update: () => false,
+      },
+      min: 0,
+      required: true,
+      admin: {
+        width: '60%',
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'currencyCode',
+      type: 'select',
+      defaultValue: 'MKD',
+      required: true,
+      options: [{ label: 'MKD', value: 'MKD' }],
+      admin: {
+        width: '50%',
         position: 'sidebar',
       },
     },
@@ -214,6 +256,34 @@ const Products: CollectionConfig = {
         position: 'sidebar',
         readOnly: true,
         hidden: true,
+      },
+    },
+    {
+      name: 'discount',
+      type: 'relationship',
+      relationTo: 'discounts',
+      // hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
+      hooks: {
+        afterChange: [
+          async ({ value = [], previousValue = [], context, req, originalDoc }) => {
+            if (context.hasUpdatedDiscountsAfterChange) return
+            context.hasUpdatedProductsAfterChange = true
+
+            const discountIDsAddedToProducts = value ? [value] : []
+            const discountIDsRemovingFromProducts = previousValue ? [previousValue] : []
+
+            await updateDiscountsProducts({
+              req,
+              discountIDsAddedToProducts,
+              discountIDsRemovingFromProducts,
+              productID: originalDoc.id,
+              context,
+            })
+          },
+        ],
       },
     },
   ],

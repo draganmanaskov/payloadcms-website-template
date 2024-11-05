@@ -7,8 +7,27 @@ export const FilterArchive: Block = {
     {
       name: 'title',
       type: 'text',
+      label: 'Title',
       localized: true,
-      label: {},
+    },
+    {
+      name: 'type',
+      type: 'select',
+      defaultValue: 'singleSelect',
+      options: [
+        {
+          label: 'Single Select',
+          value: 'singleSelect',
+        },
+        {
+          label: 'Multi Select',
+          value: 'multiSelect',
+        },
+        {
+          label: 'Breadcrumbs',
+          value: 'breadcrumbs',
+        },
+      ],
     },
     {
       name: 'populateBy',

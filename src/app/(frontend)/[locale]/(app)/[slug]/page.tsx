@@ -12,8 +12,9 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 
-import { homeStatic } from '@/endpoints/seed/home-static'
+import { homeStatic } from '@/payload/endpoints/seed/home-static'
 import { getValidLocale } from '@/utilities'
+import PromotionBanner from '@/components/PromotionBanner'
 
 export async function generateStaticParams() {
   const payload = await getPayloadHMR({ config: configPromise })
@@ -49,12 +50,13 @@ export default async function Page({ params: { slug = 'home', locale } }) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout } = page
+  const { hero, layout, promotion } = page
 
   return (
-    <article className="pt-16 pb-24">
+    <article className="pb-24">
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
+      {/* <PromotionBanner promotion={promotion} /> */}
 
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />

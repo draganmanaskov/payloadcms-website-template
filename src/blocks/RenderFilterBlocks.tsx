@@ -2,14 +2,14 @@ import React, { Fragment } from 'react'
 
 import type { Filter } from '@/payload-types'
 
-import { FilterArchiveBlock } from '@/blocks/FilteArchiveBlock/Component'
+import FilterArchiveBlock from '@/blocks/FilterArchiveBlock/Component'
 
 const blockComponents = {
   filterArchive: FilterArchiveBlock,
 }
 
 export const RenderFilterBlocks: React.FC<{
-  locale: 'string'
+  locale: string
   blocks: Filter['layout'][0][]
   type: 'desktop' | 'mobile'
 }> = (props) => {
@@ -28,10 +28,9 @@ export const RenderFilterBlocks: React.FC<{
 
             if (Block) {
               return (
-                <div className="my-16" key={index}>
-                  {/* @ts-expect-error */}
-                  <Block {...block} type={type} locale={locale} />
-                </div>
+                <Fragment key={index}>
+                  <Block block={block} type={type} locale={locale} />
+                </Fragment>
               )
             }
           }

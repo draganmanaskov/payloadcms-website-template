@@ -23,6 +23,7 @@ import { Media } from '../Media'
 import { DeleteItemFromCartButton } from './DeleteItemFromCartButton'
 import { CartItem } from '@/providers/Cart/reducer'
 import UpdateQuantity from './UpdateQuantity'
+import DiscountBadge from '../DiscountBadge'
 
 type CartDrawerProps = {
   side?: 'top' | 'right' | 'bottom' | 'left'
@@ -126,6 +127,7 @@ const CartModalDrawer = ({
                             className="text-sm font-medium"
                             amount={item.product.price}
                             currencyCode={item.product.currencyCode}
+                            discount={item.product.discount}
                           />
                         </div>
 
@@ -151,7 +153,7 @@ const CartModalDrawer = ({
               <div className="flex w-full justify-between text-lg font-semibold">
                 <span>Total:</span>
 
-                <Price amount={cartTotal.raw} currencyCode={'MKD'} />
+                <Price amount={cartTotal.raw} currencyCode={'MKD'} discount={null} />
               </div>
               <Link
                 href={'/checkout/information'}

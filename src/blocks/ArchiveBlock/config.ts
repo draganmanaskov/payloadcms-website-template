@@ -47,6 +47,14 @@ export const Archive: Block = {
 
           value: 'autoScroll',
         },
+        {
+          label: {
+            en: 'Fade',
+            mk: 'Карула со фаде',
+          },
+
+          value: 'fade',
+        },
       ],
     },
     {

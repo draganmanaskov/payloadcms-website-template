@@ -1,4 +1,4 @@
-import type { FilterArchiveBlock as FilterArchiveBlockProps, Design } from '@/payload-types'
+import type { FilterArchiveBlock } from '@/payload-types'
 
 import configPromise from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
@@ -9,25 +9,15 @@ import { cn } from '@/utilities'
 import FilterOptionMulti from '@/components/search/filter-option-multi'
 import { getValidLocale } from '@/utilities'
 
-export const FilterArchiveBlock: React.FC<
-  FilterArchiveBlockProps & {
-    id?: string
-    type: 'desktop' | 'mobile'
-    locale: 'string'
-  }
-> = async (props) => {
-  const {
-    id,
-    title,
-    limit: limitFromProps,
-    populateBy,
-    relationTo,
-    selectedDocs,
-    type,
-    locale,
-  } = props
+type FilterArchiveBlockProps = {
+  block: FilterArchiveBlock
+  id?: string
+  type: 'desktop' | 'mobile'
+  locale: string
+}
 
-  const limit = limitFromProps || 3
+const FilterArchiveBlock = async ({ block, id, type, locale }: FilterArchiveBlockProps) => {
+  const { title, populateBy, relationTo, selectedDocs, type: typeFromProps, limit } = block
 
   let filter
 
@@ -38,7 +28,7 @@ export const FilterArchiveBlock: React.FC<
     const fetchFilter = await payload.find({
       collection: relationTo,
       depth: 1,
-      limit,
+      limit: limit || undefined,
       locale: validLocale,
     })
     filter = fetchFilter.docs
@@ -52,9 +42,8 @@ export const FilterArchiveBlock: React.FC<
   }
 
   return (
-    <div className={cn('w-full')} id={`block-${id}`}>
-      <h3 className=" text-sm text-neutral-500 dark:text-neutral-400 ">{title}</h3>
-      <FilterOptionMulti data={filter} title={'Designs'} filterKey={'design'} type={type} />
-    </div>
+    <FilterOptionMulti data={filter} title={title || ''} filterKey={relationTo || ''} type={type} />
   )
 }
+
+export default FilterArchiveBlock

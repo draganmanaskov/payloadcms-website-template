@@ -6,7 +6,7 @@ export const isInventoryVariantValid = (
   urlParams: { [key: string]: string },
 ) => {
   if (!inventory) return false
-  console.log(urlParams)
+  // console.log(urlParams)
   return inventory.skus?.find((sku) => {
     let found = true
 
@@ -16,9 +16,9 @@ export const isInventoryVariantValid = (
           ? urlParams[option.relationTo] !== sku[OPTIONS_TYPE_SINGULAR[option.relationTo]]
           : false
       ) {
-        console.log('Found invalid variant')
-        console.log(urlParams[option.relationTo])
-        console.log(sku[OPTIONS_TYPE_SINGULAR[option.relationTo]])
+        // console.log('Found invalid variant')
+        // console.log(urlParams[option.relationTo])
+        // console.log(sku[OPTIONS_TYPE_SINGULAR[option.relationTo]])
         found = false
       }
     })

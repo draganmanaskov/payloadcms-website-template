@@ -1,5 +1,6 @@
 'use client'
 import { Slider } from '@/components/ui/slider'
+import useFilterHook from '@/hooks/useFilterHook'
 import { cn } from '@/utilities'
 import React, { useEffect, useState } from 'react'
 
@@ -24,12 +25,14 @@ const PRICE_FILTERS = {
 } as const
 
 type PriceRangeProps = {
-  urlParams: { [key: string]: string }
-  handleRange: (range: [number, number], isCustom: boolean) => void
+  // urlParams: { [key: string]: string }
+  // handleRange: (range: [number, number], isCustom: boolean) => void
   type: 'desktop' | 'mobile'
 }
 
-const PriceRange = ({ urlParams, handleRange, type }: PriceRangeProps) => {
+const PriceRange = ({ type }: PriceRangeProps) => {
+  const { urlParams, handleRange } = useFilterHook(type)
+
   const [filter, setFilter] = useState({
     isCustom: urlParams.customPrice ? true : false,
     range: [
@@ -68,7 +71,7 @@ const PriceRange = ({ urlParams, handleRange, type }: PriceRangeProps) => {
   }
 
   return (
-    <div className="mt-4 space-y-2">
+    <div className="p-4 space-y-2">
       <h3 className=" text-sm text-neutral-500 dark:text-neutral-400 ">Price</h3>
       <ul className="space-y-4">
         {PRICE_FILTERS.options.map((option, optionIdx) => {

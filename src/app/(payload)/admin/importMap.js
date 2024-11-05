@@ -22,15 +22,16 @@ import { RelationshipFeatureClient as RelationshipFeatureClient_20 } from '@payl
 import { BlockquoteFeatureClient as BlockquoteFeatureClient_21 } from '@payloadcms/richtext-lexical/client'
 import { UploadFeatureClient as UploadFeatureClient_22 } from '@payloadcms/richtext-lexical/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_23 } from '@payloadcms/richtext-lexical/client'
-import { OverviewComponent as OverviewComponent_24 } from '@payloadcms/plugin-seo/client'
-import { MetaTitleComponent as MetaTitleComponent_25 } from '@payloadcms/plugin-seo/client'
-import { MetaImageComponent as MetaImageComponent_26 } from '@payloadcms/plugin-seo/client'
-import { MetaDescriptionComponent as MetaDescriptionComponent_27 } from '@payloadcms/plugin-seo/client'
-import { PreviewComponent as PreviewComponent_28 } from '@payloadcms/plugin-seo/client'
-import { SlugComponent as SlugComponent_29 } from '@/fields/slug/SlugComponent'
-import { BlocksFeatureClient as BlocksFeatureClient_30 } from '@payloadcms/richtext-lexical/client'
-import { default as default_31 } from '@/payload/fields/ArrayFieldTitle'
-import { default as default_32 } from '@/payload/views/Nav'
+import { IconsField as IconsField_24 } from '@/payload/fields/IconPicker/component'
+import { OverviewComponent as OverviewComponent_25 } from '@payloadcms/plugin-seo/client'
+import { MetaTitleComponent as MetaTitleComponent_26 } from '@payloadcms/plugin-seo/client'
+import { MetaImageComponent as MetaImageComponent_27 } from '@payloadcms/plugin-seo/client'
+import { MetaDescriptionComponent as MetaDescriptionComponent_28 } from '@payloadcms/plugin-seo/client'
+import { PreviewComponent as PreviewComponent_29 } from '@payloadcms/plugin-seo/client'
+import { SlugComponent as SlugComponent_30 } from '@/payload/fields/slug/SlugComponent'
+import { BlocksFeatureClient as BlocksFeatureClient_31 } from '@payloadcms/richtext-lexical/client'
+import { default as default_32 } from '@/payload/fields/ArrayFieldTitle'
+import { default as default_33 } from '@/payload/views/Nav'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/client#RichTextCell": RichTextCell_0,
@@ -57,13 +58,14 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BlockquoteFeatureClient": BlockquoteFeatureClient_21,
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_22,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_23,
-  "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_24,
-  "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_25,
-  "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_26,
-  "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_27,
-  "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_28,
-  "@/fields/slug/SlugComponent#SlugComponent": SlugComponent_29,
-  "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_30,
-  "@/payload/fields/ArrayFieldTitle#default": default_31,
-  "@/payload/views/Nav#default": default_32
+  "@/payload/fields/IconPicker/component#IconsField": IconsField_24,
+  "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_25,
+  "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_26,
+  "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_27,
+  "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_28,
+  "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_29,
+  "@/payload/fields/slug/SlugComponent#SlugComponent": SlugComponent_30,
+  "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_31,
+  "@/payload/fields/ArrayFieldTitle#default": default_32,
+  "@/payload/views/Nav#default": default_33
 }

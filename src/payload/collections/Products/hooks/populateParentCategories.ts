@@ -2,13 +2,7 @@ import { FieldHook } from 'payload'
 import { Product } from '@/payload-types'
 import { getAddedValues, mergeUnique } from './utils'
 
-export const populateParentCategories: FieldHook<Product> = async ({
-  originalDoc,
-  operation,
-  value,
-  req,
-  field,
-}) => {
+export const populateParentCategories: FieldHook<Product> = async ({ originalDoc, value, req }) => {
   if (!originalDoc) return value
 
   let categoryIds = originalDoc.categories?.map((category) => {

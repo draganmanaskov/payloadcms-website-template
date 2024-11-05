@@ -13,7 +13,7 @@ const MainNav = ({ header }: MainNavProps) => {
   return (
     <nav className=" hidden items-center justify-around gap-4 md:flex">
       {navItems.map((item, i) => (
-        <CMSLink key={i} {...item.link} appearance="link" />
+        <CMSLink key={i} {...item.link} appearance="linkHover2" className="text-foreground" />
       ))}
     </nav>
   )

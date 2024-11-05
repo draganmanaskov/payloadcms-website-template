@@ -27,7 +27,7 @@ const SiteHeader = ({ header }: SiteHeadertProps) => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
 
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      if (currentScrollY > lastScrollY && currentScrollY > 130) {
         // Scrolling down and past a threshold, hide the header
         setShow(false)
       } else if (currentScrollY < lastScrollY) {
@@ -44,10 +44,12 @@ const SiteHeader = ({ header }: SiteHeadertProps) => {
     }
   }, [lastScrollY])
 
+  // className={cn('border/40 sticky  w-full border-b bg-background  py-2 ')}
+
   return (
     <header
       className={cn(
-        'border/40 sticky top-0 z-50 w-full border-b bg-inherit  py-2 ',
+        'border/40 sticky top-0 z-50 w-full border-b bg-background  py-2 ',
         show ? 'translate-y-0 transform' : '-translate-y-full transform border-2',
       )}
     >

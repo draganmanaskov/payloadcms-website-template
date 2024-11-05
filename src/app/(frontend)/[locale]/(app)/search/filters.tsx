@@ -81,7 +81,7 @@ const Filters = ({ filter, type, filters }: FiltersProps) => {
         handleClick={handleClickSingle}
         type={type}
       /> */}
-      <PriceRange urlParams={urlParams} handleRange={handleRange} type={type} />
+      {/* <PriceRange urlParams={urlParams} handleRange={handleRange} type={type} /> */}
     </>
   )
 }

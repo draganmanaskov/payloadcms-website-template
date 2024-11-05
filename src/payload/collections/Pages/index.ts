@@ -7,8 +7,9 @@ import { CallToAction } from '@/blocks/CallToAction/config'
 import { Content } from '@/blocks/Content/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
+import { SocialProofBlock } from '@/blocks/SocialProof/config'
 import { hero } from '@/heros/config'
-import { slugField } from '@/fields/slug'
+import { slugField } from '@/payload/fields/slug'
 import { populatePublishedAt } from '@/hooks/populatePublishedAt'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { revalidatePage } from './hooks/revalidatePage'
@@ -22,6 +23,7 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
 import { getValidLocale } from '@/utilities'
+
 export const Pages: CollectionConfig = {
   slug: 'pages',
   access: {
@@ -56,10 +58,22 @@ export const Pages: CollectionConfig = {
       required: true,
     },
     {
-      name: 'name',
-      type: 'text',
-      required: true,
-      admin: { position: 'sidebar' },
+      type: 'group',
+      name: 'promotion',
+      label: 'Promotion',
+      fields: [
+        { name: 'title', type: 'text', label: 'Title' },
+        {
+          name: 'description',
+          type: 'text',
+          label: 'Description',
+        },
+        {
+          name: 'endDate',
+          type: 'date',
+          label: 'End Date',
+        },
+      ],
     },
     {
       type: 'tabs',
@@ -73,7 +87,7 @@ export const Pages: CollectionConfig = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
+              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, SocialProofBlock],
               required: true,
             },
           ],
@@ -114,6 +128,12 @@ export const Pages: CollectionConfig = {
       admin: {
         position: 'sidebar',
       },
+    },
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      admin: { position: 'sidebar' },
     },
     ...slugField('name', { slugOverrides: { required: true } }),
   ],

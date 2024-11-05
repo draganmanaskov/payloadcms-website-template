@@ -21,28 +21,31 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
-import Categories from '@/payload/collections/Categories'
-import { Media } from '@/payload/collections/Media'
-import { Pages } from '@/payload/collections/Pages'
-import { Posts } from '@/payload/collections/Posts'
-import Users from '@/payload/collections/Users'
 // import { seedHandler } from './endpoints/seedHandler'
-import { Footer } from '@/Footer/config'
-import { Header } from '@/payload/globals/Header/config'
+
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
-import Products from '@/payload/collections/Products'
-import Inventories from '@/payload/collections/Inventories/config'
-import Designs from '@/payload/collections/Designs'
-import { Filter } from '@/payload/globals/Filter'
-import { showToAdmin } from '@/payload/hidden/showToAdmin'
-import Orders from '@/payload/collections/Orders'
 
-import nodemailerSendgrid from 'nodemailer-sendgrid'
-import Tags from './payload/collections/Tags'
-import Colors from './payload/collections/Options/Colors'
-import Sizes from './payload/collections/Options/Sizes'
+import { showToAdmin } from '@/payload/hidden/showToAdmin'
+// GLOBALS
+import { Header, Footer, Filter } from '@/payload/globals'
+// COLLECTIONS
+import {
+  Categories,
+  Media,
+  Pages,
+  Posts,
+  Products,
+  Inventories,
+  Designs,
+  Orders,
+  Users,
+  Tags,
+  Colors,
+  Sizes,
+  Discounts,
+} from '@/payload/collections'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -196,6 +199,7 @@ export default buildConfig({
     Tags,
     Colors,
     Sizes,
+    Discounts,
   ],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),

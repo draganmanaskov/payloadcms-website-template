@@ -25,7 +25,7 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
-import { slugField } from '@/fields/slug'
+import { slugField } from '@/payload/fields/slug'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
 
 export const Posts: CollectionConfig = {

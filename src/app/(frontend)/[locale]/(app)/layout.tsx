@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
-import { Footer } from '@/Footer/Component'
+import { Footer } from '@/payload/globals/Footer/Component'
 import { Header } from '@/payload/globals/Header/Component'
 
 import { draftMode } from 'next/headers'

@@ -6,14 +6,16 @@ import { CollectionGroup } from './utils'
 
 type NavGroupProps = {
   collectionGroup: CollectionGroup
+  closeNav: () => void
 }
 
-const NavGroup = ({ collectionGroup }: NavGroupProps) => {
+const NavGroup = ({ collectionGroup, closeNav }: NavGroupProps) => {
   return (
     <>
       {collectionGroup.collections.map((collection, index) => {
         return (
           <Link
+            // onClick={closeNav}
             href={`/admin/collections/${collection.slug}`}
             key={`${collection.slug}-${index}`}
             className={cn(
@@ -22,9 +24,6 @@ const NavGroup = ({ collectionGroup }: NavGroupProps) => {
             )}
             style={{ textDecoration: 'none', padding: '0 1rem' }}
           >
-            {/* Optional icon */}
-            {/* {collection.icon && <collection.icon className="mr-2 h-5 w-5" />} */}
-
             {typeof collection?.labels.plural === 'string' ? collection.labels.plural : ''}
           </Link>
         )

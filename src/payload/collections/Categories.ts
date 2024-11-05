@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { anyone } from '@/access/anyone'
 
 import { admins } from '@/access/admins'
-import { slugField } from '@/fields/slug'
+import { slugField } from '@/payload/fields/slug'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
 
 const Categories: CollectionConfig = {

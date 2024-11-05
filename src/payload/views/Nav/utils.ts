@@ -60,7 +60,7 @@ export const COLLECTION_GROUPS: CollectionGroup[] = [
     name: 'default',
     label: '',
     type: 'default',
-    collectionSlugs: ['pages', 'posts', 'orders', 'products', 'designs'],
+    collectionSlugs: ['pages', 'posts', 'orders', 'products', 'categories', 'designs', 'discounts'],
     collections: [],
   },
   {
@@ -110,6 +110,7 @@ export const ROLES_VIEW_PERMISSIONS: RoleViewPermissionsProps = {
       'users',
       'products',
       'inventories',
+      'discounts',
       'designs',
       'orders',
       'tags',

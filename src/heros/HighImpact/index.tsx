@@ -9,7 +9,7 @@ import RichText from '@/components/RichText'
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText, textColor }) => {
   return (
-    <div className="relative  flex items-end ">
+    <div className="relative  flex items-end mt-10">
       <div className="container mb-8 z-10 relative">
         <div className="max-w-[34rem]">
           {richText && (

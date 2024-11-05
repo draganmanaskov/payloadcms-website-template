@@ -4,7 +4,7 @@ import { getAddedValues, mergeUnique } from './utils'
 
 export const populateParentDesigns: FieldHook<Product> = async ({
   originalDoc,
-  operation,
+
   value,
   req,
 }) => {

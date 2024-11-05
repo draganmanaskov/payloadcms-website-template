@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import { SidebarMenuSub, SidebarMenuSubItem } from '../ui/sidebar'
 
 type AcordionFilterItemProps = {
   option: DesignWihtChildren
@@ -35,37 +36,39 @@ const AcordionFilterItem = ({
     return (
       <Accordion defaultValue={[filterKeySlug]} type="multiple" className="animate-none px-2">
         <AccordionItem value={filterKeySlug}>
-          <AccordionTrigger className="py-0 text-sm ">
+          <AccordionTrigger className="py-2 text-sm ">
             <span className="font-medium ">{option.title}</span>
           </AccordionTrigger>
 
           <AccordionContent className="animate-none pt-1">
-            <ul className="space-y-2">
-              <li key={option.title} className="ml-2 flex items-center ">
-                <input
-                  type="checkbox"
-                  id={id}
-                  onChange={() => handleClickMulti(filterKeySlug, `${option.id}`, isActive)}
-                  checked={isActive}
-                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                />
-                <label htmlFor={id} className="ml-3 text-sm ">
-                  {'All'}
-                </label>
-              </li>
-              {option.children.map((option, index) => {
-                return (
-                  <AcordionFilterItem
-                    key={`${option.id}-${index}`}
-                    option={option}
-                    type={type}
-                    filterKey={filterKey}
-                    urlParams={urlParams}
-                    handleClickMulti={handleClickMulti}
+            <SidebarMenuSub>
+              <ul className="space-y-2">
+                <li key={option.title} className=" flex items-center ">
+                  <input
+                    type="checkbox"
+                    id={id}
+                    onChange={() => handleClickMulti(filterKeySlug, `${option.id}`, isActive)}
+                    checked={isActive}
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                   />
-                )
-              })}
-            </ul>
+                  <label htmlFor={id} className="ml-3 text-sm ">
+                    {'All'}
+                  </label>
+                </li>
+                {option.children.map((option, index) => {
+                  return (
+                    <AcordionFilterItem
+                      key={`${option.id}-${index}`}
+                      option={option}
+                      type={type}
+                      filterKey={filterKey}
+                      urlParams={urlParams}
+                      handleClickMulti={handleClickMulti}
+                    />
+                  )
+                })}
+              </ul>
+            </SidebarMenuSub>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -81,7 +84,7 @@ const AcordionFilterItem = ({
     : false
   const id = `${type}-${filterKeySlug}-${option.id}`
   return (
-    <li key={option.title} className="ml-2 flex items-center ">
+    <li key={option.title} className="flex items-center ">
       <input
         type="checkbox"
         id={id}

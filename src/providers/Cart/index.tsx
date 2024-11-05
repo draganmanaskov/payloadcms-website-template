@@ -259,7 +259,7 @@ export const CartProvider = (props) => {
       cart?.items?.reduce((acc, item) => {
         let price = 0
         if (typeof item.product === 'object') {
-          price = item.product.price * item.quantity
+          price = item.product.discountedPrice * item.quantity
         }
         return acc + price
       }, 0) || 0

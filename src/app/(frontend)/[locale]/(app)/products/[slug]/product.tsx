@@ -1,6 +1,7 @@
 'use client'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { AddToCartButton } from '@/components/Cart/AddToCartButton'
+import DiscountBadge from '@/components/DiscountBadge'
 
 import { Icons } from '@/components/icons'
 import Price from '@/components/Price'
@@ -101,6 +102,7 @@ const ProductComponent = ({ product }: ProductProps) => {
           })}
         </div>
         <div className="relative order-first  md:col-span-4">
+          <DiscountBadge discount={product.discount} />
           <MediaBlock media={images[imageIndex].image} blockType="mediaBlock" />
 
           {images.length > 1 ? (
@@ -137,6 +139,7 @@ const ProductComponent = ({ product }: ProductProps) => {
               className="text-3xl font-bold"
               currencyCode={product.currencyCode}
               amount={product.price}
+              discount={product.discount}
             />
           </div>
           <div>

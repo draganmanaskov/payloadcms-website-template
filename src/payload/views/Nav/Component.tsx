@@ -3,7 +3,7 @@ import { Icons } from '@/components/icons'
 import { buttonVariants } from '@/components/ui/button'
 import { User } from '@/payload-types'
 import { cn } from '@/utilities'
-import { Button, useConfig, useNav } from '@payloadcms/ui'
+import { Button, NavToggler, useConfig, useNav } from '@payloadcms/ui'
 
 import './index.scss'
 import NavGroup from './NavGroup'
@@ -11,6 +11,7 @@ import NavGroup from './NavGroup'
 import { Collapsible } from '@payloadcms/ui'
 import { filterAllowedToView, populateCollectionGroups } from './utils'
 import Link from 'next/link'
+import { use, useCallback } from 'react'
 
 type NavClientComponentProps = {
   user: User
@@ -23,6 +24,10 @@ const NavClientComponent = ({ user }: NavClientComponentProps) => {
 
   const { navOpen, navRef, setNavOpen } = useNav()
 
+  const closeNav = useCallback(() => {
+    setNavOpen(false)
+  }, [])
+
   const allowedCollections = filterAllowedToView(collections, user, 'collections')
   const allowedGlobals = filterAllowedToView(globals, user, 'globals')
 
@@ -32,12 +37,17 @@ const NavClientComponent = ({ user }: NavClientComponentProps) => {
     <aside className={cn(baseClass, 'p-4', navOpen && `${baseClass}--nav-open`)}>
       <div className="flex items-center justify-between md:justify-end px-4">
         <Button
-          onClick={() => setNavOpen(false)}
-          className={cn(buttonVariants({ size: 'icon', variant: 'outline' }), 'md:hidden')}
+          onClick={closeNav}
+          className={cn(buttonVariants({ size: 'icon', variant: 'ghost' }), 'md:hidden')}
         >
           {navOpen ? <Icons.X /> : null}
         </Button>
-        <Link href={'/'} className={cn(buttonVariants({ variant: 'ghost', className: 'text-lg' }))}>
+
+        <Link
+          target="_blank"
+          href={'/'}
+          className={cn(buttonVariants({ variant: 'ghost', className: 'text-lg' }))}
+        >
           <Icons.ChevronsLeft className="h-6 w-6" />
           Back to Store
         </Link>
@@ -48,7 +58,7 @@ const NavClientComponent = ({ user }: NavClientComponentProps) => {
             if (collectionGroup.type === 'default') {
               return (
                 <div className="w-full" key={collectionGroup.name}>
-                  <NavGroup collectionGroup={collectionGroup} />
+                  <NavGroup closeNav={closeNav} collectionGroup={collectionGroup} />
                 </div>
               )
             }
@@ -63,7 +73,7 @@ const NavClientComponent = ({ user }: NavClientComponentProps) => {
                   </div>
                 }
               >
-                <NavGroup collectionGroup={collectionGroup} />
+                <NavGroup closeNav={closeNav} collectionGroup={collectionGroup} />
               </Collapsible>
             )
           })}

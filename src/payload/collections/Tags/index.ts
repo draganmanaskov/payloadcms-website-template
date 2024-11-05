@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { admins } from '@/access/admins'
-import { slugField } from '@/fields/slug'
+import { slugField } from '@/payload/fields/slug'
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
 
 const Tags: CollectionConfig = {

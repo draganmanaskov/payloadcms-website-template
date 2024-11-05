@@ -8,13 +8,15 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { SocialProofBlock } from '@/blocks/SocialProof/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
-  content: ContentBlock,
+  cnt: ContentBlock,
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  socialProof: SocialProofBlock,
 }
 
 export const RenderBlocks: React.FC<{

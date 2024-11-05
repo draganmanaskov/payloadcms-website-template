@@ -1,8 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import Link, { LinkProps } from 'next/link'
-import { useRouter } from '@/i18n/routing'
+import { LinkProps } from 'next/link'
+import { useRouter, Link } from '@/i18n/routing'
 
 import { cn } from '@/utilities/cn'
 
@@ -13,7 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import Image from 'next/image'
 import { Header } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
@@ -56,33 +56,32 @@ const MobileNav = ({ header }: MobileNavProps) => {
       </SheetTrigger>
       <SheetContent side="left" className="px-0 w-80">
         <SheetTitle>
-          <MobileLink
-            href="/"
-            className="flex items-center absolute left-4 top-4 "
-            onOpenChange={setIsOpen}
-          >
+          <Link href="/" className="flex items-center absolute left-4 top-4 ">
             <DarkLogo />
             <LightLogo />
-          </MobileLink>
+          </Link>
         </SheetTitle>
 
         <div className="flex flex-col h-full pt-16 pb-8">
           <ul className="flex-grow">
-            {navItems.map((item) => (
-              <li key={item.link.label}>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start px-4 py-2 text-lg"
-                  onClick={() => {
-                    console.log(`Navigating to ${item.link.label}`)
-                    setIsOpen(false)
-                  }}
-                >
-                  {/* {item.icon} */}
-                  <span className="ml-2">{item.link.label}</span>
-                </Button>
-              </li>
-            ))}
+            {navItems.map((item) => {
+              return (
+                <li key={item.link.label}>
+                  <Link
+                    href={item.link.url ?? '/'}
+                    className={cn(
+                      buttonVariants({
+                        variant: 'ghost',
+                        className: 'w-full justify-start px-4 py-2 text-lg',
+                      }),
+                    )}
+                  >
+                    {/* {item.icon} */}
+                    <span className="ml-2">{item.link.label}</span>
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
 
           <div className="px-4 py-2 border-t border-border">
@@ -107,27 +106,27 @@ const MobileNav = ({ header }: MobileNavProps) => {
             })} */
 }
 
-interface MobileLinkProps extends LinkProps {
-  onOpenChange?: (open: boolean) => void
-  children: React.ReactNode
-  className?: string
-}
+// interface MobileLinkProps extends LinkProps {
+//   onOpenChange?: (open: boolean) => void
+//   children: React.ReactNode
+//   className?: string
+// }
 
-function MobileLink({ href, onOpenChange, className, children, ...props }: MobileLinkProps) {
-  const router = useRouter()
-  return (
-    <Link
-      href={href}
-      onClick={() => {
-        router.push(href.toString())
-        onOpenChange?.(false)
-      }}
-      className={cn(className)}
-      {...props}
-    >
-      {children}
-    </Link>
-  )
-}
+// function MobileLink({ href, onOpenChange, className, children, ...props }: MobileLinkProps) {
+//   const router = useRouter()
+//   return (
+//     <Link
+//       href={href}
+//       onClick={() => {
+//         router.push(href.toString())
+//         onOpenChange?.(false)
+//       }}
+//       className={cn(className)}
+//       {...props}
+//     >
+//       {children}
+//     </Link>
+//   )
+// }
 
 export default MobileNav

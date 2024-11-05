@@ -15,7 +15,7 @@ import * as migration_20241011_190901_createTags from './20241011_190901_createT
 import * as migration_20241011_201148_changes from './20241011_201148_changes';
 import * as migration_20241012_143250_slugNameLocal from './20241012_143250_slugNameLocal';
 import * as migration_20241013_161244_emailVer from './20241013_161244_emailVer';
-import * as migration_20241105_175653_allChanges from './20241105_175653_allChanges';
+import * as migration_20241105_181201_allChanges from './20241105_181201_allChanges';
 
 export const migrations = [
   {
@@ -104,8 +104,8 @@ export const migrations = [
     name: '20241013_161244_emailVer',
   },
   {
-    up: migration_20241105_175653_allChanges.up,
-    down: migration_20241105_175653_allChanges.down,
-    name: '20241105_175653_allChanges'
+    up: migration_20241105_181201_allChanges.up,
+    down: migration_20241105_181201_allChanges.down,
+    name: '20241105_181201_allChanges'
   },
 ];

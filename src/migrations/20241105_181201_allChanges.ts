@@ -3,19 +3,7 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.execute(sql`
    DO $$ BEGIN
-   CREATE TYPE "public"."enum_pages_blocks_cnt_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
    CREATE TYPE "public"."enum_pages_blocks_cnt_columns_link_type" AS ENUM('reference', 'custom');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_pages_blocks_cnt_columns_link_appearance" AS ENUM('default', 'outline');
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -27,61 +15,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   CREATE TYPE "public"."enum__pages_v_blocks_cnt_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__pages_v_blocks_cnt_columns_link_type" AS ENUM('reference', 'custom');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__pages_v_blocks_cnt_columns_link_appearance" AS ENUM('default', 'outline');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
    CREATE TYPE "public"."enum__pages_v_blocks_social_proof_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_cnt_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_cnt_columns_link_type" AS ENUM('reference', 'custom');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_cnt_columns_link_appearance" AS ENUM('default', 'outline');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__products_v_blocks_cnt_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__products_v_blocks_cnt_columns_link_type" AS ENUM('reference', 'custom');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__products_v_blocks_cnt_columns_link_appearance" AS ENUM('default', 'outline');
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -108,35 +42,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TYPE "enum__pages_v_blocks_archive_type" ADD VALUE 'fade';
   ALTER TYPE "enum_products_blocks_archive_type" ADD VALUE 'fade';
   ALTER TYPE "enum__products_v_blocks_archive_type" ADD VALUE 'fade';
-  CREATE TABLE IF NOT EXISTS "pages_blocks_cnt_columns" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" varchar NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"size" "enum_pages_blocks_cnt_columns_size" DEFAULT 'oneThird',
-  	"enable_link" boolean,
-  	"link_type" "enum_pages_blocks_cnt_columns_link_type" DEFAULT 'reference',
-  	"link_new_tab" boolean,
-  	"link_url" varchar,
-  	"link_appearance" "enum_pages_blocks_cnt_columns_link_appearance" DEFAULT 'default'
-  );
-  
-  CREATE TABLE IF NOT EXISTS "pages_blocks_cnt_columns_locales" (
-  	"rich_text" jsonb,
-  	"link_label" varchar,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"_locale" "_locales" NOT NULL,
-  	"_parent_id" varchar NOT NULL,
-  	CONSTRAINT "pages_blocks_cnt_columns_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id")
-  );
-  
-  CREATE TABLE IF NOT EXISTS "pages_blocks_cnt" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"block_name" varchar
-  );
-  
   CREATE TABLE IF NOT EXISTS "pages_blocks_social_proof_columns" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
@@ -155,37 +60,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"block_name" varchar
   );
   
-  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_cnt_columns" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"size" "enum__pages_v_blocks_cnt_columns_size" DEFAULT 'oneThird',
-  	"enable_link" boolean,
-  	"link_type" "enum__pages_v_blocks_cnt_columns_link_type" DEFAULT 'reference',
-  	"link_new_tab" boolean,
-  	"link_url" varchar,
-  	"link_appearance" "enum__pages_v_blocks_cnt_columns_link_appearance" DEFAULT 'default',
-  	"_uuid" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_cnt_columns_locales" (
-  	"rich_text" jsonb,
-  	"link_label" varchar,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"_locale" "_locales" NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	CONSTRAINT "_pages_v_blocks_cnt_columns_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id")
-  );
-  
-  CREATE TABLE IF NOT EXISTS "_pages_v_blocks_cnt" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"_uuid" varchar,
-  	"block_name" varchar
-  );
-  
   CREATE TABLE IF NOT EXISTS "_pages_v_blocks_social_proof_columns" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -198,66 +72,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   );
   
   CREATE TABLE IF NOT EXISTS "_pages_v_blocks_social_proof" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"_uuid" varchar,
-  	"block_name" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_blocks_cnt_columns" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" varchar NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"size" "enum_products_blocks_cnt_columns_size" DEFAULT 'oneThird',
-  	"enable_link" boolean,
-  	"link_type" "enum_products_blocks_cnt_columns_link_type" DEFAULT 'reference',
-  	"link_new_tab" boolean,
-  	"link_url" varchar,
-  	"link_appearance" "enum_products_blocks_cnt_columns_link_appearance" DEFAULT 'default'
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_blocks_cnt_columns_locales" (
-  	"rich_text" jsonb,
-  	"link_label" varchar,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"_locale" "_locales" NOT NULL,
-  	"_parent_id" varchar NOT NULL,
-  	CONSTRAINT "products_blocks_cnt_columns_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id")
-  );
-  
-  CREATE TABLE IF NOT EXISTS "products_blocks_cnt" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"_path" text NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"block_name" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "_products_v_blocks_cnt_columns" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"size" "enum__products_v_blocks_cnt_columns_size" DEFAULT 'oneThird',
-  	"enable_link" boolean,
-  	"link_type" "enum__products_v_blocks_cnt_columns_link_type" DEFAULT 'reference',
-  	"link_new_tab" boolean,
-  	"link_url" varchar,
-  	"link_appearance" "enum__products_v_blocks_cnt_columns_link_appearance" DEFAULT 'default',
-  	"_uuid" varchar
-  );
-  
-  CREATE TABLE IF NOT EXISTS "_products_v_blocks_cnt_columns_locales" (
-  	"rich_text" jsonb,
-  	"link_label" varchar,
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"_locale" "_locales" NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	CONSTRAINT "_products_v_blocks_cnt_columns_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id")
-  );
-  
-  CREATE TABLE IF NOT EXISTS "_products_v_blocks_cnt" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"_path" text NOT NULL,
@@ -338,26 +152,75 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	CONSTRAINT "filter_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id")
   );
   
-  DROP TABLE "pages_blocks_content_columns";
-  DROP TABLE "pages_blocks_content_columns_locales";
-  DROP TABLE "pages_blocks_content";
-  DROP TABLE "_pages_v_blocks_content_columns";
-  DROP TABLE "_pages_v_blocks_content_columns_locales";
-  DROP TABLE "_pages_v_blocks_content";
-  DROP TABLE "products_blocks_content_columns";
-  DROP TABLE "products_blocks_content_columns_locales";
-  DROP TABLE "products_blocks_content";
-  DROP TABLE "_products_v_blocks_content_columns";
-  DROP TABLE "_products_v_blocks_content_columns_locales";
-  DROP TABLE "_products_v_blocks_content";
   DROP TABLE "inventories_color";
   DROP TABLE "inventories_size";
   DROP TABLE "inventories_capacity";
+  ALTER TABLE "pages_blocks_content_columns" RENAME TO "pages_blocks_cnt_columns";
+  ALTER TABLE "pages_blocks_content_columns_locales" RENAME TO "pages_blocks_cnt_columns_locales";
+  ALTER TABLE "pages_blocks_content" RENAME TO "pages_blocks_cnt";
+  ALTER TABLE "_pages_v_blocks_content_columns" RENAME TO "_pages_v_blocks_cnt_columns";
+  ALTER TABLE "_pages_v_blocks_content_columns_locales" RENAME TO "_pages_v_blocks_cnt_columns_locales";
+  ALTER TABLE "_pages_v_blocks_content" RENAME TO "_pages_v_blocks_cnt";
+  ALTER TABLE "products_blocks_content_columns" RENAME TO "products_blocks_cnt_columns";
+  ALTER TABLE "products_blocks_content_columns_locales" RENAME TO "products_blocks_cnt_columns_locales";
+  ALTER TABLE "products_blocks_content" RENAME TO "products_blocks_cnt";
+  ALTER TABLE "_products_v_blocks_content_columns" RENAME TO "_products_v_blocks_cnt_columns";
+  ALTER TABLE "_products_v_blocks_content_columns_locales" RENAME TO "_products_v_blocks_cnt_columns_locales";
+  ALTER TABLE "_products_v_blocks_content" RENAME TO "_products_v_blocks_cnt";
+  ALTER TABLE "pages_blocks_cnt_columns_locales" DROP CONSTRAINT "pages_blocks_content_columns_locales_locale_parent_id_unique";
+  ALTER TABLE "_pages_v_blocks_cnt_columns_locales" DROP CONSTRAINT "_pages_v_blocks_content_columns_locales_locale_parent_id_unique";
+  ALTER TABLE "products_blocks_cnt_columns_locales" DROP CONSTRAINT "products_blocks_content_columns_locales_locale_parent_id_unique";
+  ALTER TABLE "_products_v_blocks_cnt_columns_locales" DROP CONSTRAINT "_products_v_blocks_content_columns_locales_locale_parent_id_unique";
+  ALTER TABLE "pages_blocks_cnt_columns" DROP CONSTRAINT "pages_blocks_content_columns_parent_id_fk";
+  
+  ALTER TABLE "pages_blocks_cnt_columns_locales" DROP CONSTRAINT "pages_blocks_content_columns_locales_parent_id_fk";
+  
+  ALTER TABLE "pages_blocks_cnt" DROP CONSTRAINT "pages_blocks_content_parent_id_fk";
+  
+  ALTER TABLE "_pages_v_blocks_cnt_columns" DROP CONSTRAINT "_pages_v_blocks_content_columns_parent_id_fk";
+  
+  ALTER TABLE "_pages_v_blocks_cnt_columns_locales" DROP CONSTRAINT "_pages_v_blocks_content_columns_locales_parent_id_fk";
+  
+  ALTER TABLE "_pages_v_blocks_cnt" DROP CONSTRAINT "_pages_v_blocks_content_parent_id_fk";
+  
+  ALTER TABLE "products_blocks_cnt_columns" DROP CONSTRAINT "products_blocks_content_columns_parent_id_fk";
+  
+  ALTER TABLE "products_blocks_cnt_columns_locales" DROP CONSTRAINT "products_blocks_content_columns_locales_parent_id_fk";
+  
+  ALTER TABLE "products_blocks_cnt" DROP CONSTRAINT "products_blocks_content_parent_id_fk";
+  
+  ALTER TABLE "_products_v_blocks_cnt_columns" DROP CONSTRAINT "_products_v_blocks_content_columns_parent_id_fk";
+  
+  ALTER TABLE "_products_v_blocks_cnt_columns_locales" DROP CONSTRAINT "_products_v_blocks_content_columns_locales_parent_id_fk";
+  
+  ALTER TABLE "_products_v_blocks_cnt" DROP CONSTRAINT "_products_v_blocks_content_parent_id_fk";
+  
   ALTER TABLE "inventories_options" DROP CONSTRAINT "inventories_options_parent_fk";
   
+  DROP INDEX IF EXISTS "pages_blocks_content_columns_order_idx";
+  DROP INDEX IF EXISTS "pages_blocks_content_columns_parent_id_idx";
+  DROP INDEX IF EXISTS "pages_blocks_content_order_idx";
+  DROP INDEX IF EXISTS "pages_blocks_content_parent_id_idx";
+  DROP INDEX IF EXISTS "pages_blocks_content_path_idx";
+  DROP INDEX IF EXISTS "_pages_v_blocks_content_columns_order_idx";
+  DROP INDEX IF EXISTS "_pages_v_blocks_content_columns_parent_id_idx";
+  DROP INDEX IF EXISTS "_pages_v_blocks_content_order_idx";
+  DROP INDEX IF EXISTS "_pages_v_blocks_content_parent_id_idx";
+  DROP INDEX IF EXISTS "_pages_v_blocks_content_path_idx";
+  DROP INDEX IF EXISTS "products_blocks_content_columns_order_idx";
+  DROP INDEX IF EXISTS "products_blocks_content_columns_parent_id_idx";
+  DROP INDEX IF EXISTS "products_blocks_content_order_idx";
+  DROP INDEX IF EXISTS "products_blocks_content_parent_id_idx";
+  DROP INDEX IF EXISTS "products_blocks_content_path_idx";
+  DROP INDEX IF EXISTS "_products_v_blocks_content_columns_order_idx";
+  DROP INDEX IF EXISTS "_products_v_blocks_content_columns_parent_id_idx";
+  DROP INDEX IF EXISTS "_products_v_blocks_content_order_idx";
+  DROP INDEX IF EXISTS "_products_v_blocks_content_parent_id_idx";
+  DROP INDEX IF EXISTS "_products_v_blocks_content_path_idx";
   DROP INDEX IF EXISTS "_products_v_autosave_idx";
   DROP INDEX IF EXISTS "inventories_options_parent_idx";
   DROP INDEX IF EXISTS "inventories_options_order_idx";
+  ALTER TABLE "pages_blocks_cnt_columns" ALTER COLUMN "link_type" SET DATA TYPE enum_pages_blocks_cnt_columns_link_type;
   ALTER TABLE "inventories_options" ALTER COLUMN "id" SET DATA TYPE varchar;
   ALTER TABLE "pages" ADD COLUMN "promotion_title" varchar;
   ALTER TABLE "pages" ADD COLUMN "promotion_description" varchar;
@@ -376,24 +239,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "filter" ADD COLUMN "categories_slug" varchar;
   ALTER TABLE "filter" ADD COLUMN "categories_active" boolean;
   DO $$ BEGIN
-   ALTER TABLE "pages_blocks_cnt_columns" ADD CONSTRAINT "pages_blocks_cnt_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_cnt"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "pages_blocks_cnt_columns_locales" ADD CONSTRAINT "pages_blocks_cnt_columns_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_cnt_columns"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "pages_blocks_cnt" ADD CONSTRAINT "pages_blocks_cnt_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
    ALTER TABLE "pages_blocks_social_proof_columns" ADD CONSTRAINT "pages_blocks_social_proof_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_social_proof"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -406,24 +251,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "_pages_v_blocks_cnt_columns" ADD CONSTRAINT "_pages_v_blocks_cnt_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_cnt"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_pages_v_blocks_cnt_columns_locales" ADD CONSTRAINT "_pages_v_blocks_cnt_columns_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_cnt_columns"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_pages_v_blocks_cnt" ADD CONSTRAINT "_pages_v_blocks_cnt_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
    ALTER TABLE "_pages_v_blocks_social_proof_columns" ADD CONSTRAINT "_pages_v_blocks_social_proof_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_social_proof"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -431,42 +258,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   
   DO $$ BEGIN
    ALTER TABLE "_pages_v_blocks_social_proof" ADD CONSTRAINT "_pages_v_blocks_social_proof_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_blocks_cnt_columns" ADD CONSTRAINT "products_blocks_cnt_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products_blocks_cnt"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_blocks_cnt_columns_locales" ADD CONSTRAINT "products_blocks_cnt_columns_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products_blocks_cnt_columns"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "products_blocks_cnt" ADD CONSTRAINT "products_blocks_cnt_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_products_v_blocks_cnt_columns" ADD CONSTRAINT "_products_v_blocks_cnt_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_products_v_blocks_cnt"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_products_v_blocks_cnt_columns_locales" ADD CONSTRAINT "_products_v_blocks_cnt_columns_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_products_v_blocks_cnt_columns"("id") ON DELETE cascade ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "_products_v_blocks_cnt" ADD CONSTRAINT "_products_v_blocks_cnt_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_products_v"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -519,36 +310,16 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
    WHEN duplicate_object THEN null;
   END $$;
   
-  CREATE INDEX IF NOT EXISTS "pages_blocks_cnt_columns_order_idx" ON "pages_blocks_cnt_columns" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_cnt_columns_parent_id_idx" ON "pages_blocks_cnt_columns" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_cnt_order_idx" ON "pages_blocks_cnt" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_cnt_parent_id_idx" ON "pages_blocks_cnt" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "pages_blocks_cnt_path_idx" ON "pages_blocks_cnt" USING btree ("_path");
   CREATE INDEX IF NOT EXISTS "pages_blocks_social_proof_columns_order_idx" ON "pages_blocks_social_proof_columns" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_social_proof_columns_parent_id_idx" ON "pages_blocks_social_proof_columns" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_social_proof_order_idx" ON "pages_blocks_social_proof" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "pages_blocks_social_proof_parent_id_idx" ON "pages_blocks_social_proof" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "pages_blocks_social_proof_path_idx" ON "pages_blocks_social_proof" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_cnt_columns_order_idx" ON "_pages_v_blocks_cnt_columns" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_cnt_columns_parent_id_idx" ON "_pages_v_blocks_cnt_columns" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_cnt_order_idx" ON "_pages_v_blocks_cnt" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_cnt_parent_id_idx" ON "_pages_v_blocks_cnt" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_cnt_path_idx" ON "_pages_v_blocks_cnt" USING btree ("_path");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_social_proof_columns_order_idx" ON "_pages_v_blocks_social_proof_columns" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_social_proof_columns_parent_id_idx" ON "_pages_v_blocks_social_proof_columns" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_social_proof_order_idx" ON "_pages_v_blocks_social_proof" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_social_proof_parent_id_idx" ON "_pages_v_blocks_social_proof" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_pages_v_blocks_social_proof_path_idx" ON "_pages_v_blocks_social_proof" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "products_blocks_cnt_columns_order_idx" ON "products_blocks_cnt_columns" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "products_blocks_cnt_columns_parent_id_idx" ON "products_blocks_cnt_columns" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "products_blocks_cnt_order_idx" ON "products_blocks_cnt" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "products_blocks_cnt_parent_id_idx" ON "products_blocks_cnt" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "products_blocks_cnt_path_idx" ON "products_blocks_cnt" USING btree ("_path");
-  CREATE INDEX IF NOT EXISTS "_products_v_blocks_cnt_columns_order_idx" ON "_products_v_blocks_cnt_columns" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "_products_v_blocks_cnt_columns_parent_id_idx" ON "_products_v_blocks_cnt_columns" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "_products_v_blocks_cnt_order_idx" ON "_products_v_blocks_cnt" USING btree ("_order");
-  CREATE INDEX IF NOT EXISTS "_products_v_blocks_cnt_parent_id_idx" ON "_products_v_blocks_cnt" USING btree ("_parent_id");
-  CREATE INDEX IF NOT EXISTS "_products_v_blocks_cnt_path_idx" ON "_products_v_blocks_cnt" USING btree ("_path");
   CREATE INDEX IF NOT EXISTS "inventories_rels_order_idx" ON "inventories_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "inventories_rels_parent_idx" ON "inventories_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "inventories_rels_path_idx" ON "inventories_rels" USING btree ("path");
@@ -566,7 +337,79 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "discounts_rels_parent_idx" ON "discounts_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "discounts_rels_path_idx" ON "discounts_rels" USING btree ("path");
   DO $$ BEGIN
+   ALTER TABLE "pages_blocks_cnt_columns" ADD CONSTRAINT "pages_blocks_cnt_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_cnt"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "pages_blocks_cnt_columns_locales" ADD CONSTRAINT "pages_blocks_cnt_columns_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_cnt_columns"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "pages_blocks_cnt" ADD CONSTRAINT "pages_blocks_cnt_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_cnt_columns" ADD CONSTRAINT "_pages_v_blocks_cnt_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_cnt"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_cnt_columns_locales" ADD CONSTRAINT "_pages_v_blocks_cnt_columns_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_cnt_columns"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_pages_v_blocks_cnt" ADD CONSTRAINT "_pages_v_blocks_cnt_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "products_blocks_cnt_columns" ADD CONSTRAINT "products_blocks_cnt_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products_blocks_cnt"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "products_blocks_cnt_columns_locales" ADD CONSTRAINT "products_blocks_cnt_columns_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products_blocks_cnt_columns"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "products_blocks_cnt" ADD CONSTRAINT "products_blocks_cnt_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."products"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
    ALTER TABLE "products" ADD CONSTRAINT "products_discount_id_discounts_id_fk" FOREIGN KEY ("discount_id") REFERENCES "public"."discounts"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_products_v_blocks_cnt_columns" ADD CONSTRAINT "_products_v_blocks_cnt_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_products_v_blocks_cnt"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_products_v_blocks_cnt_columns_locales" ADD CONSTRAINT "_products_v_blocks_cnt_columns_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_products_v_blocks_cnt_columns"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "_products_v_blocks_cnt" ADD CONSTRAINT "_products_v_blocks_cnt_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_products_v"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -583,89 +426,41 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
    WHEN duplicate_object THEN null;
   END $$;
   
+  CREATE INDEX IF NOT EXISTS "pages_blocks_cnt_columns_order_idx" ON "pages_blocks_cnt_columns" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_cnt_columns_parent_id_idx" ON "pages_blocks_cnt_columns" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_cnt_order_idx" ON "pages_blocks_cnt" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_cnt_parent_id_idx" ON "pages_blocks_cnt" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "pages_blocks_cnt_path_idx" ON "pages_blocks_cnt" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_cnt_columns_order_idx" ON "_pages_v_blocks_cnt_columns" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_cnt_columns_parent_id_idx" ON "_pages_v_blocks_cnt_columns" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_cnt_order_idx" ON "_pages_v_blocks_cnt" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_cnt_parent_id_idx" ON "_pages_v_blocks_cnt" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "_pages_v_blocks_cnt_path_idx" ON "_pages_v_blocks_cnt" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "products_blocks_cnt_columns_order_idx" ON "products_blocks_cnt_columns" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "products_blocks_cnt_columns_parent_id_idx" ON "products_blocks_cnt_columns" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "products_blocks_cnt_order_idx" ON "products_blocks_cnt" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "products_blocks_cnt_parent_id_idx" ON "products_blocks_cnt" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "products_blocks_cnt_path_idx" ON "products_blocks_cnt" USING btree ("_path");
+  CREATE INDEX IF NOT EXISTS "_products_v_blocks_cnt_columns_order_idx" ON "_products_v_blocks_cnt_columns" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_products_v_blocks_cnt_columns_parent_id_idx" ON "_products_v_blocks_cnt_columns" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "_products_v_blocks_cnt_order_idx" ON "_products_v_blocks_cnt" USING btree ("_order");
+  CREATE INDEX IF NOT EXISTS "_products_v_blocks_cnt_parent_id_idx" ON "_products_v_blocks_cnt" USING btree ("_parent_id");
+  CREATE INDEX IF NOT EXISTS "_products_v_blocks_cnt_path_idx" ON "_products_v_blocks_cnt" USING btree ("_path");
   CREATE INDEX IF NOT EXISTS "inventories_options_parent_id_idx" ON "inventories_options" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "inventories_options_order_idx" ON "inventories_options" USING btree ("_order");
   ALTER TABLE "_products_v" DROP COLUMN IF EXISTS "autosave";
   ALTER TABLE "inventories_options" DROP COLUMN IF EXISTS "order";
   ALTER TABLE "inventories_options" DROP COLUMN IF EXISTS "parent_id";
-  ALTER TABLE "inventories_options" DROP COLUMN IF EXISTS "value";`)
+  ALTER TABLE "inventories_options" DROP COLUMN IF EXISTS "value";
+  ALTER TABLE "pages_blocks_cnt_columns_locales" ADD CONSTRAINT "pages_blocks_cnt_columns_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id");
+  ALTER TABLE "_pages_v_blocks_cnt_columns_locales" ADD CONSTRAINT "_pages_v_blocks_cnt_columns_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id");
+  ALTER TABLE "products_blocks_cnt_columns_locales" ADD CONSTRAINT "products_blocks_cnt_columns_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id");
+  ALTER TABLE "_products_v_blocks_cnt_columns_locales" ADD CONSTRAINT "_products_v_blocks_cnt_columns_locales_locale_parent_id_unique" UNIQUE("_locale","_parent_id");`)
 }
 
 export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   await payload.db.drizzle.execute(sql`
    DO $$ BEGIN
-   CREATE TYPE "public"."enum_pages_blocks_content_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_pages_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_pages_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_content_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum_products_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__products_v_blocks_content_columns_size" AS ENUM('oneThird', 'half', 'twoThirds', 'full');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__products_v_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   CREATE TYPE "public"."enum__products_v_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
    CREATE TYPE "public"."enum_inventories_options" AS ENUM('color', 'size', 'capacity');
   EXCEPTION
    WHEN duplicate_object THEN null;

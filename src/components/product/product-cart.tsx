@@ -33,6 +33,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           className="mt-1 text-lg font-medium text-gray-900 dark:text-white"
           currencyCode={product.currencyCode}
           amount={product.price}
+          discount={product.discount}
         />
       </Link>
     </div>

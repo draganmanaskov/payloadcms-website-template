@@ -35,6 +35,7 @@ type AuthContext = {
   resetPassword: ResetPassword
   forgotPassword: ForgotPassword
   verifyEmail: VerifyEmail
+  refresh: () => Promise<void> // New refresh function type
   status: undefined | 'loggedOut' | 'loggedIn'
 }
 
@@ -232,6 +233,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [])
 
+  const refresh = useCallback(async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/me`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (res.ok) {
+        const { user: meUser } = await res.json()
+        setUser(meUser || null)
+        setStatus(meUser ? 'loggedIn' : undefined)
+      } else {
+        throw new Error('An error occurred while refreshing the user data.')
+      }
+    } catch (e) {
+      setUser(null)
+      throw new Error('An error occurred while refreshing the user data.')
+    }
+  }, [])
+
+  useEffect(() => {
+    refresh() // Call refresh when the component mounts to check for a logged-in user
+  }, [refresh])
+
   return (
     <Context.Provider
       value={{
@@ -243,6 +271,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         resetPassword,
         forgotPassword,
         verifyEmail,
+        refresh,
         status,
       }}
     >

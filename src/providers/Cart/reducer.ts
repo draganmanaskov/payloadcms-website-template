@@ -45,21 +45,22 @@ export const cartReducer = (cart: CartType, action: CartAction): CartType => {
       ].reduce((acc: CartItem[], item) => {
         const productId = typeof item.product === 'number' ? item.product : item?.product?.id
 
-        const indexInAcc = acc.findIndex(({ product, sku }) =>
-          typeof product === 'number'
-            ? product === productId && sku === item.sku
-            : product?.id === productId && sku === item.sku,
-        )
+        // Check for duplicate item by productId and sku
+        const indexInAcc = acc.findIndex(({ product, sku }) => {
+          const accProductId = typeof product === 'number' ? product : product?.id
+          return accProductId === productId && sku === item.sku
+        })
 
-        if (indexInAcc > -1) {
-          // Optionally handle how to merge quantities or other item properties
+        if (indexInAcc === -1) {
+          // Only add the item if it's not already present
+          acc.push(item)
+        } else {
+          // Optional: If you want to update or merge existing items, add logic here
+          // For now, we just skip adding the duplicate to prevent merging quantities
           acc[indexInAcc] = {
             ...acc[indexInAcc],
-            // You can customize this logic to merge the quantity if needed
-            quantity: acc[indexInAcc].quantity + item.quantity,
+            quantity: item.quantity, // Replace existing quantity with incoming quantity (if needed)
           }
-        } else {
-          acc.push(item)
         }
 
         return acc
@@ -158,6 +159,90 @@ export const cartReducer = (cart: CartType, action: CartAction): CartType => {
     }
   }
 }
+
+// case 'MERGE_CART': {
+//   const { payload: incomingCart } = action
+
+//   // Use a Map to ensure unique items based on `productId` and `sku`
+//   const itemMap = new Map<string, CartItem>()
+
+//   const getKey = (product: CartItem['product'], sku: string): string => {
+//     const productId = typeof product === 'number' ? product : product?.id
+//     return `${productId}-${sku}`
+//   }
+
+//   // Add existing cart items to the map
+//   ;(cart?.items || []).forEach((item) => {
+//     const key = getKey(item.product, item.sku)
+//     itemMap.set(key, { ...item })
+//   })
+
+//   // Add or merge incoming cart items
+//   ;(incomingCart?.items || []).forEach((item) => {
+//     const key = getKey(item.product, item.sku)
+//     if (itemMap.has(key)) {
+//       const existingItem = itemMap.get(key)
+//       if (existingItem) {
+//         // Merge the quantity
+//         itemMap.set(key, {
+//           ...existingItem,
+//           quantity: existingItem.quantity,
+//         })
+//       }
+//     } else {
+//       // Add the new item to the map if it doesn't already exist
+//       itemMap.set(key, { ...item })
+//     }
+//   })
+
+//   // Convert the map back to an array
+//   const syncedItems = Array.from(itemMap.values())
+
+//   return {
+//     ...cart,
+//     items: syncedItems,
+//   }
+// }
+
+// case 'MERGE_CART': {
+//   const { payload: incomingCart } = action
+
+//   // Combine items from the local cart and user cart without duplicates
+//   const syncedItems: CartItem[] = [
+//     ...(cart?.items || []),
+//     ...(incomingCart?.items || []),
+//   ].reduce((acc: CartItem[], item) => {
+//     const productId = typeof item.product === 'number' ? item.product : item?.product?.id
+
+//     // Ensure consistent comparison of product properties and SKU
+//     const indexInAcc = acc.findIndex(({ product, sku }) => {
+//       const accProductId = typeof product === 'number' ? product : product?.id
+//       console.log('accProductId', accProductId)
+//       console.log('productId', productId)
+//       console.log('sku', sku)
+//       console.log('item.sku', item.sku)
+//       return accProductId === productId && sku === item.sku
+//     })
+
+//     if (indexInAcc > -1) {
+//       // Optionally handle how to merge quantities or other item properties
+//       acc[indexInAcc] = {
+//         ...acc[indexInAcc],
+//         // You can customize this logic to merge the quantity if needed
+//         quantity: acc[indexInAcc].quantity + item.quantity,
+//       }
+//     } else {
+//       acc.push(item)
+//     }
+
+//     return acc
+//   }, [])
+
+//   return {
+//     ...cart,
+//     items: syncedItems,
+//   }
+// }
 
 // const syncedItems: CartItem[] = [
 //   ...(cart?.items || []),

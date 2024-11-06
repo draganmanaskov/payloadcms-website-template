@@ -71,7 +71,6 @@ const Categories = async ({ filterCategories, category, locale }: CategoriesProp
   }
 
   let categories = createNestedStructure(category || [])
-  console.log(categories)
 
   return (
     // <SidebarGroup>

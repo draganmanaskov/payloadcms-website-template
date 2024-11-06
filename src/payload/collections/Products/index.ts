@@ -178,8 +178,6 @@ const Products: CollectionConfig = {
         beforeChange: [
           async ({ siblingData, value, req, context }) => {
             if (siblingData.discount) {
-              console.log(siblingData.discount)
-              console.log(context)
               // const discount = await req.payload.findByID({
               //   context,
               //   collection: 'discounts',
@@ -187,7 +185,7 @@ const Products: CollectionConfig = {
               // })
 
               let value = context.value as number
-              console.log(siblingData.price - value)
+
               switch (context.discountType) {
                 case 'percentage':
                   return siblingData.price * (value / 100)
@@ -197,7 +195,7 @@ const Products: CollectionConfig = {
                   return siblingData.price
               }
             }
-            console.log('dsdadasd')
+
             return siblingData.price
           },
         ],

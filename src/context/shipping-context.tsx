@@ -14,8 +14,7 @@ export type ShippingContext = {
   setShipping: React.Dispatch<React.SetStateAction<ShippingOption>>
 }
 
-export const shippingOptions = () => {
-  const t = useTranslations('ShippingOptions')
+export const shippingOptions = (t) => {
   return [
     {
       name: t('standard'),
@@ -39,7 +38,8 @@ type ShippingContextProviderProps = {
 }
 
 const ShippingContextProvider = ({ children }: ShippingContextProviderProps) => {
-  const [shipping, setShipping] = useState<ShippingOption>(shippingOptions()[0])
+  const t = useTranslations('ShippingOptions')
+  const [shipping, setShipping] = useState<ShippingOption>(shippingOptions(t)[0])
 
   return (
     <ShippingContext.Provider value={{ shipping, setShipping }}>

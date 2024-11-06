@@ -25,7 +25,8 @@ import { useForm } from 'react-hook-form'
 import 'react-phone-number-input/style.css'
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form'
 import * as z from 'zod'
-import { ShippingProfile } from '../checkout/information-form'
+import { ShippingProfile } from '@/app/(frontend)/[locale]/checkout/(create-order)/information/page'
+import { useTranslations } from 'next-intl'
 
 const shippingFormSchema = z.object({
   id: z.string().optional(),
@@ -50,6 +51,8 @@ type ShippingFormProps = {
 }
 
 const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: ShippingFormProps) => {
+  const t = useTranslations('ShippingForm')
+
   const form = useForm<ShippingProfile>({
     resolver: zodResolver(shippingFormSchema),
     defaultValues: profile ? profile : SHIPPING_DEFAULT_VALUES,
@@ -72,9 +75,9 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
               <>
                 {type === 'settings' ? (
                   <FormItem>
-                    <FormLabel>Title</FormLabel>
+                    <FormLabel>{t('title')}</FormLabel>
                     <FormControl>
-                      <Input className="text-xl" placeholder="Title" {...field} />
+                      <Input className="text-xl" placeholder={t('title')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -86,13 +89,13 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
 
         {/* Contact */}
         <div className="space-y-4">
-          <h3 className="mb-6 text-2xl font-bold">Contact</h3>
+          <h3 className="mb-6 text-2xl font-bold">{t('contact')}</h3>
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('email')}</FormLabel>
                 <FormControl>
                   <Input placeholder="email@contact.com" {...field} />
                 </FormControl>
@@ -106,13 +109,11 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
             name="phoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phonenumber</FormLabel>
+                <FormLabel>{t('phoneNumber')}</FormLabel>
                 <FormControl>
-                  <PhoneInputWithCountry placeholder="Enter phone number" {...field} />
+                  <PhoneInputWithCountry placeholder={t('enterPhoneNumber')} {...field} />
                 </FormControl>
-                <FormDescription>
-                  Your phone number is used to send you notifications and updates.
-                </FormDescription>
+                <FormDescription>{t('phoneNumberDescription')}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -120,21 +121,21 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
         </div>
         {/* Shipping */}
         <div className="w-full space-y-4">
-          <h3 className="mb-6 text-2xl font-bold">Shipping Address</h3>
+          <h3 className="mb-6 text-2xl font-bold">{t('shippingAddress')}</h3>
           <FormField
             control={form.control}
             name="country"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Country</FormLabel>
+                <FormLabel>{t('country')}</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select country" />
+                      <SelectValue placeholder={t('selectCountry')} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Macedonia">Macedonia</SelectItem>
+                    <SelectItem value="Macedonia">{t('macedonia')}</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -147,9 +148,9 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
               name="firstName"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel>{t('firstName')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="first name" {...field} />
+                    <Input placeholder={t('firstName')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,9 +161,9 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
               name="lastName"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel>{t('lastName')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="last name" {...field} />
+                    <Input placeholder={t('lastName')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -174,9 +175,9 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel>{t('address')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="address" {...field} />
+                  <Input placeholder={t('address')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -188,9 +189,9 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
               name="city"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>City</FormLabel>
+                  <FormLabel>{t('city')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="city" {...field} />
+                    <Input placeholder={t('city')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -201,9 +202,9 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
               name="state"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>State</FormLabel>
+                  <FormLabel>{t('state')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="state" {...field} />
+                    <Input placeholder={t('state')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -214,9 +215,9 @@ const ShippingForm = ({ profile, onSubmit, type, buttonText = 'Save' }: Shipping
               name="zipCode"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>ZIP code</FormLabel>
+                  <FormLabel>{t('zipCode')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="ZIP code" {...field} />
+                    <Input placeholder={t('zipCode')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

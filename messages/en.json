@@ -71,5 +71,75 @@
   "PathnamesPage": {
     "description": "<p>The pathnames are internationalized too.</p><p>If you're using the default language English, you'll see <code>/en/pathnames</code> in the browser address bar on this page.</p><p>If you change the locale to German, the URL is localized accordingly (<code>/de/pfadnamen</code>).</p>",
     "title": "Pathnames"
+  },
+  "InformationPage": {
+    "title": "Profiles",
+    "subtitle": "Select a profile to fill in the form. Changing the values will not save the changes.",
+    "manageProfiles": "Manage Profiles",
+    "refresh": "Refresh",
+    "loginToHaveAcces": "Login to have acces to saved shipping profiles",
+    "continueToShipping": "Continue to shipping",
+    "signIn": "Sign In"
+  },
+  "ShippingForm": {
+    "title": "Shipping Information",
+    "email": "Email",
+    "phoneNumber": "Phone Number",
+    "enterPhoneNumber": "Enter phone number",
+    "phoneNumberDescription": "Your phone number is used to send you notifications and updates.",
+    "contact": "Contact",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "address": "Address",
+    "shippingAddress": "Shipping Address",
+    "city": "City",
+    "state": "State",
+    "zipCode": "Zip Code",
+    "country": "Country",
+    "continueToShipping": "Continue to shipping",
+    "selectCountry": "Select country",
+    "macedonia": "Macedonia"
+  },
+  "BreadcrumbCheckout": {
+    "home": "Home",
+    "information": "Information",
+    "shipping": "Shipping",
+    "order": "Order"
+  },
+  "ShippingPage": {
+    "title": "Shipping Options",
+    "description": "Choose your preferred shipping method for your order.",
+    "change": "Change",
+    "contact": "Contact",
+    "shipTo": "Ship To",
+    "palceOrder": "Place Order",
+    "estimatedDelivery": "Estimated delivery in {delivery} business days"
+  },
+  "ShippingOptions": {
+    "standard": "Standard Shipping",
+    "express": "Express Shipping"
+  },
+  "ShoppingCart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "view": "View in cart",
+    "quantity": "Quantity",
+    "price": "Price",
+    "total": "Total",
+    "remove": "Remove",
+    "clear": "Clear Cart",
+    "continueShopping": "Continue Shopping",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "discount": "Discount",
+    "expandCartDetails": "Expand Cart Details",
+    "collapseCartDetails": "Collapse Cart Details"
+  },
+  "OrderComplete": {
+    "title": "Order Placed Successfully!",
+    "subtitle": " We have sent a confirmation email to your registered email address.",
+    "description": "To view your order history, please create an account or log in to your existingaccount.",
+    "viewOrders": "View Orders",
+    "continueShopping": "Continue Shopping"
   }
 }

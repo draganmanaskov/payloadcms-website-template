@@ -1,4 +1,5 @@
 'use client'
+import { useTranslations } from 'next-intl'
 import { createContext, useContext, useState } from 'react'
 
 export type ShippingOption = {
@@ -13,20 +14,23 @@ export type ShippingContext = {
   setShipping: React.Dispatch<React.SetStateAction<ShippingOption>>
 }
 
-export const SHIPPING_OPTIONS: ShippingOption[] = [
-  {
-    name: 'Standard Shipping',
-    value: 'standard',
-    price: 150,
-    delivery: '5-7',
-  },
-  {
-    name: 'Express Shipping',
-    value: 'express',
-    price: 400,
-    delivery: '2-3',
-  },
-]
+export const shippingOptions = () => {
+  const t = useTranslations('ShippingOptions')
+  return [
+    {
+      name: t('standard'),
+      value: 'standard',
+      price: 150,
+      delivery: '5-7',
+    },
+    // {
+    //   name: 'Express Shipping',
+    //   value: 'express',
+    //   price: 400,
+    //   delivery: '2-3',
+    // },
+  ]
+}
 
 export const ShippingContext = createContext<ShippingContext | null>(null)
 
@@ -35,7 +39,7 @@ type ShippingContextProviderProps = {
 }
 
 const ShippingContextProvider = ({ children }: ShippingContextProviderProps) => {
-  const [shipping, setShipping] = useState<ShippingOption>(SHIPPING_OPTIONS[0])
+  const [shipping, setShipping] = useState<ShippingOption>(shippingOptions()[0])
 
   return (
     <ShippingContext.Provider value={{ shipping, setShipping }}>

@@ -13,7 +13,10 @@ import { Separator } from '../ui/separator'
 
 import { capitalizeFirstLetter } from '@/utilities'
 
-import { ShippingInformaptionChecout, ShippingProfile } from './information-form'
+import {
+  ShippingInformaptionChecout,
+  ShippingProfile,
+} from '@/app/(frontend)/[locale]/checkout/(create-order)/information/page'
 
 import Price from '@/components/Price'
 import { useAuth } from '@/providers/Auth'
@@ -21,7 +24,6 @@ import { useCart } from '@/providers/Cart'
 
 const Shipping = () => {
   const router = useRouter()
-  // const { data: cart, isLoading, invalidateQueryCache } = useCartQuery();
   const { cart, hasInitializedCart, cartTotal } = useCart()
   const { user, status: authStatus } = useAuth()
 
@@ -30,29 +32,7 @@ const Shipping = () => {
     SHIPPING_CHECKOUT_DEFAULT_VALUES,
   )
 
-  const handleChooseCreateOrder = async (order: any) => {
-    // if (session) {
-    //   createOrderAuth(order, session.user.accessToken);
-    // } else {
-    //   createOrder(order);
-    // }
-  }
-
   const { shipping, setShipping } = useShippingContext()
-  // const { mutate: server_createOrder } = useMutation({
-  //   mutationFn: handleChooseCreateOrder,
-  //   onSuccess: () => {
-  //     // setValue(FORM_DEFAULT_VALUES);
-  //     // if (information.saveInformation && session) {
-  //     //   const shipping = transformShippingInformation(information, session);
-  //     //   creteShippingProfile(shipping, session.user.accessToken);
-  //     // }
-  //     router.push("/checkout/order");
-  //   },
-  //   onError: (err) => {
-  //     console.log(err);
-  //   },
-  // });
 
   const handleShippingChange = async (value: string) => {
     let newState = SHIPPING_OPTIONS.filter((option) => option.value === value)[0]
@@ -102,7 +82,6 @@ const Shipping = () => {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          // Add Authorization or other headers if needed
         },
         body: JSON.stringify(order),
       })
@@ -192,27 +171,6 @@ const Shipping = () => {
 }
 
 export default Shipping
-
-// function transformShippingInformation(
-//   information: ShippingInformaptionChecout,
-//   session: Session | null,
-// ) {
-//   let shipping = {
-//     title: information.profile.title,
-//     email: information.profile.email,
-//     phone_number: information.profile.phone_number,
-//     first_name: information.profile.first_name,
-//     last_name: information.profile.last_name,
-//     address: information.profile.address,
-//     city: information.profile.city,
-//     state: information.profile.state,
-//     zip_code: information.profile.zip_code,
-//     country: capitalizeFirstLetter(information.profile.country),
-//     user: session ? session.user.id : null,
-//   }
-
-//   return shipping
-// }
 
 export const fullAddress = (profile: ShippingProfile) => {
   return `${profile.address}, ${profile.city}, ${profile.state}, ${profile.zipCode}, ${capitalizeFirstLetter(profile.country)}`

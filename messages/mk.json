@@ -63,5 +63,75 @@
   "PathnamesPage": {
     "description": "<p>The pathnames are internationalized too.</p><p>If you're using the default language English, you'll see <code>/en/pathnames</code> in the browser address bar on this page.</p><p>If you change the locale to German, the URL is localized accordingly (<code>/de/pfadnamen</code>).</p>",
     "title": "Pathnames"
+  },
+  "InformationPage": {
+    "title": "Профили",
+    "subtitle": "Изберете профил за да ја пополните формата. Промени на вредностите не се зачувуваат.",
+    "manageProfiles": "Менаџмент на профили",
+    "refresh": "Освежи",
+    "loginToHaveAcces": "Најави се за да имате пристап до зачувани профили",
+    "continueToShipping": "Продолжи до испорачување",
+    "signIn": "Најави се"
+  },
+  "ShippingForm": {
+    "title": "Информации за испорака",
+    "email": "Е-пошта",
+    "phoneNumber": "Број на телефон",
+    "enterPhoneNumber": "Внесете број на телефон",
+    "phoneNumberDescription": "Вашиот број на телефон се користи за испраќање на известувања и ажурирања.",
+    "contact": "Контакт",
+    "firstName": "Име",
+    "lastName": "Презиме",
+    "address": "Адреса",
+    "shippingAddress": "Адреса за испорака",
+    "city": "Град",
+    "state": "Држава",
+    "zipCode": "Поштенски број",
+    "country": "Држава",
+    "continueToShipping": "Продолжи до испорака",
+    "selectCountry": "Изберете држава",
+    "macedonia": "Македонија"
+  },
+  "BreadcrumbCheckout": {
+    "home": "Дома",
+    "information": "Информации",
+    "shipping": "Испорака",
+    "order": "Нарачка"
+  },
+  "ShippingPage": {
+    "title": "Опции за испорака",
+    "description": "Изберете ја вашата посакувана метода за испорака за вашата нарачка.",
+    "change": "Промени",
+    "contact": "Контакт",
+    "shipTo": "Испорака на",
+    "palceOrder": "Постави нарачка",
+    "estimatedDelivery": "Проценето време на испорака во {delivery} работни дена"
+  },
+  "ShippingOptions": {
+    "standard": "Стандардна испорака",
+    "express": "Експресна испорака"
+  },
+  "ShoppingCart": {
+    "title": "Кошничка за купување",
+    "empty": "Вашата кошничка е празна",
+    "view": "Прегледај во кошничката",
+    "quantity": "Количина",
+    "price": "Цена",
+    "total": "Вкупно",
+    "remove": "Отстрани",
+    "clear": "Исчисти ја кошничката",
+    "continueShopping": "Продолжи со купување",
+    "subtotal": "Меѓу-збир",
+    "shipping": "Испорака",
+    "discount": "Попуст",
+    "expandCartDetails": "Повеќе за кошничката",
+    "collapseCartDetails": "Смали деталите за кошничката"
+  },
+  "OrderComplete": {
+    "title": "Нарачката е успешно поставена!",
+    "subtitle": "Испративме потврда на вашата регистрирана е-пошта.",
+    "description": "За да го прегледате вашето историја на нарачки, ве молиме создадете акаунт или најавете се на вашиот постоечки акаунт.",
+    "viewOrders": "Прегледајте ги нарачките",
+    "continueShopping": "Продолжи со купување"
   }
 }

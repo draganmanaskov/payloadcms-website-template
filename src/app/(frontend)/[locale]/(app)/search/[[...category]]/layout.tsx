@@ -15,7 +15,6 @@ export default async function SearchLayout(props: SearchLayoutProps) {
   const { children, params } = props
 
   const filters = (await getCachedGlobal('filter', 1, params.locale)()) as Filter
-  console.log(params)
 
   return (
     <SidebarProvider className="items-start">

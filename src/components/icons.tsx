@@ -33,6 +33,7 @@ import {
   FileText,
   Globe,
   ImageIcon,
+  RotateCcw,
 } from 'lucide-react'
 
 export const Icons = {
@@ -230,4 +231,5 @@ export const Icons = {
   FileText: (props: IconProps) => <FileText {...props} />,
   Globe: (props: IconProps) => <Globe {...props} />,
   ImageIcon: (props: IconProps) => <ImageIcon {...props} />,
+  Refresh: (props: IconProps) => <RotateCcw {...props} />,
 }

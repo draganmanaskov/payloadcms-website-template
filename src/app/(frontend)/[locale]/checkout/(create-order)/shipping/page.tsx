@@ -185,6 +185,6 @@ const ShippingPage = () => {
 
 export default ShippingPage
 
-export const fullAddress = (profile: ShippingProfile) => {
+const fullAddress = (profile: ShippingProfile) => {
   return `${profile.address}, ${profile.city}, ${profile.state}, ${profile.zipCode}, ${capitalizeFirstLetter(profile.country)}`
 }

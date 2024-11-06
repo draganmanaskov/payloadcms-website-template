@@ -26,6 +26,7 @@ import { useTranslations } from 'next-intl'
 
 const ShippingPage = () => {
   const t = useTranslations('ShippingPage')
+  const tShippingOptions = useTranslations('ShippingOptions')
   const router = useRouter()
   const { cart, hasInitializedCart, cartTotal } = useCart()
   const { user, status: authStatus } = useAuth()
@@ -34,7 +35,7 @@ const ShippingPage = () => {
     'shipping-information-checkout',
     SHIPPING_CHECKOUT_DEFAULT_VALUES,
   )
-  const SHIPPING_OPTIONS = shippingOptions()
+  const SHIPPING_OPTIONS = shippingOptions(tShippingOptions)
 
   const { shipping, setShipping } = useShippingContext()
 

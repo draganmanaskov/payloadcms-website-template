@@ -26,7 +26,7 @@ const Tags: CollectionConfig = {
       unique: true,
       localized: true,
     },
-    ...slugField('title', { slugOverrides: { localized: true, required: true } }),
+    ...slugField(undefined, { slugOverrides: { required: true } }),
   ],
 }
 

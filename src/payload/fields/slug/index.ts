@@ -6,10 +6,25 @@ type Overrides = {
   slugOverrides?: Partial<TextField>
 }
 
-type Slug = (fieldToUse?: string, overrides?: Overrides) => [TextField]
+type Slug = (fieldToUse?: string, overrides?: Overrides) => [TextField, TextField]
 
-export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
+export const slugField: Slug = (fieldToUse, overrides = {}) => {
   const { slugOverrides } = overrides
+
+  let fieldToUseCUrrent = fieldToUse ? fieldToUse : 'slugTitle'
+
+  // @ts-expect-error
+  const slugTitleField: TextField = {
+    name: 'slugTitle',
+    type: 'text',
+    index: true,
+    label: 'Slug Title',
+    ...(slugOverrides || {}),
+    admin: {
+      position: 'sidebar',
+      ...(slugOverrides?.admin || {}),
+    },
+  }
 
   // Expect ts error here because of typescript mismatching Partial<TextField> with TextField
   // @ts-expect-error
@@ -21,7 +36,7 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
     ...(slugOverrides || {}),
     hooks: {
       // Kept this in for hook or API based updates
-      beforeValidate: [formatSlugHook(fieldToUse)],
+      beforeValidate: [formatSlugHook(fieldToUseCUrrent)],
     },
     admin: {
       position: 'sidebar',
@@ -31,12 +46,12 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
           path: '@/payload/fields/slug/SlugComponent',
           exportName: 'SlugComponent',
           clientProps: {
-            fieldToUse,
+            fieldToUse: fieldToUseCUrrent,
           },
         },
       },
     },
   }
 
-  return [slugField]
+  return [slugTitleField, slugField]
 }

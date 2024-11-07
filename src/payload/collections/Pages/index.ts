@@ -129,13 +129,7 @@ export const Pages: CollectionConfig = {
         position: 'sidebar',
       },
     },
-    {
-      name: 'name',
-      type: 'text',
-      required: true,
-      admin: { position: 'sidebar' },
-    },
-    ...slugField('name', { slugOverrides: { required: true } }),
+    ...slugField(undefined, { slugOverrides: { required: true } }),
   ],
   hooks: {
     afterChange: [revalidatePage],

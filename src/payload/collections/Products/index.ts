@@ -64,14 +64,7 @@ const Products: CollectionConfig = {
       localized: true,
       label: 'Title',
     },
-    {
-      name: 'name',
-      type: 'text',
-      required: true,
-      label: 'Name',
-      admin: { position: 'sidebar' },
-    },
-    ...slugField('name', { slugOverrides: { required: true } }),
+    ...slugField(undefined, { slugOverrides: { required: true } }),
     {
       name: 'publishedOn',
       type: 'date',

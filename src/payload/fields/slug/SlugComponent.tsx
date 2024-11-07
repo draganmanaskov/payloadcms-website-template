@@ -38,15 +38,13 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({ field, fieldToUse 
     }
   }, [targetFieldValue, setValue, value])
 
-  const readOnly = readOnlyFromProps
-
   return (
     <div className="field-type slug-field-component">
       <div className="label-wrapper">
         <FieldLabel field={field} htmlFor={`field-${path}`} label={label} />
       </div>
 
-      <TextInput value={value} onChange={setValue} path={path} readOnly={Boolean(readOnly)} />
+      <TextInput value={value} onChange={setValue} path={path} readOnly />
     </div>
   )
 }

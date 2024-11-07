@@ -154,7 +154,7 @@ export interface Page {
     description?: string | null;
   };
   publishedAt?: string | null;
-  name: string;
+  slugTitle: string;
   slug: string;
   updatedAt: string;
   createdAt: string;
@@ -203,6 +203,7 @@ export interface Media {
 export interface Tag {
   id: number;
   title: string;
+  slugTitle: string;
   slug: string;
   updatedAt: string;
   createdAt: string;
@@ -349,6 +350,7 @@ export interface ArchiveBlock {
 export interface Category {
   id: number;
   title: string;
+  slugTitle: string;
   slug: string;
   parent?: (number | null) | Category;
   breadcrumbs?:
@@ -369,7 +371,7 @@ export interface Category {
 export interface Product {
   id: number;
   title: string;
-  name: string;
+  slugTitle: string;
   slug: string;
   publishedOn?: string | null;
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock)[];
@@ -450,6 +452,7 @@ export interface Size {
 export interface Design {
   id: number;
   title: string;
+  slugTitle: string;
   slug: string;
   parent?: (number | null) | Design;
   breadcrumbs?:
@@ -727,6 +730,7 @@ export interface Post {
         name?: string | null;
       }[]
     | null;
+  slugTitle?: string | null;
   slug?: string | null;
   updatedAt: string;
   createdAt: string;

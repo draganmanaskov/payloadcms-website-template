@@ -156,7 +156,6 @@ export interface Page {
   publishedAt?: string | null;
   name: string;
   slug: string;
-  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -205,7 +204,6 @@ export interface Tag {
   id: number;
   title: string;
   slug: string;
-  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -352,7 +350,6 @@ export interface Category {
   id: number;
   title: string;
   slug: string;
-  slugLock?: boolean | null;
   parent?: (number | null) | Category;
   breadcrumbs?:
     | {
@@ -374,7 +371,6 @@ export interface Product {
   title: string;
   name: string;
   slug: string;
-  slugLock?: boolean | null;
   publishedOn?: string | null;
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock)[];
   featuredImage?: (number | null) | Media;
@@ -455,7 +451,6 @@ export interface Design {
   id: number;
   title: string;
   slug: string;
-  slugLock?: boolean | null;
   parent?: (number | null) | Design;
   breadcrumbs?:
     | {
@@ -733,7 +728,6 @@ export interface Post {
       }[]
     | null;
   slug?: string | null;
-  slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;

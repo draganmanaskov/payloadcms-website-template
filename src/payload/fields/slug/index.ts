@@ -4,24 +4,12 @@ import { formatSlugHook } from './formatSlug'
 
 type Overrides = {
   slugOverrides?: Partial<TextField>
-  checkboxOverrides?: Partial<CheckboxField>
 }
 
-type Slug = (fieldToUse?: string, overrides?: Overrides) => [TextField, CheckboxField]
+type Slug = (fieldToUse?: string, overrides?: Overrides) => [TextField]
 
 export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
-  const { slugOverrides, checkboxOverrides } = overrides
-
-  const checkBoxField: CheckboxField = {
-    name: 'slugLock',
-    type: 'checkbox',
-    defaultValue: true,
-    admin: {
-      hidden: true,
-      position: 'sidebar',
-    },
-    ...checkboxOverrides,
-  }
+  const { slugOverrides } = overrides
 
   // Expect ts error here because of typescript mismatching Partial<TextField> with TextField
   // @ts-expect-error
@@ -44,12 +32,11 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
           exportName: 'SlugComponent',
           clientProps: {
             fieldToUse,
-            checkboxFieldPath: checkBoxField.name,
           },
         },
       },
     },
   }
 
-  return [slugField, checkBoxField]
+  return [slugField]
 }

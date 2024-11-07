@@ -85,5 +85,5 @@ export const homeStatic: Page = {
     title: 'Payload Website Template',
   },
   title: 'Home',
-  name: 'Home',
+  slugTitle: 'Home',
 }

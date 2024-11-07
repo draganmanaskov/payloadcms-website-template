@@ -1,7 +1,6 @@
 import Categories from '@/payload/collections/Categories'
 import { Media } from '@/payload/collections/Media'
 import { Pages } from '@/payload/collections/Pages'
-import { Posts } from '@/payload/collections/Posts'
 import Products from '@/payload/collections/Products'
 import Inventories from '@/payload/collections/Inventories/config'
 import Designs from '@/payload/collections/Designs'
@@ -16,7 +15,6 @@ export {
   Categories,
   Media,
   Pages,
-  Posts,
   Products,
   Inventories,
   Designs,

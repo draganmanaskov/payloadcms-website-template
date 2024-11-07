@@ -44,14 +44,6 @@ export default async function ProductComponent({
       {/* <PayloadRedirects disableNotFound url={url} /> */}
       <Product product={product} />
       <RenderBlocks blocks={product.layout} />
-      {/* <PostHero post={post} />
-        {post.relatedPosts && post.relatedPosts.length > 0 && (
-          <RelatedPosts
-            className="mt-12"
-            docs={post.relatedPosts.filter((post) => typeof post === 'object')}
-          />
-        )}
-      </div> */}
     </article>
   )
 }

@@ -25,7 +25,7 @@ import { fileURLToPath } from 'url'
 
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
-import { Page, Post } from 'src/payload-types'
+import { Page } from 'src/payload-types'
 
 import { showToAdmin } from '@/payload/hidden/showToAdmin'
 // GLOBALS
@@ -35,7 +35,6 @@ import {
   Categories,
   Media,
   Pages,
-  Posts,
   Products,
   Inventories,
   Designs,
@@ -50,11 +49,11 @@ import {
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
+const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
 }
 
-const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
+const generateURL: GenerateURL<Page> = ({ doc }) => {
   return doc?.slug
     ? `${process.env.NEXT_PUBLIC_SERVER_URL!}/${doc.slug}`
     : process.env.NEXT_PUBLIC_SERVER_URL!
@@ -188,7 +187,6 @@ export default buildConfig({
   // database-adapter-config-end
   collections: [
     Pages,
-    Posts,
     Media,
     Categories,
     Users,

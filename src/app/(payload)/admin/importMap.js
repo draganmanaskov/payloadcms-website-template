@@ -29,9 +29,8 @@ import { MetaImageComponent as MetaImageComponent_27 } from '@payloadcms/plugin-
 import { MetaDescriptionComponent as MetaDescriptionComponent_28 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_29 } from '@payloadcms/plugin-seo/client'
 import { SlugComponent as SlugComponent_30 } from '@/payload/fields/slug/SlugComponent'
-import { BlocksFeatureClient as BlocksFeatureClient_31 } from '@payloadcms/richtext-lexical/client'
-import { default as default_32 } from '@/payload/fields/ArrayFieldTitle'
-import { default as default_33 } from '@/payload/views/Nav'
+import { default as default_31 } from '@/payload/fields/ArrayFieldTitle'
+import { default as default_32 } from '@/payload/views/Nav'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/client#RichTextCell": RichTextCell_0,
@@ -65,7 +64,6 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_28,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_29,
   "@/payload/fields/slug/SlugComponent#SlugComponent": SlugComponent_30,
-  "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_31,
-  "@/payload/fields/ArrayFieldTitle#default": default_32,
-  "@/payload/views/Nav#default": default_33
+  "@/payload/fields/ArrayFieldTitle#default": default_31,
+  "@/payload/views/Nav#default": default_32
 }

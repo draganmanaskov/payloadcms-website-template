@@ -1,4 +1,4 @@
-import type { Post, ArchiveBlock as ArchiveBlockProps, Product } from '@/payload-types'
+import type { ArchiveBlock as ArchiveBlockProps, Product } from '@/payload-types'
 
 import configPromise from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
